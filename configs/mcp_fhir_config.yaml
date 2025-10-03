@@ -1,0 +1,127 @@
+# MCP-FHIR Configuration
+mcp_fhir:
+  # FHIR server configuration
+  fhir_server:
+    base_url: "https://hapi.fhir.org/baseR4"  # Default test server
+    # For production, use your FHIR server URL
+    # base_url: "https://your-fhir-server.com/fhir"
+    version: "R4"
+    timeout: 30
+    retry_attempts: 3
+    
+  # Authentication
+  authentication:
+    enabled: false
+    method: "oauth2"  # "oauth2", "basic", "token"
+    client_id: ""
+    client_secret: ""
+    token_url: ""
+    scope: "launch/patient"
+    
+  # MCP agent configuration
+  mcp_agent:
+    name: "medtech_diagnostic_agent"
+    version: "1.0.0"
+    description: "Medical diagnostic LLM pipeline agent"
+    
+  # Resource types to query
+  resources:
+    - "Patient"
+    - "Observation"
+    - "ImagingStudy"
+    - "DiagnosticReport"
+    - "Condition"
+    - "Procedure"
+    - "MedicationRequest"
+    - "AllergyIntolerance"
+    
+  queries:
+    # Patient demographics
+    patient_info:
+      enabled: true
+      fields: ["id", "name", "birthDate", "gender", "address"]
+      
+    # Clinical observations
+    observations:
+      enabled: true
+      categories: ["laboratory", "vital-signs", "imaging"]
+      date_range: 365  # days
+      
+    # Imaging studies
+    imaging_studies:
+      enabled: true
+      modalities: ["CT", "MR", "US", "X-RAY"]
+      date_range: 365  # days
+      
+    # Diagnostic reports
+    diagnostic_reports:
+      enabled: true
+      date_range: 365  # days
+      
+    # Conditions and diagnoses
+    conditions:
+      enabled: true
+      date_range: 365  # days
+      
+  # Context integration
+  context_integration:
+    #How to integrate FHIR data into LLM prompts
+    prompt_injection: true
+    max_context_length: 1000
+    include_metadata: true
+    
+    # Context templates
+    templates:
+      patient_summary: |
+        Patient Information:
+        - ID: {patient_id}
+        - Age: {age}
+        - Gender: {gender}
+        - Recent Conditions: {conditions}
+        - Current Medications: {medications}
+        
+      imaging_history: |
+        Recent Imaging Studies:
+        {imaging_studies}
+        
+      clinical_observations: |
+        Recent Clinical Observations:
+        {observations}
+        
+  # Data privacy and security
+  privacy:
+    # Data de-identification
+    deidentify: true
+    remove_phi: true  # Protected Health Information
+    
+    # Data retention
+    retention_days: 30
+    auto_delete: true
+    
+    # Access control
+    require_consent: true
+    audit_logging: true
+    
+  # Error handling
+  error_handling:
+    max_retries: 3
+    retry_delay: 1  # seconds
+    fallback_to_cache: true
+    log_errors: true
+    
+  # Caching
+  cache:
+    enabled: true
+    ttl: 3600  # seconds
+    max_size: 1000
+    cache_dir: "data/fhir_cache"
+    
+  # Monitoring and logging
+  monitoring:
+    enabled: true
+    metrics:
+      - "query_count"
+      - "response_time"
+      - "error_rate"
+      - "cache_hit_rate"
+    log_level: "INFO" 

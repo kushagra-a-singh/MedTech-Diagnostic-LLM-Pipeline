@@ -1,0 +1,129 @@
+# LLM Configuration for Medical Models
+llm:
+  # Model selection
+  model_type: "biomistral"  # "biomistral", "hippo", "falcon"
+
+  # Global options
+  use_hf_hub: true         #loading directly from Hugging Face hub(no local download required)
+  trust_remote_code: true  
+  auth_env_var: "HUGGINGFACE_HUB_TOKEN"  
+  
+  # BioMistral 7B configuration
+  biomistral:
+    model_name: "BioMistral/BioMistral-7B"
+    max_length: 2048
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 50
+    repetition_penalty: 1.1
+    do_sample: true
+    load_in_8bit: true
+    load_in_4bit: false
+    device_map: "auto"
+    
+  # Hippo-7B configuration
+  hippo:
+    model_name: "cyberiada/hippo-7b"
+    max_length: 2048
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 50
+    repetition_penalty: 1.1
+    do_sample: true
+    load_in_8bit: true
+    load_in_4bit: false
+    device_map: "auto"
+    
+  # Falcon configuration
+  falcon:
+    model_name: "tiiuae/falcon-7b-instruct"
+    max_length: 2048
+    temperature: 0.7
+    top_p: 0.9
+    top_k: 50
+    repetition_penalty: 1.1
+    do_sample: true
+    load_in_8bit: true
+    load_in_4bit: false
+    device_map: "auto"
+    
+  prompts:
+    report_generation: |
+      Given the following medical imaging findings and clinical context, generate a comprehensive radiological report:
+      
+      Imaging Modality: {modality}
+      Body Region: {body_region}
+      Clinical History: {clinical_history}
+      
+      Segmentation Findings:
+      {segmentation_findings}
+      
+      Similar Cases Context:
+      {similar_cases}
+      
+      Please provide:
+      1. Technique
+      2. Findings
+      3. Impression
+      4. Recommendations
+      
+      Report:
+      
+    qa_template: |
+      Based on the medical imaging data provided, answer the following question:
+      
+      Question: {question}
+      
+      Imaging Data: {imaging_data}
+      Clinical Context: {clinical_context}
+      
+      Answer:
+      
+    summarization_template: |
+      Summarize the key findings from the following medical imaging report:
+      
+      Report: {report}
+      
+      Summary:
+      
+  fine_tuning:
+    enabled: false
+    method: "dpo"  # "dpo", "sft", "qlora"
+    
+    #DPO(Direct Preference Optimization)
+    dpo:
+      beta: 0.1
+      max_prompt_length: 512
+      max_length: 1024
+      learning_rate: 5e-7
+      warmup_steps: 100
+      gradient_accumulation_steps: 4
+      
+    #Supervised Fine-tuning
+    sft:
+      learning_rate: 2e-5
+      warmup_steps: 100
+      gradient_accumulation_steps: 4
+      max_grad_norm: 1.0
+      
+    #QLoRA
+    qlora:
+      lora_r: 16
+      lora_alpha: 32
+      lora_dropout: 0.1
+      learning_rate: 2e-4
+      warmup_steps: 100
+      gradient_accumulation_steps: 4
+      
+  #Eval metrics
+  evaluation:
+    bleu: true
+    rouge: true
+    bert_score: true
+    clinical_correctness: true
+    expert_alignment: true
+    
+  output:
+    save_reports: true
+    output_dir: "data/llm_outputs"
+    format: "json"  # "json", "txt", "html" 

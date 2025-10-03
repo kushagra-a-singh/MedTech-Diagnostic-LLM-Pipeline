@@ -1,0 +1,182 @@
+# Deployment Configuration
+deployment:
+  # MONAI Deploy configuration
+  monai_deploy:
+    enabled: true
+    app_sdk_version: "1.0.0"
+    model_repository: "models/monai_deploy"
+    
+    # Application configuration
+    app:
+      name: "medtech_diagnostic_pipeline"
+      version: "1.0.0"
+      description: "Medical diagnostic LLM pipeline"
+      
+    # Model packaging
+    packaging:
+      format: "torchscript"  # "torchscript", "onnx", "tensorrt"
+      optimize: true
+      quantization: false
+      
+  # Triton Inference Server
+  triton:
+    enabled: true
+    server_url: "localhost:8000"
+    model_repository: "models/triton"
+    
+    # Model configuration
+    models:
+      segmentation:
+        name: "swin_unetr"
+        platform: "pytorch_libtorch"
+        max_batch_size: 4
+        input:
+          - name: "input"
+            data_type: "TYPE_FP32"
+            dims: [1, 96, 96, 96]
+        output:
+          - name: "output"
+            data_type: "TYPE_FP32"
+            dims: [14, 96, 96, 96]
+            
+      llm:
+        name: "medical_llm"
+        platform: "pytorch_libtorch"
+        max_batch_size: 1
+        input:
+          - name: "input_ids"
+            data_type: "TYPE_INT64"
+            dims: [-1]
+          - name: "attention_mask"
+            data_type: "TYPE_INT64"
+            dims: [-1]
+        output:
+          - name: "output_ids"
+            data_type: "TYPE_INT64"
+            dims: [-1]
+            
+  # API Server (FastAPI)
+  api_server:
+    enabled: true
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+    timeout: 300
+    
+    # CORS configuration
+    cors:
+      enabled: true
+      origins: ["*"]
+      methods: ["GET", "POST", "PUT", "DELETE"]
+      headers: ["*"]
+      
+    # Authentication
+    auth:
+      enabled: false
+      method: "jwt"  # "jwt", "oauth2", "api_key"
+      secret_key: ""
+      token_expiry: 3600
+      
+    # Rate limiting
+    rate_limit:
+      enabled: true
+      requests_per_minute: 60
+      burst_size: 10
+      
+  # Web UI (Streamlit)
+  web_ui:
+    enabled: true
+    host: "0.0.0.0"
+    port: 8501
+    theme: "light"
+    
+    # Features
+    features:
+      file_upload: true
+      real_time_inference: true
+      batch_processing: true
+      result_visualization: true
+      report_download: true
+      
+  # Docker configuration
+  docker:
+    enabled: true
+    base_image: "nvcr.io/nvidia/pytorch:23.10-py3"
+    requirements_file: "requirements.txt"
+    
+    # Container configuration
+    container:
+      name: "medtech-pipeline"
+      ports:
+        - "8000:8000"  # API
+        - "8501:8501"  # Web UI
+        - "8001:8001"  # Triton
+      volumes:
+        - "./data:/app/data"
+        - "./models:/app/models"
+      environment:
+        - CUDA_VISIBLE_DEVICES=0
+        - PYTHONPATH=/app
+        
+  # Monitoring and logging
+  monitoring:
+    enabled: true
+    
+    # Metrics collection
+    metrics:
+      - "inference_latency"
+      - "throughput"
+      - "error_rate"
+      - "gpu_utilization"
+      - "memory_usage"
+      
+    # Logging
+    logging:
+      level: "INFO"
+      format: "json"
+      output: "logs"
+      rotation: "daily"
+      retention: 30
+      
+    # Health checks
+    health_checks:
+      enabled: true
+      interval: 30  # seconds
+      timeout: 10
+      endpoints:
+        - "/health"
+        - "/ready"
+        
+  # Scaling and performance
+  scaling:
+    # Horizontal scaling
+    horizontal:
+      enabled: false
+      min_replicas: 1
+      max_replicas: 5
+      target_cpu_utilization: 70
+      
+    # Vertical scaling
+    vertical:
+      enabled: false
+      cpu_limit: "4"
+      memory_limit: "8Gi"
+      gpu_limit: "1"
+      
+  # Security
+  security:
+    # SSL/TLS
+    ssl:
+      enabled: false
+      cert_file: ""
+      key_file: ""
+      
+    # Network security
+    network:
+      allowed_ips: []
+      firewall_rules: []
+      
+    # Data encryption
+    encryption:
+      at_rest: false
+      in_transit: true 
