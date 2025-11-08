@@ -1,77 +1,57 @@
-# FAISS Vector Store Configuration
 vector_store:
-  # Index configuration
-  index:
-    type: "IVFFlat"  # "Flat", "IVFFlat", "IVFPQ", "HNSW"
-    dimension: 768  # Embedding dimension
-    nlist: 100  # Number of clusters for IVF
-    nprobe: 10  # Number of clusters to probe
-    m: 16  # Number of sub-vectors for PQ
-    bits: 8  # Bits per sub-vector for PQ
-    ef_construction: 200  # HNSW construction parameter
-    ef_search: 50  # HNSW search parameter
-    
-  # Embedding extraction
-  embeddings:
-    model: "sentence-transformers/all-MiniLM-L6-v2"  # Text embedding model
-    max_length: 512
-    batch_size: 32
-    device: "cpu"  # "cuda", "cpu"
-    
-  # Indexing configuration
-  indexing:
-    batch_size: 1000
-    save_interval: 1000
-    index_path: "data/faiss_index"
-    metadata_path: "data/faiss_metadata.json"
-    
-  # Retrieval configuration
-  retrieval:
-    k: 5  # Number of similar cases to retrieve
-    similarity_threshold: 0.7
-    max_distance: 1.0
-    
-  # Data sources
+  backup:
+    backup_interval: 24
+    backup_path: data/faiss_backups
+    enabled: true
+    max_backups: 7
   data_sources:
-    segmentation_embeddings: true
-    report_text: true
     clinical_metadata: true
     imaging_metadata: true
-    
-  # Metadata fields to index
+    report_text: true
+    segmentation_embeddings: true
+  embeddings:
+    batch_size: 32
+    device: cpu
+    max_length: 512
+    model: sentence-transformers/all-MiniLM-L6-v2
+  index:
+    bits: 8
+    dimension: 768
+    ef_construction: 200
+    ef_search: 50
+    m: 16
+    nlist: 100
+    nprobe: 10
+    type: IVFFlat
+  indexing:
+    batch_size: 1000
+    index_path: data/faiss_index
+    metadata_path: data/faiss_metadata.json
+    save_interval: 1000
   metadata_fields:
-    - "patient_id"
-    - "study_date"
-    - "modality"
-    - "body_region"
-    - "clinical_history"
-    - "findings"
-    - "impression"
-    - "segmentation_mask_path"
-    - "embedding_path"
-    
-  # Search configuration
-  search:
-    hybrid_search: true  # Combine vector and metadata search
-    weight_vector: 0.7
-    weight_metadata: 0.3
-    
-    # Metadata filters
-    filters:
-      modality: []  # Empty list means no filter
-      body_region: []
-      date_range: null  # [start_date, end_date]
-      
-  # Performance optimization
+  - patient_id
+  - study_date
+  - modality
+  - body_region
+  - clinical_history
+  - findings
+  - impression
+  - segmentation_mask_path
+  - embedding_path
   performance:
-    use_gpu: true
     gpu_id: 0
+    memory_limit: 4GB
     num_threads: 8
-    memory_limit: "4GB"
-    
-  # Backup and recovery
-  backup:
-    enabled: true
-    backup_interval: 24  # hours
-    max_backups: 7
-    backup_path: "data/faiss_backups" 
+    use_gpu: true
+  retrieval:
+    k: 5
+    max_distance: 1.0
+    similarity_threshold: 0.7
+  search:
+    filters:
+      body_region: []
+      date_range: null
+      modality: []
+    hybrid_search: true
+    weight_metadata: 0.3
+    weight_vector: 0.7
