@@ -1,60 +1,66 @@
-# Segmentation Configuration for MONAI + Swin UNETR
 segmentation:
-  model:
-    name: "swin_unetr"
-    pretrained: false
-    model_path: "models/swin_unetr_pretrained.pth"
-    input_size: [96, 96, 96]  # 3D input size
-    in_channels: 1
-    out_channels: 14  # Number of segmentation classes
-    feature_size: 12
-    drop_rate: 0.0
-    attn_drop_rate: 0.0
-    dropout_path_rate: 0.0
-    use_checkpoint: true
-    
-  preprocessing:
-    spacing: [1.0, 1.0, 1.0]  # Target spacing in mm
-    orientation: "RAS"  # Right-Anterior-Superior
-    normalize: true
-    normalize_mode: "percentile"  # "percentile", "zscore", "minmax"
-    normalize_params:
-      lower: 1.0
-      upper: 99.0
-    
   augmentation:
     enabled: true
-    rotation_range: [0.1, 0.1, 0.1]
-    scale_range: [0.9, 1.1]
-    translation_range: [0.1, 0.1, 0.1]
     flip_prob: 0.5
-    
+    rotation_range:
+    - 0.1
+    - 0.1
+    - 0.1
+    scale_range:
+    - 0.9
+    - 1.1
+    translation_range:
+    - 0.1
+    - 0.1
+    - 0.1
+  hardware:
+    device: cpu
+    num_workers: 4
+    pin_memory: false
   inference:
     batch_size: 1
-    overlap: 0.5  # Sliding window overlap
-    sw_batch_size: 4  # Sliding window batch size
-    sw_overlap: 0.5  # Sliding window overlap
-    mode: "gaussian"  # "constant", "gaussian"
-    
-  postprocessing:
-    connected_component: true
-    min_size: 100
-    fill_holes: true
-    remove_small_objects: true
-    
+    mode: gaussian
+    overlap: 0.5
+    sw_batch_size: 4
+    sw_overlap: 0.5
   metrics:
     dice: true
     hausdorff_distance: true
-    surface_distance: true
     iou: true
-    
+    surface_distance: true
+  model:
+    attn_drop_rate: 0.0
+    drop_rate: 0.0
+    dropout_path_rate: 0.0
+    feature_size: 12
+    in_channels: 1
+    input_size:
+    - 96
+    - 96
+    - 96
+    model_path: models/swin_unetr_pretrained.pth
+    name: swin_unetr
+    out_channels: 14
+    pretrained: false
+    use_checkpoint: true
   output:
-    save_masks: true
-    save_embeddings: true
     embedding_dim: 768
-    output_dir: "data/segmentation_outputs"
-    
-  hardware:
-    device: "cpu"  # "cuda", "cpu"
-    num_workers: 4
-    pin_memory: false 
+    output_dir: data/segmentation_outputs
+    save_embeddings: true
+    save_masks: true
+  postprocessing:
+    connected_component: true
+    fill_holes: true
+    min_size: 100
+    remove_small_objects: true
+  preprocessing:
+    normalize: true
+    normalize_mode: percentile
+    normalize_params:
+      lower: 1.0
+      upper: 99.0
+    orientation: RAS
+    spacing:
+    - 1.0
+    - 1.0
+    - 1.0

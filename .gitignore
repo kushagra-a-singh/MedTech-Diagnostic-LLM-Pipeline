@@ -9,6 +9,8 @@ data/inputs/dicom
 data/inputs/dicom_sample
 data/inputs/nifti
 data/segmentation_outputs
+data/inputs
+inputs
 venv
 frontend/.env.local
 __pycache__
@@ -21,3 +23,18 @@ docker-compose.yml
 frontend/README.md
 models/swin_unetr_pretrained.pth
 models\swin_unetr_pretrained.pth
+models/biomistral
+models/falcon
+models/hippo
+models/transformers_cache
+models/monai_deploy
+models/triton
+models/sentence_transformer
+models/swin_unetr_pretrained.pth
+models/swin_unetr_pretrained.pth
+models/biomistral_backup
+models/falcon_backup
+models/hippo_backup
+models/swin_unetr_pretrained.pth:Zone.Identifier
+=1.7.4
+=2.6.0

@@ -69,3 +69,258 @@
 2025-10-04 00:54:12,809 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
 2025-10-04 00:54:12,810 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
 2025-10-04 00:54:12,810 - main - INFO - Segmentation pipeline initialized
+2025-11-08 01:08:30,391 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 01:08:30,396 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 01:08:30,399 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 01:08:30,405 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 01:08:30,412 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 01:08:30,422 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 01:08:30,422 - main - INFO - MedTech Pipeline initialized
+2025-11-08 01:08:30,422 - main - INFO - Initializing pipeline components...
+2025-11-08 01:08:30,599 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 01:08:30,599 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 01:08:30,599 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 01:08:30,599 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 01:08:30,599 - main - INFO - Segmentation pipeline initialized
+2025-11-08 01:08:30,599 - api_server - ERROR - Failed to initialize pipeline: 'index'
+2025-11-08 08:39:48,594 - api_server - INFO - Shutting down API server...
+2025-11-08 09:12:16,690 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 09:12:16,694 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 09:12:16,698 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 09:12:16,703 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 09:12:16,711 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 09:12:16,721 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 09:12:16,721 - main - INFO - MedTech Pipeline initialized
+2025-11-08 09:12:16,721 - main - INFO - Initializing pipeline components...
+2025-11-08 09:12:16,873 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 09:12:16,873 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 09:12:16,873 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 09:12:16,873 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 09:12:16,874 - main - INFO - Segmentation pipeline initialized
+2025-11-08 09:12:16,874 - api_server - ERROR - Failed to initialize pipeline: 'index'
+2025-11-08 10:58:35,732 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 10:58:35,747 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 10:58:35,758 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 10:58:35,773 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 10:58:35,788 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 10:58:35,808 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 10:58:35,809 - main - INFO - MedTech Pipeline initialized
+2025-11-08 10:58:35,809 - main - INFO - Initializing pipeline components...
+2025-11-08 10:58:36,026 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 10:58:36,026 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 10:58:36,026 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 10:58:36,027 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 10:58:36,027 - main - INFO - Segmentation pipeline initialized
+2025-11-08 10:58:36,027 - api_server - ERROR - Failed to initialize pipeline: 'index'
+2025-11-08 11:08:46,086 - api_server - INFO - Shutting down API server...
+2025-11-08 11:09:21,466 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 11:09:21,474 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 11:09:21,483 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 11:09:21,496 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 11:09:21,514 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 11:09:21,537 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 11:09:21,537 - main - INFO - MedTech Pipeline initialized
+2025-11-08 11:09:21,537 - main - INFO - Initializing pipeline components...
+2025-11-08 11:09:21,681 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 11:09:21,682 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 11:09:21,682 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 11:09:21,682 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 11:09:21,682 - main - INFO - Segmentation pipeline initialized
+2025-11-08 11:09:21,682 - vector_store - INFO - Building new FAISS index from config
+2025-11-08 11:09:21,695 - vector_store - INFO - Created IndexFlatL2
+2025-11-08 11:09:21,697 - vector_store - INFO - Saved new FAISS index to data/faiss_index
+2025-11-08 11:09:21,697 - main - INFO - Vector store initialized
+2025-11-08 11:09:21,698 - llm.medical_llm - ERROR - Failed to initialize model: 'biomistral'
+2025-11-08 11:09:21,698 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 11:09:21,698 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 11:09:21,698 - main - INFO - Medical LLM initialized
+2025-11-08 11:09:21,698 - api_server - ERROR - Failed to initialize pipeline: 'fhir_server'
+2025-11-08 11:18:13,961 - api_server - INFO - Shutting down API server...
+2025-11-08 11:18:40,510 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 11:18:40,521 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 11:18:40,531 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 11:18:40,548 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 11:18:40,564 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 11:18:40,587 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 11:18:40,587 - main - INFO - MedTech Pipeline initialized
+2025-11-08 11:18:40,587 - main - INFO - Initializing pipeline components...
+2025-11-08 11:18:40,723 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 11:18:40,723 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 11:18:40,723 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 11:18:40,723 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 11:18:40,724 - main - INFO - Segmentation pipeline initialized
+2025-11-08 11:18:40,724 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 11:18:40,726 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 11:18:40,728 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 11:38:20,421 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 11:38:20,429 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 11:38:20,436 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 11:38:20,446 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 11:38:20,461 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 11:38:20,482 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 11:38:20,482 - main - INFO - MedTech Pipeline initialized
+2025-11-08 11:38:20,483 - main - INFO - Initializing pipeline components...
+2025-11-08 11:38:20,602 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 11:38:20,603 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 11:38:20,603 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 11:38:20,603 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 11:38:20,603 - main - INFO - Segmentation pipeline initialized
+2025-11-08 11:38:20,604 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 11:38:20,604 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 11:38:20,604 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 11:38:21,544 - vector_store - INFO - Index moved to GPU
+2025-11-08 11:38:21,544 - main - INFO - Vector store initialized
+2025-11-08 11:38:21,544 - llm.medical_llm - ERROR - Failed to initialize model: 'biomistral'
+2025-11-08 11:38:21,545 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 11:38:21,545 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 11:38:21,545 - main - INFO - Medical LLM initialized
+2025-11-08 11:38:21,545 - api_server - ERROR - Failed to initialize pipeline: 'fhir_server'
+2025-11-08 11:51:06,855 - api_server - INFO - Shutting down API server...
+2025-11-08 11:55:55,025 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 11:55:55,034 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 11:55:55,041 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 11:55:55,054 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 11:55:55,070 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 11:55:55,091 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 11:55:55,092 - main - INFO - MedTech Pipeline initialized
+2025-11-08 11:55:55,092 - main - INFO - Initializing pipeline components...
+2025-11-08 11:55:55,222 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 11:55:55,223 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 11:55:55,223 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 11:55:55,224 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 11:55:55,224 - main - INFO - Segmentation pipeline initialized
+2025-11-08 11:55:55,225 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 11:55:55,226 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 11:55:55,226 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 11:55:55,868 - vector_store - INFO - Index moved to GPU
+2025-11-08 11:55:55,869 - main - INFO - Vector store initialized
+2025-11-08 11:55:55,869 - llm.medical_llm - ERROR - Failed to initialize model: 'biomistral'
+2025-11-08 11:55:55,869 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 11:55:55,869 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 11:55:55,869 - main - INFO - Medical LLM initialized
+2025-11-08 11:55:55,869 - api_server - ERROR - Failed to initialize pipeline: 'fhir_server'
+2025-11-08 11:59:25,851 - api_server - INFO - Shutting down API server...
+2025-11-08 12:03:34,747 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 12:03:34,757 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 12:03:34,765 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 12:03:34,781 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 12:03:34,796 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 12:03:34,816 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 12:03:34,816 - main - INFO - MedTech Pipeline initialized
+2025-11-08 12:03:34,816 - main - INFO - Initializing pipeline components...
+2025-11-08 12:03:34,943 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 12:03:34,943 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 12:03:34,944 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 12:03:34,944 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 12:03:34,944 - main - INFO - Segmentation pipeline initialized
+2025-11-08 12:03:34,945 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 12:03:34,945 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 12:03:34,945 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 12:03:35,767 - vector_store - INFO - Index moved to GPU
+2025-11-08 12:03:35,767 - main - INFO - Vector store initialized
+2025-11-08 12:03:35,767 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: None
+2025-11-08 12:03:36,076 - llm.medical_llm - ERROR - Failed to initialize model: None is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `hf auth login` or by passing `token=<your_token>`
+2025-11-08 12:03:36,077 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 12:03:36,077 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 12:03:36,077 - main - INFO - Medical LLM initialized
+2025-11-08 12:03:36,077 - api_server - ERROR - Failed to initialize pipeline: 'fhir_server'
+2025-11-08 12:08:12,931 - api_server - INFO - Shutting down API server...
+2025-11-08 12:08:32,423 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 12:08:32,431 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 12:08:32,440 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 12:08:32,452 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 12:08:32,474 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 12:08:32,499 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 12:08:32,500 - main - INFO - MedTech Pipeline initialized
+2025-11-08 12:08:32,500 - main - INFO - Initializing pipeline components...
+2025-11-08 12:08:32,616 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 12:08:32,616 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 12:08:32,616 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 12:08:32,616 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 12:08:32,616 - main - INFO - Segmentation pipeline initialized
+2025-11-08 12:08:32,618 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 12:08:32,618 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 12:08:32,618 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 12:08:33,368 - vector_store - INFO - Index moved to GPU
+2025-11-08 12:08:33,368 - main - INFO - Vector store initialized
+2025-11-08 12:08:33,369 - llm.medical_llm - INFO - Loading local model from /home/samba/projects/MedTech-Diagnostic-LLM-Pipeline/models/biomistral
+2025-11-08 12:08:36,385 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-11-08 12:08:36,416 - llm.medical_llm - ERROR - Failed to initialize model: Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. 
+2025-11-08 12:08:36,416 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 12:08:36,428 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 12:08:36,428 - main - INFO - Medical LLM initialized
+2025-11-08 12:08:36,429 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-08 12:08:36,429 - main - INFO - MCP-FHIR client initialized
+2025-11-08 12:08:36,430 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-08 12:08:36,430 - main - INFO - Feedback collector initialized
+2025-11-08 12:08:36,430 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-08 12:08:36,430 - main - INFO - Pipeline deployer initialized
+2025-11-08 12:08:36,430 - api_server - INFO - Pipeline initialized successfully
+2025-11-08 12:09:49,619 - api_server - INFO - Shutting down API server...
+2025-11-08 12:12:04,327 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 12:12:04,338 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 12:12:04,346 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 12:12:04,361 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 12:12:04,376 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 12:12:04,399 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 12:12:04,400 - main - INFO - MedTech Pipeline initialized
+2025-11-08 12:12:04,400 - main - INFO - Initializing pipeline components...
+2025-11-08 12:12:04,518 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 12:12:04,518 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 12:12:04,518 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 12:12:04,519 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 12:12:04,519 - main - INFO - Segmentation pipeline initialized
+2025-11-08 12:12:04,520 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 12:12:04,520 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 12:12:04,520 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 12:12:05,558 - vector_store - INFO - Index moved to GPU
+2025-11-08 12:12:05,558 - main - INFO - Vector store initialized
+2025-11-08 12:12:05,559 - llm.medical_llm - INFO - Loading local model from /home/samba/projects/MedTech-Diagnostic-LLM-Pipeline/models/biomistral
+2025-11-08 12:12:05,708 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 8-bit quantization with CPU offloading enabled
+2025-11-08 12:12:05,902 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-11-08 12:12:05,936 - llm.medical_llm - ERROR - Failed to initialize model: Due to a serious vulnerability issue in `torch.load`, even with `weights_only=True`, we now require users to upgrade torch to at least v2.6 in order to use the function. This version restriction does not apply when loading files with safetensors.
+See the vulnerability report here https://nvd.nist.gov/vuln/detail/CVE-2025-32434
+2025-11-08 12:12:05,936 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 12:12:05,946 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 12:12:05,946 - main - INFO - Medical LLM initialized
+2025-11-08 12:12:05,946 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-08 12:12:05,947 - main - INFO - MCP-FHIR client initialized
+2025-11-08 12:12:05,947 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-08 12:12:05,947 - main - INFO - Feedback collector initialized
+2025-11-08 12:12:05,947 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-08 12:12:05,947 - main - INFO - Pipeline deployer initialized
+2025-11-08 12:12:05,947 - api_server - INFO - Pipeline initialized successfully
+2025-11-08 12:12:11,270 - api_server - INFO - Shutting down API server...
+2025-11-08 13:29:23,210 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-08 13:29:23,215 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-08 13:29:23,219 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-08 13:29:23,224 - main - INFO - Loaded config: llm_config.yaml
+2025-11-08 13:29:23,235 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-08 13:29:23,247 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-08 13:29:23,247 - main - INFO - MedTech Pipeline initialized
+2025-11-08 13:29:23,247 - main - INFO - Initializing pipeline components...
+2025-11-08 13:29:23,396 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-08 13:29:23,396 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-08 13:29:23,396 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-08 13:29:23,396 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-08 13:29:23,396 - main - INFO - Segmentation pipeline initialized
+2025-11-08 13:29:23,396 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-11-08 13:29:23,399 - vector_store - INFO - FAISS index loaded from disk
+2025-11-08 13:29:23,400 - vector_store - INFO - Moving FAISS index to GPU 0
+2025-11-08 13:29:23,728 - vector_store - INFO - Index moved to GPU
+2025-11-08 13:29:23,729 - main - INFO - Vector store initialized
+2025-11-08 13:29:23,729 - llm.medical_llm - INFO - Loading local model from /home/samba/projects/MedTech-Diagnostic-LLM-Pipeline/models/biomistral
+2025-11-08 13:29:23,808 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 8-bit quantization with CPU offloading enabled
+2025-11-08 13:29:23,818 - llm.medical_llm - ERROR - Failed to initialize model: Error no file named pytorch_model.bin, model.safetensors, tf_model.h5, model.ckpt.index or flax_model.msgpack found in directory /home/samba/projects/MedTech-Diagnostic-LLM-Pipeline/models/biomistral.
+2025-11-08 13:29:23,818 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-11-08 13:29:23,822 - llm.medical_llm - INFO - Medical LLM initialized: biomistral
+2025-11-08 13:29:23,822 - main - INFO - Medical LLM initialized
+2025-11-08 13:29:23,822 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-08 13:29:23,822 - main - INFO - MCP-FHIR client initialized
+2025-11-08 13:29:23,822 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-08 13:29:23,822 - main - INFO - Feedback collector initialized
+2025-11-08 13:29:23,822 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-08 13:29:23,822 - main - INFO - Pipeline deployer initialized
+2025-11-08 13:29:23,823 - api_server - INFO - Pipeline initialized successfully
+2025-11-08 13:29:37,457 - api_server - INFO - Shutting down API server...

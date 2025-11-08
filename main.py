@@ -76,7 +76,12 @@ class MedTechPipeline:
             config_path = self.config_dir / filename
             if config_path.exists():
                 with open(config_path, "r") as f:
-                    configs[component] = yaml.safe_load(f)
+                    loaded_config = yaml.safe_load(f)
+                    # Unwrap nested config if it exists (e.g., {"llm": {...}} -> {...})
+                    if loaded_config and component in loaded_config:
+                        configs[component] = loaded_config[component]
+                    else:
+                        configs[component] = loaded_config or {}
                 logger.info(f"Loaded config: {filename}")
             else:
                 logger.warning(f"Config file not found: {filename}")
@@ -95,7 +100,7 @@ class MedTechPipeline:
             logger.info("Segmentation pipeline initialized")
 
         if self.configs.get("vector_store"):
-            self.vector_store = FAISSIndex(self.configs["vector_store"])
+            self.vector_store = FAISSIndex(self.configs["vector_store"].get("vector_store", self.configs["vector_store"]))
             logger.info("Vector store initialized")
 
         if self.configs.get("llm"):
