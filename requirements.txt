@@ -60,3 +60,4 @@ nibabel==5.2.1
 # tritonclient>=2.35.0
 # medpy>=0.4.0
 # pymed>=0.7.0 
+einops>=0.6

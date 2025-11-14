@@ -13,19 +13,33 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import uvicorn
+from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
+# Load environment variables from .env file
+load_dotenv()
+
 sys.path.append(str(Path(__file__).parent / "src"))
 
+import warnings
+
 from main import MedTechPipeline
+
+# Suppress transformers deprecation warning
+warnings.filterwarnings(
+    "ignore", category=FutureWarning, module="transformers.utils.hub"
+)
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("api_server.log"), logging.StreamHandler()],
+    handlers=[
+        logging.FileHandler("api_server.log", encoding="utf-8"),
+        logging.StreamHandler(),
+    ],
 )
 
 logger = logging.getLogger(__name__)
@@ -58,17 +72,17 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-#CORS
+# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-#Pydantic models
+# Pydantic models
 class ProcessRequest(BaseModel):
     image_path: str
     output_dir: Optional[str] = None
@@ -99,7 +113,6 @@ class QueryRequest(BaseModel):
 
 
 processing_tasks: Dict[str, Dict[str, Any]] = {}
-
 
 
 @app.get("/", response_model=Dict[str, str])
@@ -463,6 +476,115 @@ async def clear_all_tasks():
     """Clear all processing tasks."""
     processing_tasks.clear()
     return {"status": "success", "message": "All tasks cleared"}
+
+
+class ChatRequest(BaseModel):
+    message: str
+    session_id: Optional[str] = None
+    scan_context: Optional[Dict[str, Any]] = None
+    conversation_history: Optional[List[Dict[str, Any]]] = None
+
+
+class ChatResponse(BaseModel):
+    response: str
+    session_id: str
+    timestamp: str
+
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    """
+    Chat endpoint for conversational interaction with the medical LLM.
+
+    Supports:
+    - Text-based questions
+    - Context from uploaded scans
+    - Follow-up questions with conversation history
+    """
+    if pipeline is None:
+        raise HTTPException(status_code=503, detail="Pipeline not initialized")
+
+    if pipeline.llm is None:
+        raise HTTPException(status_code=503, detail="LLM not initialized")
+
+    try:
+        import uuid
+        from pathlib import Path
+
+        sys.path.append(str(Path(__file__).parent / "src"))
+        from utils.context_builder import MedicalContextBuilder
+        from utils.patient_storage import PatientStorage
+
+        session_id = request.session_id or f"session_{uuid.uuid4()}"
+
+        # Build context
+        context_builder = MedicalContextBuilder()
+        patient_storage = PatientStorage()
+
+        # Get scan context if available
+        segmentation_results = None
+        similar_cases = None
+        clinical_context = {}
+
+        if request.scan_context:
+            segmentation_results = request.scan_context.get("segmentation")
+            similar_cases = request.scan_context.get("similar_cases", [])
+
+            # Try to extract patient info from image path
+            image_path = request.scan_context.get("image_path", "")
+            if image_path:
+                # Simple patient ID extraction (can be improved)
+                clinical_context = {
+                    "modality": (
+                        "CT"
+                        if "ct" in image_path.lower()
+                        else "MRI" if "mri" in image_path.lower() else "Unknown"
+                    ),
+                    "body_region": "Unknown",
+                    "study_date": str(np.datetime64("now")),
+                }
+
+        # Build comprehensive context
+        context = context_builder.build_context(
+            segmentation_results=segmentation_results,
+            similar_cases=similar_cases,
+            clinical_context=clinical_context,
+            conversation_history=request.conversation_history,
+        )
+
+        # Build prompt
+        prompt = context_builder.build_chat_prompt(
+            user_message=request.message,
+            context=context,
+        )
+
+        # Generate response using LLM
+        llm_context = {
+            "segmentation_findings": context["segmentation_findings"],
+            "similar_cases": context["similar_cases"],
+            "clinical_context": context["clinical_context"],
+        }
+
+        # Use answer_question method for chat
+        response_text = pipeline.llm.answer_question(request.message, llm_context)
+
+        # If response is empty or error, try generate_report
+        if not response_text or "Error" in response_text:
+            report_result = pipeline.llm.generate_report(llm_context)
+            if isinstance(report_result, dict) and "report" in report_result:
+                response_text = report_result["report"]
+            else:
+                response_text = str(report_result)
+
+        return ChatResponse(
+            response=response_text,
+            session_id=session_id,
+            timestamp=str(np.datetime64("now")),
+        )
+
+    except Exception as e:
+        logger.error(f"Chat error: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
 
 
 if __name__ == "__main__":

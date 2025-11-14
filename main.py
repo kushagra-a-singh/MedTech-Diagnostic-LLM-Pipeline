@@ -12,8 +12,14 @@ from typing import Dict, List, Optional
 
 import numpy as np
 import yaml
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 sys.path.append(str(Path(__file__).parent / "src"))
+
+import warnings
 
 from deployment import PipelineDeployer
 from feedback import FeedbackCollector
@@ -22,10 +28,18 @@ from mcp_fhir import MCPFHIRClient
 from segmentation import SegmentationPipeline
 from vector_store import FAISSIndex
 
+# Suppress transformers deprecation warning
+warnings.filterwarnings(
+    "ignore", category=FutureWarning, module="transformers.utils.hub"
+)
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("pipeline.log"), logging.StreamHandler()],
+    handlers=[
+        logging.FileHandler("pipeline.log", encoding="utf-8"),
+        logging.StreamHandler(),
+    ],
 )
 
 logger = logging.getLogger(__name__)
@@ -100,7 +114,11 @@ class MedTechPipeline:
             logger.info("Segmentation pipeline initialized")
 
         if self.configs.get("vector_store"):
-            self.vector_store = FAISSIndex(self.configs["vector_store"].get("vector_store", self.configs["vector_store"]))
+            self.vector_store = FAISSIndex(
+                self.configs["vector_store"].get(
+                    "vector_store", self.configs["vector_store"]
+                )
+            )
             logger.info("Vector store initialized")
 
         if self.configs.get("llm"):
@@ -136,7 +154,7 @@ class MedTechPipeline:
         results = {"image_path": image_path, "status": "processing", "components": {}}
 
         try:
-            #Step 1:segmentation
+            # Step 1:segmentation
             if self.segmentation_pipeline:
                 logger.info("Step 1: Performing segmentation...")
                 seg_results = self.segmentation_pipeline.process_single_image(
@@ -147,26 +165,30 @@ class MedTechPipeline:
                 if "embedding_path" in seg_results:
                     embeddings = self._load_embeddings(seg_results["embedding_path"])
 
-                    #Step 2:vector store indexing
+                    # Step 2:vector store indexing
                     if self.vector_store and embeddings is not None:
                         logger.info("Step 2: Indexing embeddings...")
                         self._index_embeddings(embeddings, seg_results)
 
-            #Step 3:retrieve similar cases
+            # Step 3:retrieve similar cases
             similar_cases = []
-            if self.vector_store and "embedding_path" in seg_results:
+            if (
+                self.vector_store
+                and "embedding_path" in seg_results
+                and embeddings is not None
+            ):
                 logger.info("Step 3: Retrieving similar cases...")
                 similar_cases = self._retrieve_similar_cases(embeddings)
                 results["components"]["similar_cases"] = similar_cases
 
-            #Step 4:get clinical context from FHIR
+            # Step 4:get clinical context from FHIR
             clinical_context = {}
             if self.mcp_fhir:
                 logger.info("Step 4: Retrieving clinical context...")
                 clinical_context = self._get_clinical_context(image_path)
                 results["components"]["clinical_context"] = clinical_context
 
-            #Step 5:generate medical report
+            # Step 5:generate medical report
             if self.llm:
                 logger.info("Step 5: Generating medical report...")
                 report = self._generate_medical_report(
@@ -217,7 +239,7 @@ class MedTechPipeline:
         """Retrieve similar cases from vector store."""
         try:
             results = self.vector_store.search_with_metadata(query_embeddings, k)
-            return results[0] if results else []  
+            return results[0] if results else []
         except Exception as e:
             logger.error(f"Failed to retrieve similar cases: {e}")
             return []
@@ -288,7 +310,7 @@ class MedTechPipeline:
             return "No similar cases found"
 
         cases = []
-        for i, case in enumerate(similar_cases[:3]):  #limit to top 3
+        for i, case in enumerate(similar_cases[:3]):  # limit to top 3
             metadata = case.get("metadata", {})
             similarity = case.get("similarity", 0.0)
 

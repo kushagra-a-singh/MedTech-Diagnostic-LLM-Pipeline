@@ -7,29 +7,42 @@ import os
 import warnings
 from typing import Dict, List, Optional
 
+try:
+    from huggingface_hub import InferenceClient
+
+    INFERENCE_CLIENT_AVAILABLE = True
+except ImportError:
+    INFERENCE_CLIENT_AVAILABLE = False
+    InferenceClient = None
+
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
 
 # Workaround for PyTorch < 2.6 to load .bin files
 # This is a temporary solution until PyTorch 2.6 is available
 _original_torch_load = torch.load
+
+
 def _patched_torch_load(f, map_location=None, pickle_module=None, **kwargs):
     """Patched torch.load that bypasses version check for .bin files."""
     # Remove weights_only to bypass security check
-    kwargs.pop('weights_only', None)
+    kwargs.pop("weights_only", None)
     try:
         # Try using internal _load which doesn't have version check
-        if hasattr(torch.serialization, '_load'):
+        if hasattr(torch.serialization, "_load"):
             return torch.serialization._load(f, map_location, pickle_module, **kwargs)
         else:
             # Fallback: use original with weights_only=False
-            return _original_torch_load(f, map_location, pickle_module, weights_only=False, **kwargs)
+            return _original_torch_load(
+                f, map_location, pickle_module, weights_only=False, **kwargs
+            )
     except Exception:
         return _original_torch_load(f, map_location, pickle_module, **kwargs)
 
+
 # Apply workaround if PyTorch < 2.6
-torch_version = torch.__version__.split('+')[0]
-torch_major, torch_minor = map(int, torch_version.split('.')[:2])
+torch_version = torch.__version__.split("+")[0]
+torch_major, torch_minor = map(int, torch_version.split(".")[:2])
 if torch_major < 2 or (torch_major == 2 and torch_minor < 6):
     torch.load = _patched_torch_load
     warnings.warn(
@@ -37,16 +50,18 @@ if torch_major < 2 or (torch_major == 2 and torch_minor < 6):
         "This bypasses security restrictions - only use with trusted models. "
         "Upgrade to PyTorch 2.6+ when available.",
         UserWarning,
-        stacklevel=2
+        stacklevel=2,
     )
 
 # Try to import BitsAndBytesConfig for quantization (optional dependency)
 try:
     from transformers import BitsAndBytesConfig
+
     BITSANDBYTES_AVAILABLE = True
 except ImportError:
     try:
         from transformers.utils.bitsandbytes import BitsAndBytesConfig
+
         BITSANDBYTES_AVAILABLE = True
     except ImportError:
         BITSANDBYTES_AVAILABLE = False
@@ -55,6 +70,7 @@ except ImportError:
 # Check if bitsandbytes library is available
 try:
     import bitsandbytes as bnb
+
     BITSANDBYTES_LIB_AVAILABLE = True
 except ImportError:
     BITSANDBYTES_LIB_AVAILABLE = False
@@ -76,18 +92,98 @@ class MedicalLLM:
         """
         self.config = config
         self.model_type = config.get("model_type", "biomistral")
+        # Check for use_inference_api flag (can be at root level or nested)
+        self.use_inference_api = config.get("use_inference_api", False) or config.get(
+            "llm", {}
+        ).get("use_inference_api", False)
         self.model = None
         self.tokenizer = None
+        self.inference_client = None
 
-        self._initialize_model()
+        logger.info(
+            f"Configuration: use_inference_api={self.use_inference_api}, model_type={self.model_type}"
+        )
 
-        logger.info(f"Medical LLM initialized: {self.model_type}")
+        if self.use_inference_api:
+            self._initialize_inference_client()
+        else:
+            self._initialize_model()
+
+        logger.info(
+            f"Medical LLM initialized: {self.model_type} (mode: {'Inference API' if self.use_inference_api else 'Local'})"
+        )
+
+    def _initialize_inference_client(self):
+        """Initialize HuggingFace Inference API client for remote inference."""
+        if not INFERENCE_CLIENT_AVAILABLE:
+            logger.error(
+                "huggingface_hub InferenceClient not available. Install with: pip install huggingface_hub"
+            )
+            logger.warning("Falling back to local model loading...")
+            self.use_inference_api = False
+            self._initialize_model()
+            return
+
+        try:
+            auth_env_var = self.config.get("auth_env_var", "HUGGINGFACE_HUB_TOKEN")
+            hf_token = (
+                os.getenv(auth_env_var)
+                or os.getenv("HF_TOKEN")
+                or os.getenv("HUGGINGFACE_HUB_TOKEN")
+            )
+
+            # Debug: Log token detection (without exposing full token)
+            if hf_token:
+                logger.info(
+                    f"[OK] HuggingFace token found (length: {len(hf_token)}, starts with: {hf_token[:7]}...)"
+                )
+            else:
+                logger.warning(
+                    f"[FAIL] No HuggingFace token found. Checked: {auth_env_var}, HF_TOKEN, HUGGINGFACE_HUB_TOKEN"
+                )
+
+            if not hf_token:
+                logger.warning(
+                    "No HuggingFace token found. Inference API requires authentication."
+                )
+                logger.warning("Falling back to local model loading...")
+                self.use_inference_api = False
+                self._initialize_model()
+                return
+
+            # Get model name
+            model_config = self.config.get(self.model_type, {})
+            model_name = model_config.get("model_name", "BioMistral/BioMistral-7B")
+
+            # Handle local paths - convert to HF Hub model ID
+            if "/" not in model_name or os.path.exists(model_name):
+                if self.model_type == "biomistral":
+                    model_name = "BioMistral/BioMistral-7B"
+                elif self.model_type == "hippo":
+                    model_name = "cyberiada/hippo-7b"
+                elif self.model_type == "falcon":
+                    model_name = "tiiuae/falcon-7b-instruct"
+
+            self.inference_client = InferenceClient(model=model_name, token=hf_token)
+
+            logger.info(f"Inference API client initialized for model: {model_name}")
+            logger.info("Using remote inference - no local model download required")
+
+        except Exception as e:
+            logger.error(f"Failed to initialize Inference API client: {e}")
+            logger.warning("Falling back to local model loading...")
+            self.use_inference_api = False
+            self._initialize_model()
 
     def _initialize_model(self):
         """Initialize the LLM model."""
         try:
             # ✅ Accepts both full 'llm' config or a single model section
-            if "biomistral" in self.config or "hippo" in self.config or "falcon" in self.config:
+            if (
+                "biomistral" in self.config
+                or "hippo" in self.config
+                or "falcon" in self.config
+            ):
                 # Full LLM config passed
                 model_type = self.config.get("model_type", "biomistral")
                 model_config = self.config.get(model_type, {})
@@ -99,38 +195,102 @@ class MedicalLLM:
             use_hf_hub = self.config.get("use_hf_hub", True)
             trust_remote_code = self.config.get("trust_remote_code", False)
             auth_env_var = self.config.get("auth_env_var", "HUGGINGFACE_HUB_TOKEN")
-            hf_token = os.getenv(auth_env_var) or os.getenv("HF_TOKEN")
+            hf_token = (
+                os.getenv(auth_env_var)
+                or os.getenv("HF_TOKEN")
+                or os.getenv("HUGGINGFACE_HUB_TOKEN")
+            )
+
+            # Debug: Log token detection
+            if hf_token:
+                logger.debug(f"[OK] Token found (length: {len(hf_token)})")
+            else:
+                logger.debug(
+                    f"[FAIL] No token found. Checked: {auth_env_var}, HF_TOKEN, HUGGINGFACE_HUB_TOKEN"
+                )
+
+            # If using HF Hub, ensure we have a token if required
+            if use_hf_hub and not hf_token:
+                logger.warning(
+                    "No HuggingFace token found. Some models may require authentication. "
+                    "Set HUGGINGFACE_HUB_TOKEN environment variable."
+                )
 
             model_id_or_path = model_config.get("model_name")
 
-            # ✅ Expand relative paths (like "./models/biomistral") to absolute
-            # Resolve relative to project root (2 levels up from src/llm/medical_llm.py)
-            if model_id_or_path:
-                # Find project root (go up 2 levels from src/llm/medical_llm.py)
-                project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-                
-                if model_id_or_path.startswith("./"):
-                    # Remove leading "./" and resolve relative to project root
-                    relative_path = model_id_or_path[2:]
-                    model_id_or_path = os.path.abspath(os.path.join(project_root, relative_path))
-                elif model_id_or_path.startswith("../"):
-                    # For "../" paths, resolve from project root
-                    model_id_or_path = os.path.abspath(os.path.join(project_root, model_id_or_path))
-                elif not os.path.isabs(model_id_or_path):
-                    # Relative path without "./" prefix - resolve from project root
-                    model_id_or_path = os.path.abspath(os.path.join(project_root, model_id_or_path))
+            # ✅ Determine if we should use HF Hub or local path
+            if use_hf_hub:
+                # Using HF Hub - model_name should be a model ID (e.g., "BioMistral/BioMistral-7B")
+                if not model_id_or_path or "/" not in model_id_or_path:
+                    # Fallback to default models
+                    if model_type == "biomistral":
+                        model_id_or_path = "BioMistral/BioMistral-7B"
+                    elif model_type == "hippo":
+                        model_id_or_path = "cyberiada/hippo-7b"
+                    elif model_type == "falcon":
+                        model_id_or_path = "tiiuae/falcon-7b-instruct"
 
-            # ✅ Local vs HF loading
-            if model_id_or_path and os.path.exists(model_id_or_path):
-                logger.info(f"Loading local model from {model_id_or_path}")
-                use_hf_hub = False
-            else:
                 logger.info(f"Loading model from Hugging Face Hub: {model_id_or_path}")
+            else:
+                # Using local path - expand relative paths
+                if model_id_or_path:
+                    # Find project root (go up 2 levels from src/llm/medical_llm.py)
+                    project_root = os.path.abspath(
+                        os.path.join(os.path.dirname(__file__), "../..")
+                    )
+
+                    if model_id_or_path.startswith("./"):
+                        # Remove leading "./" and resolve relative to project root
+                        relative_path = model_id_or_path[2:]
+                        model_id_or_path = os.path.abspath(
+                            os.path.join(project_root, relative_path)
+                        )
+                    elif model_id_or_path.startswith("../"):
+                        # For "../" paths, resolve from project root
+                        model_id_or_path = os.path.abspath(
+                            os.path.join(project_root, model_id_or_path)
+                        )
+                    elif not os.path.isabs(model_id_or_path):
+                        # Relative path without "./" prefix - resolve from project root
+                        model_id_or_path = os.path.abspath(
+                            os.path.join(project_root, model_id_or_path)
+                        )
+
+                # Check if local path exists
+                if model_id_or_path and os.path.exists(model_id_or_path):
+                    logger.info(f"Loading local model from {model_id_or_path}")
+                else:
+                    # Local path doesn't exist, fall back to HF Hub
+                    logger.warning(
+                        f"Local model path not found: {model_id_or_path}. Falling back to HuggingFace Hub."
+                    )
+                    use_hf_hub = True
+                    if model_type == "biomistral":
+                        model_id_or_path = "BioMistral/BioMistral-7B"
+                    elif model_type == "hippo":
+                        model_id_or_path = "cyberiada/hippo-7b"
+                    elif model_type == "falcon":
+                        model_id_or_path = "tiiuae/falcon-7b-instruct"
+
+            # Load tokenizer
+            tokenizer_kwargs = {
+                "trust_remote_code": trust_remote_code,
+            }
+            if use_hf_hub and hf_token:
+                tokenizer_kwargs["token"] = hf_token
+            elif use_hf_hub:
+                # Try to use token from huggingface_hub login
+                try:
+                    from huggingface_hub import HfFolder
+
+                    token = HfFolder.get_token()
+                    if token:
+                        tokenizer_kwargs["token"] = token
+                except:
+                    pass
 
             self.tokenizer = AutoTokenizer.from_pretrained(
-                model_id_or_path,
-                trust_remote_code=trust_remote_code,
-                use_auth_token=hf_token if use_hf_hub and hf_token else None,
+                model_id_or_path, **tokenizer_kwargs
             )
 
             # Configure quantization
@@ -138,13 +298,24 @@ class MedicalLLM:
             load_in_8bit = model_config.get("load_in_8bit", False)
             load_in_4bit = model_config.get("load_in_4bit", False)
             device_map = model_config.get("device_map", "auto")
-            
+
             # Prepare model loading kwargs
             model_kwargs = {
                 "trust_remote_code": trust_remote_code,
-                "use_auth_token": hf_token if use_hf_hub and hf_token else None,
             }
-            
+            if use_hf_hub and hf_token:
+                model_kwargs["token"] = hf_token
+            elif use_hf_hub:
+                # Try to use token from huggingface_hub login
+                try:
+                    from huggingface_hub import HfFolder
+
+                    token = HfFolder.get_token()
+                    if token:
+                        model_kwargs["token"] = token
+                except:
+                    pass
+
             if load_in_8bit or load_in_4bit:
                 if BITSANDBYTES_AVAILABLE and BITSANDBYTES_LIB_AVAILABLE:
                     # Use BitsAndBytesConfig (new way - preferred)
@@ -156,14 +327,18 @@ class MedicalLLM:
                                     load_in_8bit=True,
                                     llm_int8_enable_fp32_cpu_offload=True,  # Enable CPU offloading for large models
                                 )
-                                logger.info("Using BitsAndBytesConfig for 8-bit quantization with CPU offloading enabled")
+                                logger.info(
+                                    "Using BitsAndBytesConfig for 8-bit quantization with CPU offloading enabled"
+                                )
                             except TypeError:
                                 # llm_int8_enable_fp32_cpu_offload might not be available in this version
                                 # Try without it - device_map="auto" should handle offloading
                                 quantization_config = BitsAndBytesConfig(
                                     load_in_8bit=True,
                                 )
-                                logger.info("Using BitsAndBytesConfig for 8-bit quantization (CPU offload handled by device_map)")
+                                logger.info(
+                                    "Using BitsAndBytesConfig for 8-bit quantization (CPU offload handled by device_map)"
+                                )
                         elif load_in_4bit:
                             quantization_config = BitsAndBytesConfig(
                                 load_in_4bit=True,
@@ -171,16 +346,22 @@ class MedicalLLM:
                                 bnb_4bit_use_double_quant=True,
                                 bnb_4bit_quant_type="nf4",
                             )
-                            logger.info("Using BitsAndBytesConfig for 4-bit quantization")
-                        
+                            logger.info(
+                                "Using BitsAndBytesConfig for 4-bit quantization"
+                            )
+
                         model_kwargs["quantization_config"] = quantization_config
                         # Use "auto" device_map to allow accelerate to handle CPU offloading if needed
-                        model_kwargs["device_map"] = device_map if device_map != "auto" else "auto"
+                        model_kwargs["device_map"] = (
+                            device_map if device_map != "auto" else "auto"
+                        )
                     except Exception as e:
-                        logger.warning(f"Failed to create BitsAndBytesConfig: {e}. Falling back to deprecated method.")
+                        logger.warning(
+                            f"Failed to create BitsAndBytesConfig: {e}. Falling back to deprecated method."
+                        )
                         # Fall back to deprecated method
                         quantization_config = None
-                
+
                 # Fallback to deprecated method if BitsAndBytesConfig not available or failed
                 if quantization_config is None:
                     if not BITSANDBYTES_LIB_AVAILABLE:
@@ -188,7 +369,7 @@ class MedicalLLM:
                             "bitsandbytes library not available. Install it with: pip install bitsandbytes. "
                             "Falling back to deprecated quantization methods."
                         )
-                    
+
                     # Use deprecated method - but it has limitations with CPU offloading
                     if load_in_8bit:
                         # The deprecated load_in_8bit doesn't support CPU offloading well
@@ -201,17 +382,25 @@ class MedicalLLM:
                             # Better to explicitly set to GPU 0 to avoid CPU offload issues
                             if torch.cuda.is_available():
                                 model_kwargs["device_map"] = "cuda:0"
-                                logger.info("Using device_map='cuda:0' to avoid CPU offload issues with deprecated load_in_8bit")
+                                logger.info(
+                                    "Using device_map='cuda:0' to avoid CPU offload issues with deprecated load_in_8bit"
+                                )
                             else:
                                 model_kwargs["device_map"] = "cpu"
-                                logger.warning("No GPU available, loading on CPU (this may be very slow)")
+                                logger.warning(
+                                    "No GPU available, loading on CPU (this may be very slow)"
+                                )
                         else:
                             model_kwargs["device_map"] = device_map
-                        logger.warning("Using deprecated load_in_8bit. If you get CPU offload errors, install/upgrade bitsandbytes and transformers to use BitsAndBytesConfig.")
+                        logger.warning(
+                            "Using deprecated load_in_8bit. If you get CPU offload errors, install/upgrade bitsandbytes and transformers to use BitsAndBytesConfig."
+                        )
                     elif load_in_4bit:
                         model_kwargs["load_in_4bit"] = True
                         model_kwargs["device_map"] = device_map
-                        logger.warning("Using deprecated load_in_4bit. Consider upgrading to BitsAndBytesConfig.")
+                        logger.warning(
+                            "Using deprecated load_in_4bit. Consider upgrading to BitsAndBytesConfig."
+                        )
             else:
                 # No quantization
                 model_kwargs["device_map"] = device_map
@@ -222,17 +411,23 @@ class MedicalLLM:
             if model_id_or_path and os.path.exists(model_id_or_path):
                 # Check for safetensors files
                 safetensors_files = [
-                    f for f in os.listdir(model_id_or_path) 
-                    if f.endswith('.safetensors') or (f.endswith('.json') and 'safetensors' in f.lower())
+                    f
+                    for f in os.listdir(model_id_or_path)
+                    if f.endswith(".safetensors")
+                    or (f.endswith(".json") and "safetensors" in f.lower())
                 ]
                 if safetensors_files:
                     # Explicitly use safetensors if available
                     model_kwargs["use_safetensors"] = True
-                    logger.info(f"Found safetensors files ({len(safetensors_files)}), using safetensors format for loading")
+                    logger.info(
+                        f"Found safetensors files ({len(safetensors_files)}), using safetensors format for loading"
+                    )
                 else:
                     # Check PyTorch version and warn if too old
-                    torch_version = torch.__version__.split('+')[0]  # Remove +cu118 suffix
-                    torch_major, torch_minor = map(int, torch_version.split('.')[:2])
+                    torch_version = torch.__version__.split("+")[
+                        0
+                    ]  # Remove +cu118 suffix
+                    torch_major, torch_minor = map(int, torch_version.split(".")[:2])
                     if torch_major < 2 or (torch_major == 2 and torch_minor < 6):
                         logger.warning(
                             f"⚠️  No safetensors files found and PyTorch {torch.__version__} is too old (< 2.6). "
@@ -243,16 +438,18 @@ class MedicalLLM:
                             f"   3. See FIX_PYTORCH_VERSION_ISSUE.md for details"
                         )
                     # Don't set use_safetensors=False - let transformers handle it (will prefer safetensors if available)
-            
+
             try:
                 self.model = AutoModelForCausalLM.from_pretrained(
-                    model_id_or_path,
-                    **model_kwargs
+                    model_id_or_path, **model_kwargs
                 )
             except Exception as model_error:
                 error_msg = str(model_error)
                 # Check if it's the PyTorch version issue with .bin files
-                if "upgrade torch to at least v2.6" in error_msg or "CVE-2025-32434" in error_msg:
+                if (
+                    "upgrade torch to at least v2.6" in error_msg
+                    or "CVE-2025-32434" in error_msg
+                ):
                     logger.error(
                         f"Model loading failed due to PyTorch version restriction. "
                         f"PyTorch 2.6+ is required to load .bin files due to security vulnerability (CVE-2025-32434).\n"
@@ -268,7 +465,10 @@ class MedicalLLM:
                     # Don't try fallback for this error - it won't work
                     raise model_error
                 # Check if it's the CPU offload error with deprecated quantization
-                elif "Some modules are dispatched on the CPU or the disk" in error_msg and load_in_8bit:
+                elif (
+                    "Some modules are dispatched on the CPU or the disk" in error_msg
+                    and load_in_8bit
+                ):
                     logger.error(
                         f"Model loading failed due to CPU offload issue with 8-bit quantization. "
                         f"This happens when the model doesn't fit on GPU and the deprecated load_in_8bit "
@@ -280,20 +480,29 @@ class MedicalLLM:
                         f"Original error: {error_msg}"
                     )
                     # Try loading without quantization as fallback
-                    logger.info("Attempting to load model without quantization as fallback...")
+                    logger.info(
+                        "Attempting to load model without quantization as fallback..."
+                    )
                     try:
                         fallback_kwargs = {
                             "trust_remote_code": trust_remote_code,
-                            "use_auth_token": hf_token if use_hf_hub and hf_token else None,
-                            "device_map": "cpu" if not torch.cuda.is_available() else "auto",
+                            "use_auth_token": (
+                                hf_token if use_hf_hub and hf_token else None
+                            ),
+                            "device_map": (
+                                "cpu" if not torch.cuda.is_available() else "auto"
+                            ),
                         }
                         self.model = AutoModelForCausalLM.from_pretrained(
-                            model_id_or_path,
-                            **fallback_kwargs
+                            model_id_or_path, **fallback_kwargs
                         )
-                        logger.warning("Model loaded without quantization. This may use more memory and be slower.")
+                        logger.warning(
+                            "Model loaded without quantization. This may use more memory and be slower."
+                        )
                     except Exception as fallback_error:
-                        logger.error(f"Failed to load model even without quantization: {fallback_error}")
+                        logger.error(
+                            f"Failed to load model even without quantization: {fallback_error}"
+                        )
                         raise model_error  # Raise the original error
                 else:
                     # Re-raise other errors
@@ -369,14 +578,43 @@ class MedicalLLM:
         return prompt
 
     def _generate_text(self, prompt: str) -> str:
-        """Generate text using the model."""
-       
+        """Generate text using the model or Inference API."""
+
+        # Use Inference API if available
+        if self.use_inference_api and self.inference_client is not None:
+            try:
+                gen_config = self.config.get(self.model_type, {})
+
+                response = self.inference_client.text_generation(
+                    prompt,
+                    max_new_tokens=gen_config.get("max_length", 2048),
+                    temperature=gen_config.get("temperature", 0.7),
+                    top_p=gen_config.get("top_p", 0.9),
+                    top_k=gen_config.get("top_k", 50),
+                    repetition_penalty=gen_config.get("repetition_penalty", 1.1),
+                    do_sample=gen_config.get("do_sample", True),
+                )
+
+                # Remove prompt from response if it's included
+                if response.startswith(prompt):
+                    response = response[len(prompt) :].strip()
+
+                return response
+            except Exception as e:
+                logger.error(f"Inference API error: {e}")
+                logger.warning("Falling back to local model if available...")
+                # Fall through to local generation
+
+        # Local model generation
         if self.model_type == "biomistral":
             gen_config = self.config["biomistral"]
         elif self.model_type == "hippo":
             gen_config = self.config["hippo"]
         elif self.model_type == "falcon":
             gen_config = self.config["falcon"]
+
+        if self.tokenizer is None or self.model is None:
+            return "Error: Model not loaded. Please check configuration."
 
         inputs = self.tokenizer(
             prompt,
@@ -454,26 +692,51 @@ Note: This is a test report and should not be used for clinical decision-making.
             Answer to the question
         """
         try:
-            qa_template = self.config["prompts"]["qa_template"]
-
-            imaging_data = context.get("imaging_data", "No imaging data")
-            clinical_context = context.get("clinical_context", "No clinical context")
-
-            prompt = qa_template.format(
-                question=question,
-                imaging_data=imaging_data,
-                clinical_context=clinical_context,
+            # Build a comprehensive prompt from context
+            prompt_parts = []
+            prompt_parts.append(
+                "You are a medical imaging diagnostic assistant. Answer the following question based on the provided context.\n"
             )
+
+            # Add segmentation findings
+            if "segmentation_findings" in context:
+                prompt_parts.append("=== SEGMENTATION FINDINGS ===")
+                prompt_parts.append(context["segmentation_findings"])
+                prompt_parts.append("")
+
+            # Add similar cases
+            if "similar_cases" in context:
+                prompt_parts.append("=== SIMILAR CASES ===")
+                prompt_parts.append(context["similar_cases"])
+                prompt_parts.append("")
+
+            # Add clinical context
+            if "clinical_context" in context:
+                prompt_parts.append("=== CLINICAL CONTEXT ===")
+                if isinstance(context["clinical_context"], dict):
+                    for key, value in context["clinical_context"].items():
+                        prompt_parts.append(f"{key}: {value}")
+                else:
+                    prompt_parts.append(str(context["clinical_context"]))
+                prompt_parts.append("")
+
+            # Add the question
+            prompt_parts.append("=== QUESTION ===")
+            prompt_parts.append(question)
+            prompt_parts.append("")
+            prompt_parts.append("=== ANSWER ===")
+
+            prompt = "\n".join(prompt_parts)
 
             if self.model is not None:
                 answer = self._generate_text(prompt)
             else:
-                answer = f"Dummy answer to: {question}\n\nThis is a test response and should not be used for clinical purposes."
+                answer = f"Based on the provided context:\n\nQuestion: {question}\n\nThis is a test response and should not be used for clinical purposes. Please ensure the LLM model is properly loaded for accurate responses."
 
             return answer
 
         except Exception as e:
-            logger.error(f"Failed to answer question: {e}")
+            logger.error(f"Failed to answer question: {e}", exc_info=True)
             return f"Error answering question: {str(e)}"
 
     def summarize_report(self, report: str) -> str:

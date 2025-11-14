@@ -324,3 +324,660 @@ See the vulnerability report here https://nvd.nist.gov/vuln/detail/CVE-2025-3243
 2025-11-08 13:29:23,822 - main - INFO - Pipeline deployer initialized
 2025-11-08 13:29:23,823 - api_server - INFO - Pipeline initialized successfully
 2025-11-08 13:29:37,457 - api_server - INFO - Shutting down API server...
+2025-11-14 18:45:41,104 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 18:45:41,116 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 18:45:41,125 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 18:45:41,135 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 18:45:41,147 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 18:45:41,167 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 18:45:41,168 - main - INFO - MedTech Pipeline initialized
+2025-11-14 18:45:41,169 - main - INFO - Initializing pipeline components...
+2025-11-14 18:45:41,447 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 18:45:41,447 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 18:45:41,448 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 18:45:41,449 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 18:45:41,449 - main - INFO - Segmentation pipeline initialized
+2025-11-14 18:45:41,452 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 18:45:41,453 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 18:45:41,453 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 18:45:41,453 - main - INFO - Vector store initialized
+2025-11-14 18:45:41,453 - llm.medical_llm - WARNING - No HuggingFace token found. Some models may require authentication. Set HUGGINGFACE_HUB_TOKEN environment variable.
+2025-11-14 18:45:41,454 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: BioMistral/BioMistral-7B
+2025-11-14 18:45:43,309 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-11-14 18:45:45,602 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 8-bit quantization with CPU offloading enabled
+2025-11-14 18:45:46,886 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-11-14 19:09:53,002 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 19:09:53,011 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 19:09:53,016 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 19:09:53,025 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 19:09:53,036 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 19:09:53,056 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 19:09:53,057 - main - INFO - MedTech Pipeline initialized
+2025-11-14 19:09:53,058 - main - INFO - Initializing pipeline components...
+2025-11-14 19:09:53,257 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 19:09:53,257 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 19:09:53,258 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 19:09:53,259 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 19:09:53,259 - main - INFO - Segmentation pipeline initialized
+2025-11-14 19:09:53,262 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 19:09:53,266 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 19:09:53,266 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 19:09:53,266 - main - INFO - Vector store initialized
+2025-11-14 19:09:53,266 - llm.medical_llm - WARNING - No HuggingFace token found. Inference API requires authentication.
+2025-11-14 19:09:53,268 - llm.medical_llm - WARNING - Falling back to local model loading...
+2025-11-14 19:09:53,268 - llm.medical_llm - WARNING - No HuggingFace token found. Some models may require authentication. Set HUGGINGFACE_HUB_TOKEN environment variable.
+2025-11-14 19:09:53,268 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: BioMistral/BioMistral-7B
+2025-11-14 19:09:55,215 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-11-14 19:09:57,976 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 8-bit quantization with CPU offloading enabled
+2025-11-14 19:09:59,171 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-11-14 19:42:21,249 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 19:42:21,261 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 19:42:21,270 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 19:42:21,287 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 19:42:21,312 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 19:42:21,336 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 19:42:21,337 - main - INFO - MedTech Pipeline initialized
+2025-11-14 19:42:21,338 - main - INFO - Initializing pipeline components...
+2025-11-14 19:42:21,825 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 19:42:21,828 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 19:42:21,843 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 19:42:21,852 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 19:42:21,857 - main - INFO - Segmentation pipeline initialized
+2025-11-14 19:42:21,870 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 19:42:21,879 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 19:42:21,881 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 19:42:21,882 - main - INFO - Vector store initialized
+2025-11-14 19:42:21,885 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 19:42:22,734 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 19:42:22,734 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 19:42:22,734 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 19:42:22,736 - main - INFO - Medical LLM initialized
+2025-11-14 19:42:22,736 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 19:42:22,736 - main - INFO - MCP-FHIR client initialized
+2025-11-14 19:42:22,738 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 19:42:22,738 - main - INFO - Feedback collector initialized
+2025-11-14 19:42:22,738 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 19:42:22,738 - main - INFO - Pipeline deployer initialized
+2025-11-14 19:42:22,739 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 19:45:30,147 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 19:45:30,154 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 19:45:30,159 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 19:45:30,167 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 19:45:30,178 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 19:45:30,194 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 19:45:30,194 - main - INFO - MedTech Pipeline initialized
+2025-11-14 19:45:30,194 - main - INFO - Initializing pipeline components...
+2025-11-14 19:45:30,347 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 19:45:30,347 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 19:45:30,347 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 19:45:30,348 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 19:45:30,349 - main - INFO - Segmentation pipeline initialized
+2025-11-14 19:45:30,350 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 19:45:30,353 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 19:45:30,353 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 19:45:30,354 - main - INFO - Vector store initialized
+2025-11-14 19:45:30,354 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 19:45:30,354 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 19:45:30,356 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 19:45:30,357 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 19:45:30,357 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 19:45:30,357 - main - INFO - Medical LLM initialized
+2025-11-14 19:45:30,358 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 19:45:30,361 - main - INFO - MCP-FHIR client initialized
+2025-11-14 19:45:30,364 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 19:45:30,364 - main - INFO - Feedback collector initialized
+2025-11-14 19:45:30,364 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 19:45:30,365 - main - INFO - Pipeline deployer initialized
+2025-11-14 19:45:30,366 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:11:15,415 - api_server - INFO - Processing uploaded file: ID_00b115bfe.dcm
+2025-11-14 20:11:15,428 - main - INFO - Processing medical image: data\uploads\ID_00b115bfe.dcm
+2025-11-14 20:11:15,428 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:11:15,432 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b115bfe.dcm
+2025-11-14 20:11:15,871 - segmentation.preprocessing - INFO - Loaded DICOM image: (1024, 1024)
+2025-11-14 20:11:15,920 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b115bfe'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 20:11:15,931 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 20:11:16,706 - main - ERROR - Pipeline processing failed: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000001E92B0C8690>
+2025-11-14 20:17:48,324 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 20:17:48,331 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 20:17:48,336 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 20:17:48,345 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 20:17:48,352 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 20:17:48,365 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 20:17:48,366 - main - INFO - MedTech Pipeline initialized
+2025-11-14 20:17:48,366 - main - INFO - Initializing pipeline components...
+2025-11-14 20:17:48,574 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 20:17:48,574 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:17:48,575 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 20:17:48,576 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 20:17:48,576 - main - INFO - Segmentation pipeline initialized
+2025-11-14 20:17:48,579 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 20:17:48,581 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 20:17:48,583 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 20:17:48,584 - main - INFO - Vector store initialized
+2025-11-14 20:17:48,584 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 20:17:48,585 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 20:17:48,586 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 20:17:48,586 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 20:17:48,587 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 20:17:48,587 - main - INFO - Medical LLM initialized
+2025-11-14 20:17:48,588 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 20:17:48,589 - main - INFO - MCP-FHIR client initialized
+2025-11-14 20:17:48,590 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 20:17:48,590 - main - INFO - Feedback collector initialized
+2025-11-14 20:17:48,591 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 20:17:48,591 - main - INFO - Pipeline deployer initialized
+2025-11-14 20:17:48,591 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:19:00,366 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 20:19:00,373 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:19:00,373 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:19:00,378 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:19:00,389 - segmentation.preprocessing - ERROR - Failed to load DICOM file data\uploads\ID_00b0e5a9f.dcm: 'Settings' object has no attribute 'WARN'
+2025-11-14 20:19:00,391 - segmentation.preprocessing - ERROR - Failed to load image data\uploads\ID_00b0e5a9f.dcm: 'Settings' object has no attribute 'WARN'
+2025-11-14 20:19:00,391 - main - ERROR - Pipeline processing failed: 'Settings' object has no attribute 'WARN'
+2025-11-14 20:40:25,806 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 20:40:25,820 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 20:40:25,831 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 20:40:25,846 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 20:40:25,859 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 20:40:25,886 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 20:40:25,887 - main - INFO - MedTech Pipeline initialized
+2025-11-14 20:40:25,888 - main - INFO - Initializing pipeline components...
+2025-11-14 20:40:26,355 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 20:40:26,356 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:40:26,356 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 20:40:26,359 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 20:40:26,360 - main - INFO - Segmentation pipeline initialized
+2025-11-14 20:40:26,362 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 20:40:26,367 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 20:40:26,368 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 20:40:26,368 - main - INFO - Vector store initialized
+2025-11-14 20:40:26,370 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 20:40:26,370 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 20:40:26,370 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 20:40:26,372 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 20:40:26,372 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 20:40:26,373 - main - INFO - Medical LLM initialized
+2025-11-14 20:40:26,374 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 20:40:26,374 - main - INFO - MCP-FHIR client initialized
+2025-11-14 20:40:26,376 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 20:40:26,376 - main - INFO - Feedback collector initialized
+2025-11-14 20:40:26,378 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 20:40:26,378 - main - INFO - Pipeline deployer initialized
+2025-11-14 20:40:26,378 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:41:25,960 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 20:41:25,966 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:41:25,966 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:41:25,971 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:41:25,977 - segmentation.preprocessing - ERROR - Failed to load DICOM file data\uploads\ID_00b0e5a9f.dcm: module 'pydicom.config' has no attribute 'ReadingValidationMode'
+2025-11-14 20:41:25,979 - segmentation.preprocessing - ERROR - Failed to load image data\uploads\ID_00b0e5a9f.dcm: module 'pydicom.config' has no attribute 'ReadingValidationMode'
+2025-11-14 20:41:25,979 - main - ERROR - Pipeline processing failed: module 'pydicom.config' has no attribute 'ReadingValidationMode'
+2025-11-14 20:43:30,496 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 20:43:30,504 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 20:43:30,511 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 20:43:30,521 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 20:43:30,534 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 20:43:30,564 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 20:43:30,565 - main - INFO - MedTech Pipeline initialized
+2025-11-14 20:43:30,566 - main - INFO - Initializing pipeline components...
+2025-11-14 20:43:30,851 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 20:43:30,852 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:43:30,855 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 20:43:30,859 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 20:43:30,860 - main - INFO - Segmentation pipeline initialized
+2025-11-14 20:43:30,866 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 20:43:30,870 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 20:43:30,870 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 20:43:30,871 - main - INFO - Vector store initialized
+2025-11-14 20:43:30,871 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 20:43:30,871 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 20:43:30,874 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 20:43:30,874 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 20:43:30,875 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 20:43:30,875 - main - INFO - Medical LLM initialized
+2025-11-14 20:43:30,876 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 20:43:30,877 - main - INFO - MCP-FHIR client initialized
+2025-11-14 20:43:30,877 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 20:43:30,879 - main - INFO - Feedback collector initialized
+2025-11-14 20:43:30,879 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 20:43:30,879 - main - INFO - Pipeline deployer initialized
+2025-11-14 20:43:30,879 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:43:51,847 - api_server - INFO - Processing uploaded file: ID_00f715288.dcm
+2025-11-14 20:43:51,847 - main - INFO - Processing medical image: data\uploads\ID_00f715288.dcm
+2025-11-14 20:43:51,849 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:43:51,852 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00f715288.dcm
+2025-11-14 20:43:51,991 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:43:51,993 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:43:52,011 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00f715288'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 20:43:52,394 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00f715288.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000001F0E7C37D50>
+2025-11-14 20:43:52,398 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:43:52,416 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:43:52,418 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:43:52,902 - main - ERROR - Pipeline processing failed: SwinUNETR.forward() got an unexpected keyword argument 'sw_overlap'
+2025-11-14 20:47:40,022 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 20:47:40,031 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 20:47:40,037 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 20:47:40,047 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 20:47:40,058 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 20:47:40,078 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 20:47:40,079 - main - INFO - MedTech Pipeline initialized
+2025-11-14 20:47:40,079 - main - INFO - Initializing pipeline components...
+2025-11-14 20:47:40,289 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 20:47:40,290 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:47:40,290 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 20:47:40,292 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 20:47:40,293 - main - INFO - Segmentation pipeline initialized
+2025-11-14 20:47:40,294 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 20:47:40,298 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 20:47:40,299 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 20:47:40,299 - main - INFO - Vector store initialized
+2025-11-14 20:47:40,300 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 20:47:40,300 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 20:47:40,301 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 20:47:40,302 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 20:47:40,302 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 20:47:40,302 - main - INFO - Medical LLM initialized
+2025-11-14 20:47:40,303 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 20:47:40,303 - main - INFO - MCP-FHIR client initialized
+2025-11-14 20:47:40,304 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 20:47:40,306 - main - INFO - Feedback collector initialized
+2025-11-14 20:47:40,306 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 20:47:40,306 - main - INFO - Pipeline deployer initialized
+2025-11-14 20:47:40,307 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:49:21,100 - api_server - INFO - Processing uploaded file: ID_00b115bfe.dcm
+2025-11-14 20:49:21,102 - main - INFO - Processing medical image: data\uploads\ID_00b115bfe.dcm
+2025-11-14 20:49:21,102 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:49:21,104 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b115bfe.dcm
+2025-11-14 20:49:21,197 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:49:21,197 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:49:21,211 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b115bfe'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 20:49:21,217 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 20:49:21,360 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b115bfe.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x0000028173084210>
+2025-11-14 20:49:21,360 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:49:21,371 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:49:21,371 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:49:21,888 - main - ERROR - Pipeline processing failed: from einops import rearrange (No module named 'einops').
+
+For details about installing the optional dependencies, please visit:
+    https://docs.monai.io/en/latest/installation.html#installing-the-recommended-dependencies
+2025-11-14 20:50:39,059 - api_server - INFO - Shutting down API server...
+2025-11-14 20:52:35,036 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 20:52:35,046 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 20:52:35,052 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 20:52:35,053 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 20:52:35,070 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 20:52:35,083 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 20:52:35,083 - main - INFO - MedTech Pipeline initialized
+2025-11-14 20:52:35,083 - main - INFO - Initializing pipeline components...
+2025-11-14 20:52:35,261 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 20:52:35,273 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:52:35,279 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 20:52:35,286 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 20:52:35,288 - main - INFO - Segmentation pipeline initialized
+2025-11-14 20:52:35,294 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 20:52:35,299 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 20:52:35,303 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 20:52:35,307 - main - INFO - Vector store initialized
+2025-11-14 20:52:35,327 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 20:52:35,342 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 20:52:35,346 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 20:52:35,348 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 20:52:35,352 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 20:52:35,354 - main - INFO - Medical LLM initialized
+2025-11-14 20:52:35,354 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 20:52:35,356 - main - INFO - MCP-FHIR client initialized
+2025-11-14 20:52:35,358 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 20:52:35,358 - main - INFO - Feedback collector initialized
+2025-11-14 20:52:35,363 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 20:52:35,363 - main - INFO - Pipeline deployer initialized
+2025-11-14 20:52:35,365 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:52:52,730 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 20:52:52,730 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:52:52,731 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:52:52,731 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:52:52,825 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:52:52,826 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:52:52,845 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 20:52:52,847 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 20:52:52,990 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x00000239F8A7EA10>
+2025-11-14 20:52:52,991 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:52:53,005 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:52:53,006 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:52:55,304 - main - ERROR - Pipeline processing failed: [enforce fail at alloc_cpu.cpp:121] data. DefaultCPUAllocator: not enough memory: you tried to allocate 1936973136 bytes.
+2025-11-14 20:57:15,812 - api_server - INFO - Shutting down API server...
+2025-11-14 20:57:46,200 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 20:57:46,211 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 20:57:46,221 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 20:57:46,234 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 20:57:46,250 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 20:57:46,273 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 20:57:46,274 - main - INFO - MedTech Pipeline initialized
+2025-11-14 20:57:46,274 - main - INFO - Initializing pipeline components...
+2025-11-14 20:57:46,608 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 20:57:46,608 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:57:46,609 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 20:57:46,611 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 20:57:46,611 - main - INFO - Segmentation pipeline initialized
+2025-11-14 20:57:46,613 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 20:57:46,616 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 20:57:46,617 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 20:57:46,617 - main - INFO - Vector store initialized
+2025-11-14 20:57:46,618 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 20:57:46,618 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 20:57:46,619 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 20:57:46,619 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 20:57:46,619 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 20:57:46,620 - main - INFO - Medical LLM initialized
+2025-11-14 20:57:46,620 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 20:57:46,621 - main - INFO - MCP-FHIR client initialized
+2025-11-14 20:57:46,622 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 20:57:46,622 - main - INFO - Feedback collector initialized
+2025-11-14 20:57:46,623 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 20:57:46,623 - main - INFO - Pipeline deployer initialized
+2025-11-14 20:57:46,624 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 20:58:00,633 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 20:58:00,633 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:58:00,633 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 20:58:00,633 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 20:58:00,698 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:58:00,700 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:58:00,721 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 20:58:00,727 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 20:58:00,843 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000001F366DAEBD0>
+2025-11-14 20:58:00,844 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 20:58:00,855 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 20:58:00,856 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 20:58:00,880 - main - ERROR - Pipeline processing failed: spatial dimensions [4] of input image (spatial shape: torch.Size([96, 96, 1])) must be divisible by 2**5.
+2025-11-14 21:01:51,272 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:01:51,280 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:01:51,286 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:01:51,298 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:01:51,311 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:01:51,327 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:01:51,327 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:01:51,327 - main - INFO - Initializing pipeline components...
+2025-11-14 21:01:51,531 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:01:51,531 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:01:51,532 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:01:51,534 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:01:51,534 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:01:51,536 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:01:51,540 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:01:51,540 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:01:51,541 - main - INFO - Vector store initialized
+2025-11-14 21:01:51,541 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:01:51,541 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:01:51,542 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:01:51,543 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:01:51,543 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:01:51,543 - main - INFO - Medical LLM initialized
+2025-11-14 21:01:51,544 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:01:51,545 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:01:51,546 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:01:51,547 - main - INFO - Feedback collector initialized
+2025-11-14 21:01:51,547 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:01:51,548 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:01:51,548 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:02:05,516 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:02:05,516 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:02:05,517 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:02:05,517 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:02:05,562 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:02:05,563 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:02:05,574 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 21:02:05,576 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 21:02:05,690 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000001A02902D150>
+2025-11-14 21:02:05,691 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:02:05,702 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:02:05,702 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:02:08,828 - main - ERROR - Pipeline processing failed: [enforce fail at alloc_cpu.cpp:121] data. DefaultCPUAllocator: not enough memory: you tried to allocate 830131344 bytes.
+2025-11-14 21:02:34,332 - api_server - INFO - Shutting down API server...
+2025-11-14 21:05:51,796 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:05:51,804 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:05:51,809 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:05:51,821 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:05:51,826 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:05:51,853 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:05:51,855 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:05:51,857 - main - INFO - Initializing pipeline components...
+2025-11-14 21:05:52,070 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:05:52,070 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:05:52,071 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:05:52,072 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:05:52,073 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:05:52,075 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:05:52,078 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:05:52,079 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:05:52,079 - main - INFO - Vector store initialized
+2025-11-14 21:05:52,080 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:05:52,080 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:05:52,081 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:05:52,081 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:05:52,082 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:05:52,082 - main - INFO - Medical LLM initialized
+2025-11-14 21:05:52,083 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:05:52,084 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:05:52,085 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:05:52,085 - main - INFO - Feedback collector initialized
+2025-11-14 21:05:52,085 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:05:52,085 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:05:52,086 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:06:05,138 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:06:05,138 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:06:05,138 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:06:05,140 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:06:05,179 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:06:05,185 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:06:05,197 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 21:06:05,197 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 21:06:05,298 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000001C02EF13A50>
+2025-11-14 21:06:05,298 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:06:05,309 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:06:05,309 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:06:05,398 - segmentation.swin_unetr_model - ERROR - Fallback preprocessing also failed: permute(): duplicate dims are not allowed.
+2025-11-14 21:06:05,398 - main - ERROR - Pipeline processing failed: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000001C02EF13A50>
+2025-11-14 21:08:00,011 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:08:00,019 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:08:00,027 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:08:00,040 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:08:00,051 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:08:00,073 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:08:00,074 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:08:00,075 - main - INFO - Initializing pipeline components...
+2025-11-14 21:08:00,322 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:08:00,322 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:08:00,323 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:08:00,324 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:08:00,324 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:08:00,326 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:08:00,329 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:08:00,330 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:08:00,330 - main - INFO - Vector store initialized
+2025-11-14 21:08:00,331 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:08:00,331 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:08:00,332 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:08:00,332 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:08:00,332 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:08:00,333 - main - INFO - Medical LLM initialized
+2025-11-14 21:08:00,333 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:08:00,334 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:08:00,335 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:08:00,336 - main - INFO - Feedback collector initialized
+2025-11-14 21:08:00,336 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:08:00,337 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:08:00,337 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:08:13,967 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:08:13,967 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:08:13,967 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:08:13,968 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:08:14,016 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:08:14,016 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:08:14,025 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 21:08:14,027 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 21:08:14,117 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x0000028228213210>
+2025-11-14 21:08:14,117 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:08:14,126 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:08:14,127 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:08:14,211 - segmentation.swin_unetr_model - ERROR - Fallback preprocessing also failed: permute(): duplicate dims are not allowed.
+2025-11-14 21:08:14,211 - main - ERROR - Pipeline processing failed: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x0000028228213210>
+2025-11-14 21:09:51,473 - api_server - INFO - Shutting down API server...
+2025-11-14 21:10:21,974 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:10:21,984 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:10:21,990 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:10:21,999 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:10:22,009 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:10:22,032 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:10:22,033 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:10:22,033 - main - INFO - Initializing pipeline components...
+2025-11-14 21:10:22,248 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:10:22,249 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:10:22,249 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:10:22,250 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:10:22,250 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:10:22,253 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:10:22,255 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:10:22,256 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:10:22,256 - main - INFO - Vector store initialized
+2025-11-14 21:10:22,257 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:10:22,257 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:10:22,258 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:10:22,259 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:10:22,259 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:10:22,259 - main - INFO - Medical LLM initialized
+2025-11-14 21:10:22,261 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:10:22,261 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:10:22,262 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:10:22,263 - main - INFO - Feedback collector initialized
+2025-11-14 21:10:22,263 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:10:22,263 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:10:22,264 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:10:36,155 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:10:36,157 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:10:36,158 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:10:36,160 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:10:36,245 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:10:36,245 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:10:36,262 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 21:10:36,268 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 21:10:36,423 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: applying transform <monai.transforms.croppad.dictionary.SpatialPadd object at 0x000002E2A7B9BE10>
+2025-11-14 21:10:36,424 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:10:36,440 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:10:36,441 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:13:10,976 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:13:10,984 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:13:10,992 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:13:11,000 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:13:11,011 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:13:11,028 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:13:11,028 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:13:11,028 - main - INFO - Initializing pipeline components...
+2025-11-14 21:13:11,205 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:13:11,206 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:13:11,206 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:13:11,207 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:13:11,208 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:13:11,211 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:13:11,214 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:13:11,214 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:13:11,215 - main - INFO - Vector store initialized
+2025-11-14 21:13:11,215 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:13:11,215 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:13:11,216 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:13:11,217 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:13:11,217 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:13:11,217 - main - INFO - Medical LLM initialized
+2025-11-14 21:13:11,218 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:13:11,218 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:13:11,220 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:13:11,220 - main - INFO - Feedback collector initialized
+2025-11-14 21:13:11,221 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:13:11,221 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:13:11,222 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:13:21,832 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:13:21,834 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:13:21,835 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:13:21,835 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:13:21,989 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:13:21,992 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:13:22,035 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 21:13:22,046 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 21:13:22,276 - main - ERROR - Pipeline processing failed: Sequence must have length 2, got 3.
+2025-11-14 21:17:01,929 - api_server - INFO - Shutting down API server...
+2025-11-14 21:17:34,600 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:17:34,611 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:17:34,617 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:17:34,625 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:17:34,637 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:17:34,657 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:17:34,658 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:17:34,659 - main - INFO - Initializing pipeline components...
+2025-11-14 21:17:34,864 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:17:34,864 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:17:34,865 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:17:34,866 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:17:34,866 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:17:34,868 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:17:34,872 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:17:34,872 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:17:34,873 - main - INFO - Vector store initialized
+2025-11-14 21:17:34,873 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:17:34,874 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:17:34,874 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:17:34,875 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:17:34,875 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:17:34,875 - main - INFO - Medical LLM initialized
+2025-11-14 21:17:34,876 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:17:34,876 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:17:34,878 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:17:34,878 - main - INFO - Feedback collector initialized
+2025-11-14 21:17:34,880 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:17:34,880 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:17:34,880 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:17:45,081 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:17:45,082 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:17:45,082 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:17:45,083 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:17:45,133 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:17:45,133 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:17:45,146 - pydicom - WARNING - Error while processing tag 00080018: Invalid value for VR UI: 'ID_00b0e5a9f'. Please see <https://dicom.nema.org/medical/dicom/current/output/html/part05.html#table_6.2-1> for allowed values for each VR.
+2025-11-14 21:17:45,149 - pydicom - WARNING - Error while processing tag 00280030: Values for elements with a VR of 'DS' must be <= 16 characters long, but the float provided requires > 16 characters to be accurately represented. Use a smaller string, set 'config.settings.reading_validation_mode' to 'WARN' to override the length check, or explicitly construct a DS object with 'auto_format' set to True
+2025-11-14 21:17:45,242 - main - ERROR - Pipeline processing failed: Sequence must have length 2, got 3.
+2025-11-14 21:36:45,079 - api_server - INFO - Initializing MedTech Pipeline...
+2025-11-14 21:36:45,087 - main - INFO - Loaded config: segmentation_config.yaml
+2025-11-14 21:36:45,094 - main - INFO - Loaded config: vector_store_config.yaml
+2025-11-14 21:36:45,105 - main - INFO - Loaded config: llm_config.yaml
+2025-11-14 21:36:45,115 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-11-14 21:36:45,129 - main - INFO - Loaded config: deployment_config.yaml
+2025-11-14 21:36:45,130 - main - INFO - MedTech Pipeline initialized
+2025-11-14 21:36:45,130 - main - INFO - Initializing pipeline components...
+2025-11-14 21:36:45,334 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cpu
+2025-11-14 21:36:45,334 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:36:45,334 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-11-14 21:36:45,336 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-11-14 21:36:45,336 - main - INFO - Segmentation pipeline initialized
+2025-11-14 21:36:45,338 - vector_store - INFO - Loading FAISS index from data\faiss_index
+2025-11-14 21:36:45,340 - vector_store - INFO - FAISS index loaded from disk
+2025-11-14 21:36:45,341 - vector_store - WARNING - Failed to move index to GPU: module 'faiss' has no attribute 'StandardGpuResources'
+2025-11-14 21:36:45,341 - main - INFO - Vector store initialized
+2025-11-14 21:36:45,341 - llm.medical_llm - INFO - Configuration: use_inference_api=True, model_type=biomistral
+2025-11-14 21:36:45,342 - llm.medical_llm - INFO - [OK] HuggingFace token found (length: 37, starts with: hf_MZYA...)
+2025-11-14 21:36:45,342 - llm.medical_llm - INFO - Inference API client initialized for model: BioMistral/BioMistral-7B
+2025-11-14 21:36:45,342 - llm.medical_llm - INFO - Using remote inference - no local model download required
+2025-11-14 21:36:45,343 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Inference API)
+2025-11-14 21:36:45,343 - main - INFO - Medical LLM initialized
+2025-11-14 21:36:45,344 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-11-14 21:36:45,344 - main - INFO - MCP-FHIR client initialized
+2025-11-14 21:36:45,346 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-11-14 21:36:45,346 - main - INFO - Feedback collector initialized
+2025-11-14 21:36:45,347 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-11-14 21:36:45,347 - main - INFO - Pipeline deployer initialized
+2025-11-14 21:36:45,347 - api_server - INFO - Pipeline initialized successfully
+2025-11-14 21:37:13,520 - api_server - INFO - Processing uploaded file: ID_00b0e5a9f.dcm
+2025-11-14 21:37:13,521 - main - INFO - Processing medical image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:37:13,522 - main - INFO - Step 1: Performing segmentation...
+2025-11-14 21:37:13,522 - segmentation.segmentation_pipeline - INFO - Processing image: data\uploads\ID_00b0e5a9f.dcm
+2025-11-14 21:37:13,607 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:37:13,608 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-11-14 21:37:13,608 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data\uploads\ID_00b0e5a9f.dcm: Use fallback preprocessing for DICOM
+2025-11-14 21:37:13,609 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-11-14 21:37:13,622 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-11-14 21:37:13,622 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)

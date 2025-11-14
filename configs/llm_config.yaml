@@ -6,7 +6,7 @@ llm:
     load_in_4bit: false
     load_in_8bit: true
     max_length: 2048
-    model_name: ./models/biomistral
+    model_name: BioMistral/BioMistral-7B
     repetition_penalty: 1.1
     temperature: 0.7
     top_k: 50
@@ -56,12 +56,14 @@ llm:
     load_in_4bit: false
     load_in_8bit: true
     max_length: 2048
-    model_name: ./models/hippo
+    model_name: cyberiada/hippo-7b
     repetition_penalty: 1.1
     temperature: 0.7
     top_k: 50
     top_p: 0.9
   model_type: biomistral
+  use_hf_hub: true
+  use_inference_api: true  # Use remote Inference API instead of downloading model
   output:
     format: json
     output_dir: data/llm_outputs
@@ -128,4 +130,3 @@ llm:
 
       '
   trust_remote_code: true
-  use_hf_hub: false

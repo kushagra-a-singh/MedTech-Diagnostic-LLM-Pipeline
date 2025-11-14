@@ -54,13 +54,13 @@ class MedicalImagePreprocessor:
             image_path = Path(image_path)
 
             if image_path.suffix.lower() in [".nii", ".gz"]:
-              
+
                 return self._load_nifti(str(image_path))
             elif image_path.suffix.lower() == ".dcm":
-               
+
                 return self._load_dicom(str(image_path))
             elif image_path.is_dir():
-               
+
                 return self._load_dicom_series(str(image_path))
             else:
                 raise ValueError(f"Unsupported file format: {image_path.suffix}")
@@ -85,12 +85,21 @@ class MedicalImagePreprocessor:
     def _load_dicom(self, file_path: str) -> np.ndarray:
         """Load single DICOM file."""
         try:
-            ds = pydicom.dcmread(file_path)
+            # Read the DICOM file with relaxed validation for broad compatibility
+            # across pydicom versions (avoids reliance on config enums).
+            ds = pydicom.dcmread(file_path, force=True)
             data = ds.pixel_array
 
             # Apply rescale slope and intercept if available
             if hasattr(ds, "RescaleSlope") and hasattr(ds, "RescaleIntercept"):
                 data = data * ds.RescaleSlope + ds.RescaleIntercept
+
+            # Convert 2D to 3D by adding depth dimension
+            if len(data.shape) == 2:
+                data = np.expand_dims(
+                    data, axis=0
+                )  # Add depth dimension: (H, W) -> (1, H, W)
+                logger.info(f"Converted 2D DICOM to 3D: {data.shape}")
 
             logger.info(f"Loaded DICOM image: {data.shape}")
             return data
@@ -198,7 +207,7 @@ class MedicalImagePreprocessor:
             output_path.parent.mkdir(parents=True, exist_ok=True)
 
             if output_path.suffix.lower() in [".nii", ".gz"]:
-             
+
                 if reference_image and Path(reference_image).suffix.lower() in [
                     ".nii",
                     ".gz",
@@ -215,7 +224,7 @@ class MedicalImagePreprocessor:
                 nib.save(mask_img, str(output_path))
 
             else:
-                
+
                 np.save(str(output_path), mask)
 
             logger.info(f"Saved mask to: {output_path}")
