@@ -21,3 +21,5 @@ docker-compose.yml
 frontend/README.md
 models/swin_unetr_pretrained.pth
 models\swin_unetr_pretrained.pth
+# Windows Zone.Identifier files
+*:Zone.Identifier
