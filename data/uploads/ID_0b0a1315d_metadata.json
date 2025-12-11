@@ -1,7 +1,7 @@
 {
-  "image_path": "data/uploads/ID_0ba83217f.dcm",
-  "mask_path": "data/uploads/ID_0ba83217f_mask.nii.gz",
-  "embedding_path": "data/uploads/ID_0ba83217f_embeddings.npy",
+  "image_path": "data/uploads/ID_0b0a1315d.dcm",
+  "mask_path": "data/uploads/ID_0b0a1315d_mask.nii.gz",
+  "embedding_path": "data/uploads/ID_0b0a1315d_embeddings.npy",
   "mask_shape": [
     1,
     1024,
@@ -27,5 +27,5 @@
     "12": "duodenum",
     "13": "colon"
   },
-  "processing_timestamp": "2025-12-11T09:16:34"
+  "processing_timestamp": "2025-12-11T09:04:19"
 }

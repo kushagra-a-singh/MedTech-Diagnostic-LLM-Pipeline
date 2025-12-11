@@ -8,7 +8,7 @@ interface ChatActions {
   clearMessages: () => void;
   setIsGenerating: (isGenerating: boolean) => void;
   setSessionId: (sessionId: string | null) => void;
-  setContext: (context: ChatState['currentContext']) => void;
+  setContext: (context: any) => void;
   sendChatMessage: (content: string, attachments?: ChatAttachment[]) => Promise<void>;
 }
 

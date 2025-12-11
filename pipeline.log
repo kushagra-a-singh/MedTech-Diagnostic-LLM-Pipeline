@@ -2662,3 +2662,464 @@ Model type should be one of BartConfig, BertConfig, BertGenerationConfig, BigBir
 2025-12-11 14:20:39,476 - main - INFO - Step 5: Generating medical report...
 2025-12-11 14:20:39,476 - llm.medical_llm - ERROR - Failed to generate report: local variable 'gen_config' referenced before assignment
 2025-12-11 14:20:39,476 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:26:02,012 - api_server - INFO - Shutting down API server...
+2025-12-11 14:26:39,800 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:26:39,806 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:26:39,810 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:26:39,817 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:26:39,823 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:26:39,833 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:26:39,834 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:26:39,834 - main - INFO - Initializing pipeline components...
+2025-12-11 14:26:40,133 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:26:40,133 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:26:40,133 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:26:40,133 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:26:40,133 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:26:40,133 - vector_store - INFO - Loaded metadata with 15 records
+2025-12-11 14:26:40,133 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:26:40,134 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:26:40,134 - main - INFO - Vector store initialized
+2025-12-11 14:26:40,134 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:26:40,134 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:26:40,480 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:26:40,833 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:26:40,966 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:26:42,378 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:26:42,398 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:26:42,399 - main - INFO - Medical LLM initialized
+2025-12-11 14:26:42,399 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:26:42,399 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:26:42,399 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:26:42,399 - main - INFO - Feedback collector initialized
+2025-12-11 14:26:42,399 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:26:42,399 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:26:42,399 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:27:19,753 - api_server - INFO - Processing uploaded file: ID_3bc436100.dcm
+2025-12-11 14:27:19,754 - main - INFO - Processing medical image: data/uploads/ID_3bc436100.dcm
+2025-12-11 14:27:19,754 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:27:19,754 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_3bc436100.dcm
+2025-12-11 14:27:19,772 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:27:19,773 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:27:19,773 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_3bc436100.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:27:19,773 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:27:19,786 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:27:19,786 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:27:27,516 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_3bc436100_mask.nii.gz
+2025-12-11 14:27:27,535 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:27:27,575 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_3bc436100.dcm
+2025-12-11 14:27:27,575 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:27:27,576 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:27:27,576 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:27:27,577 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:27:27,577 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:27:33,007 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:27:33,007 - llm.medical_llm - ERROR - Failed to generate report: local variable 'gen_config' referenced before assignment
+2025-12-11 14:27:33,008 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:28:51,014 - api_server - INFO - Shutting down API server...
+2025-12-11 14:28:58,408 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:28:58,414 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:28:58,418 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:28:58,427 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:28:58,434 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:28:58,445 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:28:58,445 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:28:58,445 - main - INFO - Initializing pipeline components...
+2025-12-11 14:28:58,733 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:28:58,733 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:28:58,733 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:28:58,733 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:28:58,734 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:28:58,734 - vector_store - INFO - Loaded metadata with 16 records
+2025-12-11 14:28:58,734 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:28:58,734 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:28:58,734 - main - INFO - Vector store initialized
+2025-12-11 14:28:58,734 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:28:58,734 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:28:59,025 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:28:59,371 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:28:59,468 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:29:00,714 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:29:00,734 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:29:00,734 - main - INFO - Medical LLM initialized
+2025-12-11 14:29:00,734 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:29:00,735 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:29:00,735 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:29:00,735 - main - INFO - Feedback collector initialized
+2025-12-11 14:29:00,735 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:29:00,735 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:29:00,735 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:29:32,947 - api_server - INFO - Processing uploaded file: ID_0ac3e69bc.dcm
+2025-12-11 14:29:32,948 - main - INFO - Processing medical image: data/uploads/ID_0ac3e69bc.dcm
+2025-12-11 14:29:32,948 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:29:32,948 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0ac3e69bc.dcm
+2025-12-11 14:29:32,958 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:29:32,959 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:29:32,959 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0ac3e69bc.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:29:32,959 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:29:32,964 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:29:32,964 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:29:38,981 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0ac3e69bc_mask.nii.gz
+2025-12-11 14:29:38,997 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:29:39,030 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0ac3e69bc.dcm
+2025-12-11 14:29:39,031 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:29:39,032 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:29:39,032 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:29:39,032 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:29:39,032 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:29:44,593 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:29:48,676 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:31:32,711 - api_server - INFO - Shutting down API server...
+2025-12-11 14:31:40,202 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:31:40,208 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:31:40,211 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:31:40,218 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:31:40,225 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:31:40,235 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:31:40,236 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:31:40,236 - main - INFO - Initializing pipeline components...
+2025-12-11 14:31:40,521 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:31:40,521 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:31:40,521 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:31:40,522 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:31:40,522 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:31:40,522 - vector_store - INFO - Loaded metadata with 17 records
+2025-12-11 14:31:40,522 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:31:40,522 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:31:40,522 - main - INFO - Vector store initialized
+2025-12-11 14:31:40,522 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:31:40,522 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:31:40,946 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:31:41,274 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:31:41,473 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:31:41,189 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:31:41,209 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:31:41,209 - main - INFO - Medical LLM initialized
+2025-12-11 14:31:41,210 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:31:41,210 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:31:41,210 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:31:41,210 - main - INFO - Feedback collector initialized
+2025-12-11 14:31:41,210 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:31:41,210 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:31:41,210 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:32:05,852 - api_server - INFO - Shutting down API server...
+2025-12-11 14:32:43,623 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:32:43,628 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:32:43,632 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:32:43,638 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:32:43,644 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:32:43,654 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:32:43,654 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:32:43,654 - main - INFO - Initializing pipeline components...
+2025-12-11 14:32:43,993 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:32:43,993 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:32:43,993 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:32:43,993 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:32:43,993 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:32:43,993 - vector_store - INFO - Loaded metadata with 17 records
+2025-12-11 14:32:43,994 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:32:43,994 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:32:43,994 - main - INFO - Vector store initialized
+2025-12-11 14:32:43,994 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:32:43,994 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:32:44,337 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:32:44,705 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:32:44,808 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:32:45,831 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:32:45,848 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:32:45,848 - main - INFO - Medical LLM initialized
+2025-12-11 14:32:45,849 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:32:45,849 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:32:45,849 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:32:45,849 - main - INFO - Feedback collector initialized
+2025-12-11 14:32:45,849 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:32:45,849 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:32:45,849 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:32:57,426 - llm.medical_llm - WARNING - Generated text too short: ''
+2025-12-11 14:33:29,014 - api_server - INFO - Shutting down API server...
+2025-12-11 14:33:36,429 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:33:36,435 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:33:36,439 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:33:36,445 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:33:36,451 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:33:36,462 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:33:36,462 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:33:36,462 - main - INFO - Initializing pipeline components...
+2025-12-11 14:33:36,751 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:33:36,751 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:33:36,751 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:33:36,751 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:33:36,751 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:33:36,751 - vector_store - INFO - Loaded metadata with 17 records
+2025-12-11 14:33:36,751 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:33:36,751 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:33:36,751 - main - INFO - Vector store initialized
+2025-12-11 14:33:36,751 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:33:36,752 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:33:37,166 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:33:37,536 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:33:37,605 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:33:38,671 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:33:38,692 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:33:38,692 - main - INFO - Medical LLM initialized
+2025-12-11 14:33:38,693 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:33:38,693 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:33:38,693 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:33:38,693 - main - INFO - Feedback collector initialized
+2025-12-11 14:33:38,693 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:33:38,693 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:33:38,693 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:34:13,031 - api_server - INFO - Processing uploaded file: ID_0b0a1315d.dcm
+2025-12-11 14:34:13,031 - main - INFO - Processing medical image: data/uploads/ID_0b0a1315d.dcm
+2025-12-11 14:34:13,031 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:34:13,031 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0b0a1315d.dcm
+2025-12-11 14:34:13,054 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:34:13,055 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:34:13,055 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0b0a1315d.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:34:13,055 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:34:13,060 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:34:13,060 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:34:19,782 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0b0a1315d_mask.nii.gz
+2025-12-11 14:34:19,812 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:34:19,863 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0b0a1315d.dcm
+2025-12-11 14:34:19,863 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:34:19,864 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:34:19,865 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:34:19,865 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:34:19,865 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:34:25,120 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:34:25,408 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:37:46,494 - api_server - INFO - Processing uploaded file: ID_0b27bd5c2.dcm
+2025-12-11 14:37:46,494 - main - INFO - Processing medical image: data/uploads/ID_0b27bd5c2.dcm
+2025-12-11 14:37:46,494 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:37:46,494 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0b27bd5c2.dcm
+2025-12-11 14:37:46,500 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:37:46,500 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:37:46,500 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0b27bd5c2.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:37:46,500 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:37:46,504 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:37:46,505 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:37:50,130 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0b27bd5c2_mask.nii.gz
+2025-12-11 14:37:52,479 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:37:52,516 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0b27bd5c2.dcm
+2025-12-11 14:37:52,516 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:37:52,518 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:37:52,518 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:37:52,518 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:37:52,518 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:37:57,799 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:38:03,670 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:39:11,491 - api_server - INFO - Shutting down API server...
+2025-12-11 14:39:18,999 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:39:19,005 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:39:19,009 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:39:19,015 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:39:19,021 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:39:19,032 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:39:19,032 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:39:19,032 - main - INFO - Initializing pipeline components...
+2025-12-11 14:39:19,359 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:39:19,360 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:39:19,360 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:39:19,360 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:39:19,360 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:39:19,360 - vector_store - INFO - Loaded metadata with 19 records
+2025-12-11 14:39:19,360 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:39:19,361 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:39:19,361 - main - INFO - Vector store initialized
+2025-12-11 14:39:19,361 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:39:19,361 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:39:19,684 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:39:20,035 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:39:20,099 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:39:21,264 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:39:21,301 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:39:21,302 - main - INFO - Medical LLM initialized
+2025-12-11 14:39:21,302 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:39:21,302 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:39:21,302 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:39:21,302 - main - INFO - Feedback collector initialized
+2025-12-11 14:39:21,302 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:39:21,302 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:39:21,302 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:40:01,277 - api_server - INFO - Shutting down API server...
+2025-12-11 14:41:24,733 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:41:24,738 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:41:24,741 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:41:24,748 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:41:24,755 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:41:24,765 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:41:24,766 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:41:24,766 - main - INFO - Initializing pipeline components...
+2025-12-11 14:41:25,080 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:41:25,080 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:41:25,080 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:41:25,080 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:41:25,080 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:41:25,080 - vector_store - INFO - Loaded metadata with 19 records
+2025-12-11 14:41:25,080 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:41:25,081 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:41:25,081 - main - INFO - Vector store initialized
+2025-12-11 14:41:25,081 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:41:25,081 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:41:25,364 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:41:25,739 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:41:25,861 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:41:26,870 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:41:26,905 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:41:26,905 - main - INFO - Medical LLM initialized
+2025-12-11 14:41:26,906 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:41:26,906 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:41:26,906 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:41:26,907 - main - INFO - Feedback collector initialized
+2025-12-11 14:41:26,907 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:41:26,907 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:41:26,907 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:41:43,616 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-11 14:41:44,322 - llm.medical_llm - INFO - Streaming completed, generated 4 tokens
+2025-12-11 14:42:47,637 - api_server - INFO - Processing uploaded file: ID_0b7d6530c.dcm
+2025-12-11 14:42:47,638 - main - INFO - Processing medical image: data/uploads/ID_0b7d6530c.dcm
+2025-12-11 14:42:47,638 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:42:47,639 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0b7d6530c.dcm
+2025-12-11 14:42:47,650 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:42:47,650 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:42:47,650 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0b7d6530c.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:42:47,651 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:42:47,661 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:42:47,661 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:42:53,314 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0b7d6530c_mask.nii.gz
+2025-12-11 14:42:53,333 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:42:53,375 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0b7d6530c.dcm
+2025-12-11 14:42:53,375 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:42:53,376 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:42:53,376 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:42:53,376 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:42:53,377 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:43:02,316 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:43:02,556 - llm.medical_llm - WARNING - Generated text too short: ''
+2025-12-11 14:43:02,556 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:43:12,689 - api_server - INFO - Shutting down API server...
+2025-12-11 14:43:20,581 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-11 14:43:20,587 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-11 14:43:20,591 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-11 14:43:20,598 - main - INFO - Loaded config: llm_config.yaml
+2025-12-11 14:43:20,604 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-11 14:43:20,614 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-11 14:43:20,615 - main - INFO - MedTech Pipeline initialized
+2025-12-11 14:43:20,615 - main - INFO - Initializing pipeline components...
+2025-12-11 14:43:20,936 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-11 14:43:20,936 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:43:20,936 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-11 14:43:20,936 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-11 14:43:20,936 - main - INFO - Segmentation pipeline initialized
+2025-12-11 14:43:20,936 - vector_store - INFO - Loaded metadata with 20 records
+2025-12-11 14:43:20,936 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-11 14:43:20,937 - vector_store - INFO - FAISS index loaded from disk
+2025-12-11 14:43:20,937 - main - INFO - Vector store initialized
+2025-12-11 14:43:20,937 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=gpt2
+2025-12-11 14:43:20,937 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: gpt2-medium
+2025-12-11 14:43:21,247 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:43:21,602 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-11 14:43:21,679 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-11 14:43:22,984 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/gpt2-medium/resolve/main/generation_config.json "HTTP/1.1 200 OK"
+2025-12-11 14:43:23,003 - llm.medical_llm - INFO - Medical LLM initialized: gpt2 (mode: Local)
+2025-12-11 14:43:23,003 - main - INFO - Medical LLM initialized
+2025-12-11 14:43:23,003 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-11 14:43:23,004 - main - INFO - MCP-FHIR client initialized
+2025-12-11 14:43:23,004 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-11 14:43:23,004 - main - INFO - Feedback collector initialized
+2025-12-11 14:43:23,004 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-11 14:43:23,004 - main - INFO - Pipeline deployer initialized
+2025-12-11 14:43:23,004 - api_server - INFO - Pipeline initialized successfully
+2025-12-11 14:43:45,825 - llm.medical_llm - INFO - Prompt length: 37 characters
+2025-12-11 14:43:45,837 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-11 14:43:49,460 - llm.medical_llm - INFO - Streaming completed, generated 176 tokens: ' This form of respiratory disease, caused by bacteria called Streptococcus pyogenes (also known as strep throat), can be extremely difficult to treat. It has been estimated that one in five Americans '
+2025-12-11 14:44:23,878 - api_server - INFO - Processing uploaded file: ID_0b2da875a.dcm
+2025-12-11 14:44:23,879 - main - INFO - Processing medical image: data/uploads/ID_0b2da875a.dcm
+2025-12-11 14:44:23,879 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:44:23,879 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0b2da875a.dcm
+2025-12-11 14:44:23,893 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:44:23,893 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:44:23,893 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0b2da875a.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:44:23,894 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:44:23,899 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:44:23,899 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:44:30,791 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0b2da875a_mask.nii.gz
+2025-12-11 14:44:30,809 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:44:30,844 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0b2da875a.dcm
+2025-12-11 14:44:30,845 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:44:30,847 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:44:30,847 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:44:30,847 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:44:30,847 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:44:34,717 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:44:38,968 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:44:53,931 - llm.medical_llm - INFO - Prompt length: 36 characters
+2025-12-11 14:44:53,937 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-11 14:44:58,920 - llm.medical_llm - INFO - Streaming completed, generated 257 tokens: ' This was a simple, but important step in the discovery process. While scanning and finding candidates it helps to have some experience with using Windows Explorer or other applications before attempt'
+2025-12-11 14:45:05,775 - llm.medical_llm - INFO - Prompt length: 41 characters
+2025-12-11 14:45:05,778 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-11 14:45:09,533 - llm.medical_llm - INFO - Streaming completed, generated 185 tokens: ' In this case, I was surprised to discover that no information about how many animals were killed and whose organs they came from appeared in the report. While it's clear there are issues of transpare'
+2025-12-11 14:46:24,406 - api_server - INFO - Processing uploaded file: ID_0ba83217f.dcm
+2025-12-11 14:46:24,407 - main - INFO - Processing medical image: data/uploads/ID_0ba83217f.dcm
+2025-12-11 14:46:24,408 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:46:24,408 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0ba83217f.dcm
+2025-12-11 14:46:24,437 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:46:24,437 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:46:24,439 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0ba83217f.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:46:24,439 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:46:24,455 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:46:24,456 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:46:31,561 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0ba83217f_mask.nii.gz
+2025-12-11 14:46:34,486 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:46:34,545 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0ba83217f.dcm
+2025-12-11 14:46:34,546 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:46:34,548 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:46:34,548 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:46:34,549 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:46:34,549 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:46:39,155 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:46:39,307 - llm.medical_llm - WARNING - Generated text too short: ''
+2025-12-11 14:46:39,309 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:48:53,409 - api_server - INFO - Processing uploaded file: ID_0a4674064.dcm
+2025-12-11 14:48:53,410 - main - INFO - Processing medical image: data/uploads/ID_0a4674064.dcm
+2025-12-11 14:48:53,411 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:48:53,411 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0a4674064.dcm
+2025-12-11 14:48:53,433 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:48:53,433 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:48:53,433 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0a4674064.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:48:53,434 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:48:53,446 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:48:53,447 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:49:00,519 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0a4674064_mask.nii.gz
+2025-12-11 14:49:04,411 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:49:04,565 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0a4674064.dcm
+2025-12-11 14:49:04,567 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:49:04,570 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:49:04,571 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:49:04,571 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:49:04,572 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:49:10,242 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:49:10,402 - llm.medical_llm - WARNING - Generated text too short: ''
+2025-12-11 14:49:10,403 - main - INFO - Pipeline processing completed successfully
+2025-12-11 14:54:33,206 - api_server - INFO - Processing uploaded file: ID_0ab3c2234.dcm
+2025-12-11 14:54:33,207 - main - INFO - Processing medical image: data/uploads/ID_0ab3c2234.dcm
+2025-12-11 14:54:33,207 - main - INFO - Step 1: Performing segmentation...
+2025-12-11 14:54:33,207 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0ab3c2234.dcm
+2025-12-11 14:54:33,227 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:54:33,228 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:54:33,228 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0ab3c2234.dcm: Use fallback preprocessing for DICOM
+2025-12-11 14:54:33,229 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-11 14:54:33,247 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-11 14:54:33,248 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-11 14:54:37,813 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0ab3c2234_mask.nii.gz
+2025-12-11 14:54:41,545 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-11 14:54:41,639 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0ab3c2234.dcm
+2025-12-11 14:54:41,640 - main - INFO - Step 2: Indexing embeddings...
+2025-12-11 14:54:41,644 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-11 14:54:41,645 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-11 14:54:41,645 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-11 14:54:41,645 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-11 14:54:47,017 - main - INFO - Step 5: Generating medical report...
+2025-12-11 14:54:47,379 - main - INFO - Pipeline processing completed successfully
+2025-12-11 15:00:54,675 - api_server - INFO - Shutting down API server...

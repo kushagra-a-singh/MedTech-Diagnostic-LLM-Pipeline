@@ -158,13 +158,15 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
         });
       }
 
-      set({
-        currentStudy: mockStudy,
-        currentSeries: mockSeries,
-        currentInstance: instanceList[0],
-        seriesList: [mockSeries],
-        instanceList: instanceList,
-        isLoading: false
+      set({ currentStudy: mockStudy, seriesList: [mockSeries], instanceList, currentSeries: mockSeries, currentInstance: instanceList[0] || null, isLoading: false });
+
+      // Update chat store with the new scan context
+      const { useChatStore } = await import('./chatStore');
+      useChatStore.getState().setContext({
+        image_path: file.name,
+        segmentation: data.segmentation_result,
+        similar_cases: data.similar_cases || [],
+        report: data.report
       });
 
       return mockStudy;

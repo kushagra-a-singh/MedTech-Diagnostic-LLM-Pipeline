@@ -642,8 +642,11 @@ async def chat(request: ChatRequest):
                 # Create a wrapper generator to log completion if needed
                 async def stream_generator():
                     try:
+                        # Wrap the synchronous generator
                         for chunk in generator:
                             yield chunk
+                            # Allow other tasks to run
+                            await asyncio.sleep(0)
                     except Exception as e:
                         logger.error(f"Streaming error: {e}")
                         yield f"[ERROR: {str(e)}]"
