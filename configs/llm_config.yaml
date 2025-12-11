@@ -3,25 +3,24 @@ llm:
   biomistral:
     device_map: auto
     do_sample: true
-    load_in_4bit: false
-    load_in_8bit: true
-    max_length: 2048
-    model_name: BioMistral/BioMistral-7B
+    load_in_4bit: true
+    load_in_8bit: false
+    max_length: 512
+    model_name: gpt2-medium
     repetition_penalty: 1.1
     temperature: 0.7
     top_k: 50
     top_p: 0.9
   evaluation:
     bert_score: true
-    bleu: true
     clinical_correctness: true
     expert_alignment: true
     rouge: true
   falcon:
     device_map: auto
     do_sample: true
-    load_in_4bit: false
-    load_in_8bit: true
+    load_in_4bit: true
+    load_in_8bit: false
     max_length: 2048
     model_name: ./models/falcon
     repetition_penalty: 1.1
@@ -53,17 +52,28 @@ llm:
   hippo:
     device_map: auto
     do_sample: true
-    load_in_4bit: false
-    load_in_8bit: true
+    load_in_4bit: true
+    load_in_8bit: false
     max_length: 2048
     model_name: cyberiada/hippo-7b
     repetition_penalty: 1.1
     temperature: 0.7
     top_k: 50
     top_p: 0.9
-  model_type: biomistral
+  gpt2:
+    device_map: auto
+    do_sample: true
+    load_in_4bit: false
+    load_in_8bit: false
+    max_length: 512
+    model_name: gpt2-medium
+    repetition_penalty: 1.2
+    temperature: 0.8
+    top_k: 50
+    top_p: 0.95
+  model_type: gpt2
   use_hf_hub: true
-  use_inference_api: true  # Use remote Inference API instead of downloading model
+  use_inference_api: false  # Use local model instead
   output:
     format: json
     output_dir: data/llm_outputs

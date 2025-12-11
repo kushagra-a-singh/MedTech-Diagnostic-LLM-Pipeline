@@ -1,0 +1,31 @@
+{
+  "image_path": "data/uploads/ID_0a4674064.dcm",
+  "mask_path": "data/uploads/ID_0a4674064_mask.nii.gz",
+  "embedding_path": "data/uploads/ID_0a4674064_embeddings.npy",
+  "mask_shape": [
+    1,
+    1024,
+    1024
+  ],
+  "embedding_shape": [
+    1,
+    192
+  ],
+  "classes": {
+    "0": "background",
+    "1": "liver",
+    "2": "kidney",
+    "3": "spleen",
+    "4": "pancreas",
+    "5": "aorta",
+    "6": "inferior_vena_cava",
+    "7": "portal_vein",
+    "8": "hepatic_vein",
+    "9": "gallbladder",
+    "10": "esophagus",
+    "11": "stomach",
+    "12": "duodenum",
+    "13": "colon"
+  },
+  "processing_timestamp": "2025-12-11T09:19:04"
+}

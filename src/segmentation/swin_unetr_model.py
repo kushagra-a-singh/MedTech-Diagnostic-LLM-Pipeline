@@ -60,10 +60,10 @@ class SwinUNETRModel:
         model_config = self.config["model"]
 
         model = SwinUNETR(
+            img_size=model_config.get("input_size", (96, 96, 96)),
             spatial_dims=3,
             in_channels=model_config["in_channels"],
             out_channels=model_config["out_channels"],
-            patch_size=model_config.get("patch_size", 2),
             depths=model_config.get("depths", [2, 2, 2, 2]),
             num_heads=model_config.get("num_heads", [3, 6, 12, 24]),
             feature_size=model_config["feature_size"],
@@ -421,7 +421,20 @@ class SwinUNETRModel:
         self.model.eval()
 
         with torch.no_grad():
-            embeddings = self.model.encoder(image_tensor)
+            features_list = self.model.swinViT(image_tensor, normalize=True)
+            # Use the last feature map (deepest representation)
+            embedding_map = features_list[-1]
+            
+            # Global Average Pooling to get (B, C)
+            if len(embedding_map.shape) == 5:
+                # (B, C, D, H, W) -> (B, C)
+                embeddings = torch.mean(embedding_map, dim=(2, 3, 4))
+            elif len(embedding_map.shape) == 4:
+                # (B, C, H, W) -> (B, C)
+                embeddings = torch.mean(embedding_map, dim=(2, 3))
+            else:
+                # Fallback, just flatten
+                embeddings = torch.flatten(embedding_map, start_dim=1)
 
         return embeddings
 

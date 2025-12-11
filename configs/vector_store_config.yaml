@@ -16,13 +16,13 @@ vector_store:
     model: sentence-transformers/all-MiniLM-L6-v2
   index:
     bits: 8
-    dimension: 768
+    dimension: 192
     ef_construction: 200
     ef_search: 50
     m: 16
     nlist: 100
     nprobe: 10
-    type: IVFFlat
+    type: Flat
   indexing:
     batch_size: 1000
     index_path: data/faiss_index
@@ -42,7 +42,7 @@ vector_store:
     gpu_id: 0
     memory_limit: 4GB
     num_threads: 8
-    use_gpu: true
+    use_gpu: false
   retrieval:
     k: 5
     max_distance: 1.0

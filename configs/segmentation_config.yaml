@@ -14,7 +14,7 @@ segmentation:
     - 0.1
     - 0.1
   hardware:
-    device: cpu
+    device: cuda
     num_workers: 4
     pin_memory: false
   inference:

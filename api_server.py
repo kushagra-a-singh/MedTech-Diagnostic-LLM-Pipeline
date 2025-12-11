@@ -7,6 +7,11 @@ import json
 import logging
 import os
 import sys
+import shutil
+
+import subprocess
+import tarfile
+import zipfile
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -16,7 +21,8 @@ import uvicorn
 from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 # Load environment variables from .env file
@@ -80,6 +86,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Ensure uploads directory exists
+os.makedirs("data/uploads", exist_ok=True)
+
+# Mount static files
+app.mount("/uploads", StaticFiles(directory="data/uploads"), name="uploads")
 
 
 # Pydantic models
@@ -192,13 +204,59 @@ async def process_upload(file: UploadFile = File(...)):
             content = await file.read()
             f.write(content)
 
+        # Check if archive
+        extracted_files = []
+        if file.filename .endswith(('.zip', '.tar', '.tar.gz', '.tgz', '.tz')):
+            extract_dir = uploads_dir / file_path.stem
+            extract_dir.mkdir(exist_ok=True)
+            
+            logger.info(f"Extracting archive to: {extract_dir}")
+            
+            try:
+
+                if file.filename.endswith('.zip'):
+                    with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                        zip_ref.extractall(extract_dir)
+                else:
+                    # Use system tar for robust handling of .tar, .tar.gz, .tgz, .tz
+                    # Python's tarfile module doesn't natively support LZW (.Z/.tz)
+                    cmd = ["tar", "-xf", str(file_path), "-C", str(extract_dir)]
+                    logger.info(f"Running extraction command: {' '.join(cmd)}")
+                    subprocess.run(cmd, check=True, capture_output=True)
+                
+                # Walk directory to find files
+                for root, dirs, files in os.walk(extract_dir):
+                    for f in files:
+                        if not f.startswith('.'): # Skip hidden files
+                            full_path = Path(root) / f
+                            # Get relative path for URL
+                            rel_path = full_path.relative_to(uploads_dir)
+                            extracted_files.append(str(rel_path))
+                            
+                # Sort files to ensure order
+                extracted_files.sort()
+                
+            except Exception as e:
+                logger.error(f"Extraction failed: {e}")
+                # Fallback to just processing the archive file itself (likely to fail but handled downstream)
+        
         logger.info(f"Processing uploaded file: {file.filename}")
-        result = pipeline.process_medical_image(str(file_path), str(uploads_dir))
+        
+        # If extraction happened, use the first file as the "primary" image for processing context
+        # But return ALL extracted files in components
+        process_path = str(file_path)
+        if extracted_files:
+            process_path = str(uploads_dir / extracted_files[0])
+            
+        result = pipeline.process_medical_image(process_path, str(uploads_dir))
 
         return ProcessResponse(
             status=result.get("status", "unknown"),
-            image_path=str(file_path),
-            components=result.get("components", {}),
+            image_path=str(file_path), # Keep original upload path as primary ID
+            components={
+                **result.get("components", {}),
+                "extracted_images": extracted_files # Add list of all images
+            },
             error=result.get("error"),
         )
 
@@ -483,6 +541,7 @@ class ChatRequest(BaseModel):
     session_id: Optional[str] = None
     scan_context: Optional[Dict[str, Any]] = None
     conversation_history: Optional[List[Dict[str, Any]]] = None
+    stream: Optional[bool] = False
 
 
 class ChatResponse(BaseModel):
@@ -566,7 +625,39 @@ async def chat(request: ChatRequest):
         }
 
         # Use answer_question method for chat
-        response_text = pipeline.llm.answer_question(request.message, llm_context)
+        # Check if streaming is requested
+        if request.stream:
+            try:
+                # Get generator from LLM
+                generator = pipeline.llm.answer_question(request.message, llm_context, stream=True)
+                
+                # Check if we got a string back (error or no streaming support)
+                if isinstance(generator, str):
+                    return ChatResponse(
+                        response=generator,
+                        session_id=session_id,
+                        timestamp=str(np.datetime64("now")),
+                    )
+                
+                # Create a wrapper generator to log completion if needed
+                async def stream_generator():
+                    try:
+                        # Wrap the synchronous generator
+                        for chunk in generator:
+                            yield chunk
+                            # Allow other tasks to run
+                            await asyncio.sleep(0)
+                    except Exception as e:
+                        logger.error(f"Streaming error: {e}")
+                        yield f"[ERROR: {str(e)}]"
+                        
+                return StreamingResponse(stream_generator(), media_type="text/plain")
+            except Exception as e:
+                logger.error(f"Failed to start stream: {e}")
+                # Fallback to non-streaming on error
+                
+        # Normal non-streaming flow
+        response_text = pipeline.llm.answer_question(request.message, llm_context, stream=False)
 
         # If response is empty or error, try generate_report
         if not response_text or "Error" in response_text:
