@@ -46,7 +46,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   sendChatMessage: async (content: string, attachments?: ChatAttachment[]) => {
     const { addMessage, setIsGenerating, updateMessage } = get();
-    
+
     // Add user message
     addMessage({
       role: 'user',
@@ -67,25 +67,72 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set((state) => ({ messages: [...state.messages, assistantMessage] }));
 
     try {
-      // Simulate streaming response
-      const mockResponse = "Based on the imaging findings, I can observe the following:\n\n1. **Lung Fields**: The lung parenchyma appears clear with no evidence of consolidation, masses, or nodules.\n\n2. **Cardiac Silhouette**: The heart size is within normal limits with a cardiothoracic ratio of approximately 0.45.\n\n3. **Mediastinum**: No mediastinal widening or lymphadenopathy noted.\n\n4. **Pleural Spaces**: No pleural effusion or pneumothorax identified.\n\n**Impression**: Normal chest CT examination. Would you like me to elaborate on any specific finding?";
-      
-      let currentText = '';
-      const words = mockResponse.split(' ');
-      
-      for (const word of words) {
-        await new Promise(resolve => setTimeout(resolve, 30));
-        currentText += (currentText ? ' ' : '') + word;
-        updateMessage(assistantMessage.id, currentText);
+      const { sessionId, messages, currentContext } = get();
+
+      // Prepare request payload
+      const history = messages.slice(0, -1).map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
+      const payload = {
+        message: content,
+        session_id: sessionId || `session-${Date.now()}`,
+        scan_context: currentContext,
+        conversation_history: history,
+        stream: true
+      };
+
+      const response = await fetch('http://localhost:8000/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
       }
-      
+
+      // Handle streaming response
+      if (response.body) {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let currentText = '';
+        let isFirstChunk = true;
+
+        while (true) {
+          const { done, value } = await reader.read();
+
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          currentText += chunk;
+
+          // Initial update or append
+          if (isFirstChunk) {
+            updateMessage(assistantMessage.id, currentText.trimStart());
+            isFirstChunk = false;
+          } else {
+            updateMessage(assistantMessage.id, currentText);
+          }
+        }
+      } else {
+        // Fallback for non-streaming response
+        const data = await response.json();
+        updateMessage(assistantMessage.id, data.response);
+      }
+
       set((state) => ({
         messages: state.messages.map(msg =>
           msg.id === assistantMessage.id ? { ...msg, isStreaming: false } : msg
         ),
       }));
+
     } catch (error) {
-      updateMessage(assistantMessage.id, 'I apologize, but I encountered an error processing your request. Please try again.');
+      console.error("Chat error:", error);
+      updateMessage(assistantMessage.id, 'I apologize, but I encountered an error connecting to the medical AI. Please ensure the backend server is running.');
     } finally {
       setIsGenerating(false);
     }

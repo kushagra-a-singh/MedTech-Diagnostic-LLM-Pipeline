@@ -22,6 +22,7 @@ import logging
 import os
 import threading
 from pathlib import Path
+import traceback
 from typing import Any, Dict, List, Optional, Tuple
 
 try:
@@ -166,6 +167,9 @@ class FAISSIndex:
         n, d = embeddings.shape
         if d != self.dimension:
             logger.error(f"Embedding dimension mismatch: expected {self.dimension}, got {d}")
+            # Also check against actual index dimension if it exists
+            if self.index:
+                logger.error(f"Actual FAISS index dimension: {self.index.d}")
             return False
 
         with self._lock:
@@ -208,6 +212,7 @@ class FAISSIndex:
 
             except Exception as e:
                 logger.error(f"Failed to add embeddings: {e}")
+                logger.error(traceback.format_exc())
                 return False
 
     def search_with_metadata(self, query_embeddings: np.ndarray, k: int = 5) -> List[Dict[str, Any]]:
@@ -256,6 +261,7 @@ class FAISSIndex:
 
             except Exception as e:
                 logger.error(f"Search failed: {e}")
+                logger.error(traceback.format_exc())
                 return []
 
     def get_index_stats(self) -> Dict[str, Any]:

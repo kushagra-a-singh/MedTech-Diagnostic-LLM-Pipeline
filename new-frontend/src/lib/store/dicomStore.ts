@@ -51,15 +51,15 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
   setCurrentInstance: (instance) => set({ currentInstance: instance }),
   setSeriesList: (seriesList) => set({ seriesList }),
   setInstanceList: (instanceList) => set({ instanceList }),
-  
+
   setSegmentation: (overlays) => set({ segmentation: overlays }),
-  
+
   toggleSegmentationVisibility: (id) => set((state) => ({
     segmentation: state.segmentation.map(overlay =>
       overlay.id === id ? { ...overlay, visible: !overlay.visible } : overlay
     ),
   })),
-  
+
   updateSegmentationOpacity: (id, opacity) => set((state) => ({
     segmentation: state.segmentation.map(overlay =>
       overlay.id === id ? { ...overlay, opacity } : overlay
@@ -69,17 +69,17 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
   updateViewportConfig: (config) => set((state) => ({
     viewportConfig: { ...state.viewportConfig, ...config },
   })),
-  
+
   resetViewport: () => set({ viewportConfig: defaultViewportConfig }),
 
   addMeasurement: (measurement) => set((state) => ({
     measurements: [...state.measurements, measurement],
   })),
-  
+
   removeMeasurement: (id) => set((state) => ({
     measurements: state.measurements.filter(m => m.id !== id),
   })),
-  
+
   clearMeasurements: () => set({ measurements: [] }),
 
   setLoading: (isLoading) => set({ isLoading }),
@@ -87,22 +87,86 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
   uploadDicom: async (file: File) => {
     set({ isLoading: true });
     try {
-      // Simulated upload
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('http://localhost:8000/process-upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const data = await response.json();
+
+      const extractedImages = data.components?.extracted_images || [];
+      const isMultiFile = extractedImages.length > 0;
+
       const mockStudy: DicomStudy = {
         studyId: 'study-' + Date.now(),
         patientId: 'P-' + Math.random().toString(36).substr(2, 9),
         patientName: 'Demo Patient',
         studyDate: new Date().toISOString().split('T')[0],
-        studyDescription: 'CT Chest w/ Contrast',
+        studyDescription: isMultiFile ? 'Uploaded Archive' : 'Uploaded Study',
         modality: 'CT',
-        seriesCount: 3,
-        instanceCount: 150,
+        seriesCount: 1,
+        instanceCount: isMultiFile ? extractedImages.length : 1,
         status: 'completed',
       };
-      
-      set({ currentStudy: mockStudy, isLoading: false });
+
+      const mockSeries: DicomSeries = {
+        seriesId: 's1',
+        seriesNumber: 1,
+        seriesDescription: isMultiFile ? 'Extracted Series' : 'Uploaded Series',
+        modality: 'CT',
+        instanceCount: isMultiFile ? extractedImages.length : 1,
+        bodyPart: 'Unknown'
+      };
+
+      const instanceList: DicomInstance[] = [];
+
+      if (isMultiFile) {
+        // Handle multiple extracted files
+        extractedImages.forEach((img: string, index: number) => {
+          instanceList.push({
+            instanceId: `i${index + 1}`,
+            instanceNumber: index + 1,
+            sopClassUid: '1.2.840.10008.5.1.4.1.1.2',
+            imageUrl: `http://localhost:8000/uploads/${img}`,
+            rows: 512,
+            columns: 512,
+            windowCenter: 40,
+            windowWidth: 400,
+          });
+        });
+      } else {
+        // Handle single file
+        const fileName = file.name;
+        const imageUrl = `http://localhost:8000/uploads/${fileName}`;
+
+        instanceList.push({
+          instanceId: 'i1',
+          instanceNumber: 1,
+          sopClassUid: '1.2.840.10008.5.1.4.1.1.2',
+          imageUrl: imageUrl,
+          rows: 512,
+          columns: 512,
+          windowCenter: 40,
+          windowWidth: 400,
+        });
+      }
+
+      set({
+        currentStudy: mockStudy,
+        currentSeries: mockSeries,
+        currentInstance: instanceList[0],
+        seriesList: [mockSeries],
+        instanceList: instanceList,
+        isLoading: false
+      });
+
       return mockStudy;
     } catch (error) {
       set({ isLoading: false });
@@ -114,13 +178,13 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
     set({ isLoading: true });
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
-      
+
       const mockSeries: DicomSeries[] = [
         { seriesId: 's1', seriesNumber: 1, seriesDescription: 'Axial', modality: 'CT', instanceCount: 50, bodyPart: 'Chest' },
         { seriesId: 's2', seriesNumber: 2, seriesDescription: 'Coronal', modality: 'CT', instanceCount: 50, bodyPart: 'Chest' },
         { seriesId: 's3', seriesNumber: 3, seriesDescription: 'Sagittal', modality: 'CT', instanceCount: 50, bodyPart: 'Chest' },
       ];
-      
+
       set({ seriesList: mockSeries, currentSeries: mockSeries[0], isLoading: false });
     } catch (error) {
       set({ isLoading: false });
@@ -132,7 +196,7 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
     set({ isLoading: true });
     try {
       await new Promise(resolve => setTimeout(resolve, 200));
-      
+
       const mockInstance: DicomInstance = {
         instanceId,
         instanceNumber: 1,
@@ -143,7 +207,7 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
         windowCenter: 40,
         windowWidth: 400,
       };
-      
+
       set({ currentInstance: mockInstance, isLoading: false });
     } catch (error) {
       set({ isLoading: false });
@@ -155,13 +219,13 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
     set({ isLoading: true });
     try {
       await new Promise(resolve => setTimeout(resolve, 3000));
-      
+
       const mockOverlays: SegmentationOverlay[] = [
         { id: 'seg1', name: 'Lungs', color: '#4FC3D1', opacity: 0.5, visible: true, maskUrl: '', findings: ['Normal lung parenchyma'] },
         { id: 'seg2', name: 'Heart', color: '#FF6B6B', opacity: 0.5, visible: true, maskUrl: '', findings: ['Normal cardiac silhouette'] },
         { id: 'seg3', name: 'Nodules', color: '#FFE66D', opacity: 0.7, visible: true, maskUrl: '', findings: ['No suspicious nodules detected'] },
       ];
-      
+
       set({ segmentation: mockOverlays, isLoading: false });
     } catch (error) {
       set({ isLoading: false });

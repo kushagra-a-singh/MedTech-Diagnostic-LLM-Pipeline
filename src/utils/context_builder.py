@@ -81,7 +81,7 @@ class MedicalContextBuilder:
                 for class_id, dice in metrics["dice_scores"].items():
                     findings.append(f"  - Class {class_id}: {dice:.3f}")
 
-            if "mean_dice" in metrics:
+            if "mean_dice" in metrics and metrics['mean_dice'] is not None:
                 findings.append(f"\nMean Dice Score: {metrics['mean_dice']:.3f}")
 
             if "class_distribution" in metrics:

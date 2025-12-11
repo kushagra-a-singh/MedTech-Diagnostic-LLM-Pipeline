@@ -31,6 +31,7 @@ import {
   Download,
   Share2,
 } from 'lucide-react';
+import DicomViewport from '@/components/DicomViewport';
 
 export default function ViewerPage() {
   const {
@@ -47,6 +48,7 @@ export default function ViewerPage() {
     loadStudy,
     processSegmentation,
     isLoading,
+    currentInstance,
   } = useDicomStore();
 
   const [selectedTool, setSelectedTool] = useState<string>('pan');
@@ -196,21 +198,32 @@ export default function ViewerPage() {
         {/* Viewport Area */}
         <Card className="flex-1 overflow-hidden">
           <div className="w-full h-full bg-black rounded-lg flex items-center justify-center relative">
-            {/* Placeholder for DICOM viewer */}
-            <div className="text-center text-white/60">
-              <Layers className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg font-medium">DICOM Viewport</p>
-              <p className="text-sm">Upload a study to view images</p>
-            </div>
+            {currentInstance?.imageUrl ? (
+              <DicomViewport
+                imageId={`wadouri:${currentInstance.imageUrl}`}
+                scale={viewportConfig.zoom}
+                windowWidth={viewportConfig.windowWidth}
+                windowCenter={viewportConfig.windowCenter}
+              />
+            ) : (
+              /* Placeholder for DICOM viewer */
+              <div className="text-center text-white/60">
+                <Layers className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium">DICOM Viewport</p>
+                <p className="text-sm">Upload a study to view images</p>
+              </div>
+            )}
 
-            {/* Overlay Info */}
-            <div className="absolute top-4 left-4 text-white/80 text-xs space-y-1">
+            {/* Overlay Info */
+              /* Keep existing overlay info but maybe make it conditional or ensure z-index */
+            }
+            <div className="absolute top-4 left-4 text-white/80 text-xs space-y-1 pointer-events-none">
               <p>Patient: {currentStudy?.patientName || 'N/A'}</p>
               <p>Study: {currentStudy?.studyDescription || 'N/A'}</p>
               <p>Slice: {currentSlice}/{totalSlices}</p>
             </div>
 
-            <div className="absolute top-4 right-4 text-white/80 text-xs space-y-1 text-right">
+            <div className="absolute top-4 right-4 text-white/80 text-xs space-y-1 text-right pointer-events-none">
               <p>WC: {viewportConfig.windowCenter}</p>
               <p>WW: {viewportConfig.windowWidth}</p>
               <p>Zoom: {Math.round(viewportConfig.zoom * 100)}%</p>
