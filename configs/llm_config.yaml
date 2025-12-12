@@ -1,142 +1,56 @@
 llm:
   auth_env_var: HUGGINGFACE_HUB_TOKEN
-  biomistral:
-    device_map: auto
+  
+  # Qwen 2.5 1.5B Instruct - Best in class small model for chat/instructions
+  qwen:
+    device_map: "cuda:0"  # Force GPU 0
     do_sample: true
-    load_in_4bit: true
-    load_in_8bit: false
-    max_length: 512
-    model_name: gpt2-medium
-    repetition_penalty: 1.1
-    temperature: 0.7
-    top_k: 50
-    top_p: 0.9
-  evaluation:
-    bert_score: true
-    clinical_correctness: true
-    expert_alignment: true
-    rouge: true
-  falcon:
-    device_map: auto
-    do_sample: true
-    load_in_4bit: true
+    load_in_4bit: true    # ENABLE 4-bit quantization for max speed
     load_in_8bit: false
     max_length: 2048
-    model_name: ./models/falcon
+    model_name: Qwen/Qwen2.5-1.5B-Instruct
     repetition_penalty: 1.1
     temperature: 0.7
     top_k: 50
     top_p: 0.9
-  fine_tuning:
-    dpo:
-      beta: 0.1
-      gradient_accumulation_steps: 4
-      learning_rate: 5e-7
-      max_length: 1024
-      max_prompt_length: 512
-      warmup_steps: 100
-    enabled: false
-    method: dpo
-    qlora:
-      gradient_accumulation_steps: 4
-      learning_rate: 2e-4
-      lora_alpha: 32
-      lora_dropout: 0.1
-      lora_r: 16
-      warmup_steps: 100
-    sft:
-      gradient_accumulation_steps: 4
-      learning_rate: 2e-5
-      max_grad_norm: 1.0
-      warmup_steps: 100
-  hippo:
-    device_map: auto
-    do_sample: true
-    load_in_4bit: true
-    load_in_8bit: false
-    max_length: 2048
-    model_name: cyberiada/hippo-7b
-    repetition_penalty: 1.1
-    temperature: 0.7
-    top_k: 50
-    top_p: 0.9
-  gpt2:
-    device_map: auto
-    do_sample: true
-    load_in_4bit: false
-    load_in_8bit: false
-    max_length: 512
-    model_name: gpt2-medium
-    repetition_penalty: 1.2
-    temperature: 0.8
-    top_k: 50
-    top_p: 0.95
-  model_type: gpt2
+
+  # Active model choice
+  model_type: qwen
   use_hf_hub: true
-  use_inference_api: false  # Use local model instead
+  use_inference_api: false
+  
   output:
     format: json
     output_dir: data/llm_outputs
     save_reports: true
   prompts:
-    qa_template: 'Based on the medical imaging data provided, answer the following
-      question:
+    qa_template: 'You are a helpful medical AI assistant. 
 
+Context Information:
+Imaging Findings: {imaging_data}
+Clinical Context: {clinical_context}
 
-      Question: {question}
+Question: {question}
 
+Please provide a clear, accurate medical answer based on the context provided above.'
+    report_generation: 'You are an expert radiologist. Generate a structured radiological report based on the following findings.
 
-      Imaging Data: {imaging_data}
+INFORMATION:
+Modality: {modality}
+Body Region: {body_region}
+Clinical History: {clinical_history}
 
-      Clinical Context: {clinical_context}
+FINDINGS:
+{segmentation_findings}
 
+SIMILAR CASES:
+{similar_cases}
 
-      Answer:
+INSTRUCTIONS:
+Write a professional Report including:
+1. TECHNIQUE
+2. FINDINGS (Detail the anatomical observations)
+3. IMPRESSION (Summary diagnostic conclusion)
+4. RECOMMENDATIONS
 
-      '
-    report_generation: 'Given the following medical imaging findings and clinical
-      context, generate a comprehensive radiological report:
-
-
-      Imaging Modality: {modality}
-
-      Body Region: {body_region}
-
-      Clinical History: {clinical_history}
-
-
-      Segmentation Findings:
-
-      {segmentation_findings}
-
-
-      Similar Cases Context:
-
-      {similar_cases}
-
-
-      Please provide:
-
-      1. Technique
-
-      2. Findings
-
-      3. Impression
-
-      4. Recommendations
-
-
-      Report:
-
-      '
-    summarization_template: 'Summarize the key findings from the following medical
-      imaging report:
-
-
-      Report: {report}
-
-
-      Summary:
-
-      '
-  trust_remote_code: true
+REPORT:'

@@ -10,6 +10,7 @@ interface ReportActions {
   setReportTemplates: (templates: ReportTemplate[]) => void;
   setGenerating: (isGenerating: boolean) => void;
   setSaving: (isSaving: boolean) => void;
+  setStudyContext: (context: any) => void;
   generateReport: (studyId: string, templateId?: string) => Promise<void>;
   saveReport: () => Promise<void>;
   loadReport: (reportId: string) => Promise<void>;
@@ -60,8 +61,11 @@ export const useReportStore = create<ReportStore>((set, get) => ({
   reportTemplates: defaultTemplates,
   isGenerating: false,
   isSaving: false,
+  currentStudyContext: null,
 
   setCurrentReport: (report) => set({ currentReport: report }),
+
+  setStudyContext: (context) => set({ currentStudyContext: context }),
 
   updateReportSection: (sectionId, content) => set((state) => {
     if (!state.currentReport) return state;
@@ -125,60 +129,97 @@ export const useReportStore = create<ReportStore>((set, get) => ({
   generateReport: async (studyId: string, templateId?: string) => {
     set({ isGenerating: true });
     try {
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      
+      const { currentStudyContext } = get();
+
+      // Call backend to generate report using the uploaded DICOM context
+      const response = await fetch('http://localhost:8000/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: 'Generate a comprehensive medical report based on the uploaded imaging study',
+          session_id: `report-${studyId}`,
+          scan_context: currentStudyContext,
+          stream: false,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate report');
+      }
+
+      const data = await response.json();
+      const reportText = data.response || 'No report generated';
+
       const template = templateId
         ? get().reportTemplates.find(t => t.id === templateId)
         : get().reportTemplates[0];
 
-      const generatedSections: ReportSection[] = [
-        {
+      // Parse the report text into sections (basic splitting by common headers)
+      const generatedSections: ReportSection[] = [];
+
+      // Try to split by common section headers
+      const sectionPatterns = [
+        { title: 'Clinical History', pattern: /Clinical History:?\s*/i },
+        { title: 'Technique', pattern: /Technique:?\s*/i },
+        { title: 'Comparison', pattern: /Comparison:?\s*/i },
+        { title: 'Findings', pattern: /Findings:?\s*/i },
+        { title: 'Impression', pattern: /Impression:?\s*/i },
+      ];
+
+      let remainingText = reportText;
+      let order = 1;
+
+      for (const { title, pattern } of sectionPatterns) {
+        const match = remainingText.match(pattern);
+        if (match) {
+          const startIndex = match.index! + match[0].length;
+          const nextPattern = sectionPatterns
+            .filter(p => p.title !== title)
+            .map(p => p.pattern)
+            .find(p => {
+              const nextMatch = remainingText.substring(startIndex).match(p);
+              return nextMatch;
+            });
+
+          let content;
+          if (nextPattern) {
+            const nextMatch = remainingText.substring(startIndex).match(nextPattern);
+            content = remainingText.substring(startIndex, startIndex + nextMatch!.index!).trim();
+          } else {
+            content = remainingText.substring(startIndex).trim();
+          }
+
+          generatedSections.push({
+            id: `section-${order}`,
+            title,
+            content,
+            order,
+            isAIGenerated: true,
+            isEdited: false,
+          });
+          order++;
+        }
+      }
+
+      // If no sections were parsed, create one section with all content
+      if (generatedSections.length === 0) {
+        generatedSections.push({
           id: 'section-1',
-          title: 'Clinical History',
-          content: 'Patient presents with shortness of breath and chronic cough. Rule out pulmonary pathology.',
+          title: 'Report',
+          content: reportText,
           order: 1,
           isAIGenerated: true,
           isEdited: false,
-        },
-        {
-          id: 'section-2',
-          title: 'Technique',
-          content: 'CT of the chest was performed with intravenous contrast administration. Axial images were obtained from the thoracic inlet to the upper abdomen with multiplanar reconstructions.',
-          order: 2,
-          isAIGenerated: true,
-          isEdited: false,
-        },
-        {
-          id: 'section-3',
-          title: 'Comparison',
-          content: 'No prior studies available for comparison.',
-          order: 3,
-          isAIGenerated: true,
-          isEdited: false,
-        },
-        {
-          id: 'section-4',
-          title: 'Findings',
-          content: '**Lungs and Airways:**\n- Lung parenchyma demonstrates normal attenuation without evidence of consolidation, ground-glass opacity, or masses.\n- No pulmonary nodules identified.\n- Airways are patent without evidence of bronchiectasis.\n\n**Pleura:**\n- No pleural effusion or pneumothorax.\n- No pleural thickening or masses.\n\n**Mediastinum:**\n- Heart size is normal. No pericardial effusion.\n- Great vessels are unremarkable.\n- No mediastinal or hilar lymphadenopathy.\n\n**Chest Wall:**\n- Osseous structures are intact without suspicious lesions.\n- Soft tissues are unremarkable.',
-          order: 4,
-          isAIGenerated: true,
-          isEdited: false,
-        },
-        {
-          id: 'section-5',
-          title: 'Impression',
-          content: '1. Normal CT chest examination.\n2. No acute cardiopulmonary process identified.\n3. No evidence of pulmonary nodules or masses.',
-          order: 5,
-          isAIGenerated: true,
-          isEdited: false,
-        },
-      ];
+        });
+      }
 
       const newReport: Report = {
         id: 'report-' + Date.now(),
         studyId,
         templateId,
-        title: 'CT Chest Report',
+        title: `${currentStudyContext?.modality || 'Medical'} Report`,
         sections: generatedSections,
         status: 'draft',
         createdAt: new Date().toISOString(),
@@ -188,6 +229,7 @@ export const useReportStore = create<ReportStore>((set, get) => ({
 
       set({ currentReport: newReport, isGenerating: false });
     } catch (error) {
+      console.error('Report generation error:', error);
       set({ isGenerating: false });
       throw error;
     }

@@ -125,6 +125,17 @@ export interface ChatState {
   currentContext: {
     studyId?: string;
     reportId?: string;
+    image_path?: string;
+    patient_id?: string;
+    patient_name?: string;
+    study_date?: string;
+    modality?: string;
+    segmentation?: any;
+    similar_cases?: any[];
+    report?: any;
+    metadata_path?: string;
+    mask_path?: string;
+    embedding_path?: string;
   };
 }
 
@@ -164,6 +175,7 @@ export interface ReportState {
   reportTemplates: ReportTemplate[];
   isGenerating: boolean;
   isSaving: boolean;
+  currentStudyContext: any;
 }
 
 // History Types

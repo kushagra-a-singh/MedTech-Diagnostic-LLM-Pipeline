@@ -6,11 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { toast } from '@/hooks/use-toast';
-import { 
-  Upload, 
-  FileImage, 
-  CheckCircle2, 
-  AlertCircle, 
+import {
+  Upload,
+  FileImage,
+  CheckCircle2,
+  AlertCircle,
   X,
   Loader2,
   FileUp,
@@ -70,46 +70,70 @@ export default function UploadPage() {
 
     for (let i = 0; i < files.length; i++) {
       const uploadFile = files[i];
-      
-      setFiles(prev => prev.map(f => 
+
+      setFiles(prev => prev.map(f =>
         f.id === uploadFile.id ? { ...f, status: 'uploading' } : f
       ));
 
       try {
-        // Simulate progress
-        for (let progress = 0; progress <= 100; progress += 10) {
+        // Simulate progress for upload phase
+        for (let progress = 0; progress <= 50; progress += 10) {
           await new Promise(resolve => setTimeout(resolve, 100));
-          setFiles(prev => prev.map(f => 
+          setFiles(prev => prev.map(f =>
             f.id === uploadFile.id ? { ...f, progress } : f
           ));
         }
 
+        // Processing phase (Backend analysis)
+        setFiles(prev => prev.map(f =>
+          f.id === uploadFile.id ? { ...f, status: 'uploading' } : f
+        ));
+
+        // Show scanning toast
+        toast({
+          title: 'Analyzing with BioGPT...',
+          description: 'Running segmentation and medical analysis.',
+        });
+
         const study = await uploadDicom(uploadFile.file);
-        
-        setFiles(prev => prev.map(f => 
+
+        setFiles(prev => prev.map(f =>
           f.id === uploadFile.id ? { ...f, status: 'completed', progress: 100 } : f
         ));
 
         toast({
-          title: 'Upload successful',
-          description: `Study ${study.studyId} has been processed`,
+          title: 'Analysis Complete',
+          description: `Study processed. AI Report generated.`,
+          action: (
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" onClick={() => navigate('/dashboard/view')}>
+                View Images
+              </Button>
+              <Button size="sm" onClick={() => navigate('/dashboard/chat')}>
+                Chat with BioGPT
+              </Button>
+            </div>
+          ),
+          duration: 5000,
         });
+
       } catch (error) {
-        setFiles(prev => prev.map(f => 
+        setFiles(prev => prev.map(f =>
           f.id === uploadFile.id ? { ...f, status: 'error', error: 'Upload failed' } : f
         ));
       }
     }
 
     setIsProcessing(false);
-    
-    // Navigate to viewer if all successful
-    const allSuccessful = files.every(f => f.status === 'completed');
-    if (allSuccessful) {
-      setTimeout(() => {
-        navigate('/dashboard/view');
-      }, 1500);
-    }
+
+    // Auto-navigate logic removed to let user choose via Toast or manual action
+    // But we can default to Viewer if no action taken
+    // const allSuccessful = files.every(f => f.status === 'completed');
+    // if (allSuccessful) {
+    //   setTimeout(() => {
+    //     navigate('/dashboard/view');
+    //   }, 2000);
+    // }
   };
 
   const getStatusIcon = (status: UploadFile['status']) => {
@@ -141,8 +165,8 @@ export default function UploadPage() {
             {...getRootProps()}
             className={cn(
               "flex flex-col items-center justify-center p-12 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-200",
-              isDragActive 
-                ? "border-primary bg-primary/5" 
+              isDragActive
+                ? "border-primary bg-primary/5"
                 : "border-border hover:border-primary/50 hover:bg-accent/50"
             )}
           >
@@ -257,7 +281,7 @@ export default function UploadPage() {
           <div>
             <h4 className="font-medium text-foreground mb-1">Supported File Types</h4>
             <p className="text-sm text-muted-foreground">
-              DICOM (.dcm, .dicom), NIfTI (.nii, .nii.gz), and standard images (.png, .jpg). 
+              DICOM (.dcm, .dicom), NIfTI (.nii, .nii.gz), and standard images (.png, .jpg).
               All data is processed securely and compliant with HIPAA regulations.
             </p>
           </div>

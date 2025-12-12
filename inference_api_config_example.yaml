@@ -1,0 +1,21 @@
+# Configuration for using HuggingFace Inference API (cloud-based, no local compute)
+
+llm:
+  model_type: biomistral  # Or any model on HuggingFace
+  use_hf_hub: true
+  use_inference_api: true   # <-- Set this to true!
+  auth_env_var: HUGGINGFACE_HUB_TOKEN  # Get token from huggingface.co/settings/tokens
+  
+  biomistral:
+    model_name: BioMistral/BioMistral-7B
+    max_length: 512
+    temperature: 0.7
+    top_k: 50
+    top_p: 0.9
+
+# Steps to use:
+# 1. Get free HuggingFace token: https://huggingface.co/settings/tokens
+# 2. Add to your .env or .env.local file:
+#    HUGGINGFACE_HUB_TOKEN=your_token_here
+# 3. Set use_inference_api: true in config
+# 4. Restart server - it will use cloud inference!

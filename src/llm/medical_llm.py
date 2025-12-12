@@ -180,13 +180,23 @@ class MedicalLLM:
         """Initialize the LLM model."""
         try:
             # ✅ Accepts both full 'llm' config or a single model section
-            if (
+            # ✅ Check if this is a full config with model_type defined
+            if "model_type" in self.config:
+                # Full LLM config passed
+                model_type = self.config.get("model_type", "biomistral")
+                model_config = self.config.get(model_type, {})
+            elif (
                 "biomistral" in self.config
                 or "hippo" in self.config
                 or "falcon" in self.config
+                or "biogpt" in self.config
+                or "medgemma" in self.config
             ):
-                # Full LLM config passed
-                model_type = self.config.get("model_type", "biomistral")
+                # Full LLM config passed but usage inferred from keys
+                if "biogpt" in self.config: model_type = "biogpt"
+                elif "medgemma" in self.config: model_type = "medgemma"
+                else: model_type = "biomistral" # Default
+                
                 model_config = self.config.get(model_type, {})
             else:
                 # Only a model subsection passed (fallback)
@@ -814,12 +824,29 @@ Note: This is a test report and should not be used for clinical decision-making.
             Answer to the question (str or generator)
         """
         try:
-            # Build a SHORT, concise prompt - GPT-2 has limited context
-            prompt_parts = []
-            prompt_parts.append(f"Question: {question}\n")
-            prompt_parts.append("Answer:")
+            # Prepare context strings
+            imaging_data = context.get("imaging_data", context.get("segmentation_findings", "No specific imaging findings provided."))
+            clinical_context = context.get("clinical_context", "No clinical context provided.")
             
-            prompt = "\n".join(prompt_parts)
+            # Helper to convert dicts to string if needed
+            if isinstance(clinical_context, dict):
+                import json
+                clinical_context = json.dumps(clinical_context, indent=2)
+
+            # Get template from config or default
+            prompt_template = self.config.get("prompts", {}).get("qa_template", 
+                "Context: {imaging_data}\n{clinical_context}\n\nQuestion: {question}\nAnswer:")
+            
+            try:
+                prompt = prompt_template.format(
+                    question=question,
+                    imaging_data=imaging_data,
+                    clinical_context=clinical_context
+                )
+            except KeyError:
+                # Fallback if template keys don't match
+                logger.warning("Prompt template format mismatch, using default.")
+                prompt = f"Context:\n{imaging_data}\n{clinical_context}\n\nQuestion: {question}\nAnswer:"
             
             logger.info(f"Prompt length: {len(prompt)} characters")
 

@@ -104,6 +104,11 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
       const extractedImages = data.components?.extracted_images || [];
       const isMultiFile = extractedImages.length > 0;
 
+      // Extract segmentation results metadata
+      const segmentationResult = data.components?.segmentation;
+      const similarCases = data.components?.similar_cases || [];
+      const medicalReport = data.components?.medical_report;
+
       const mockStudy: DicomStudy = {
         studyId: 'study-' + Date.now(),
         patientId: 'P-' + Math.random().toString(36).substr(2, 9),
@@ -158,15 +163,43 @@ export const useDicomStore = create<DicomStore>((set, get) => ({
         });
       }
 
-      set({ currentStudy: mockStudy, seriesList: [mockSeries], instanceList, currentSeries: mockSeries, currentInstance: instanceList[0] || null, isLoading: false });
+      set({
+        currentStudy: mockStudy,
+        seriesList: [mockSeries],
+        instanceList,
+        currentSeries: mockSeries,
+        currentInstance: instanceList[0] || null,
+        isLoading: false
+      });
 
-      // Update chat store with the new scan context
+      // Update chat store with the new scan context including metadata
       const { useChatStore } = await import('./chatStore');
       useChatStore.getState().setContext({
+        studyId: mockStudy.studyId,
         image_path: file.name,
-        segmentation: data.segmentation_result,
-        similar_cases: data.similar_cases || [],
-        report: data.report
+        patient_id: mockStudy.patientId,
+        patient_name: mockStudy.patientName,
+        study_date: mockStudy.studyDate,
+        modality: mockStudy.modality,
+        segmentation: segmentationResult,
+        similar_cases: similarCases,
+        report: medicalReport,
+        metadata_path: segmentationResult?.metadata_path,
+        mask_path: segmentationResult?.mask_path,
+        embedding_path: segmentationResult?.embedding_path,
+      });
+
+      // Update report store as well
+      const { useReportStore } = await import('./reportStore');
+      useReportStore.getState().setStudyContext({
+        studyId: mockStudy.studyId,
+        patientName: mockStudy.patientName,
+        patientId: mockStudy.patientId,
+        studyDate: mockStudy.studyDate,
+        modality: mockStudy.modality,
+        studyDescription: mockStudy.studyDescription,
+        segmentationResult,
+        similarCases,
       });
 
       return mockStudy;

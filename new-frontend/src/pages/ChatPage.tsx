@@ -112,7 +112,7 @@ export default function ChatPage() {
                 How can I assist you today?
               </h3>
               <p className="text-muted-foreground mb-6 max-w-md">
-                Ask questions about medical imaging, request diagnostic analysis, 
+                Ask questions about medical imaging, request diagnostic analysis,
                 or get help generating reports.
               </p>
               <div className="grid grid-cols-2 gap-2 max-w-lg">
@@ -261,6 +261,15 @@ export default function ChatPage() {
                 <p className="text-xs text-muted-foreground">{currentStudy.patientName}</p>
                 <p className="text-xs text-muted-foreground">{currentStudy.studyDescription}</p>
                 <p className="text-xs text-muted-foreground">{currentStudy.modality}</p>
+                <p className="text-xs text-muted-foreground mt-2">Study Date: {currentStudy.studyDate}</p>
+                {useChatStore.getState().currentContext?.segmentation && (
+                  <p className="text-xs text-success mt-2">✓ Segmentation Complete</p>
+                )}
+                {useChatStore.getState().currentContext?.similar_cases?.length > 0 && (
+                  <p className="text-xs text-primary mt-1">
+                    {useChatStore.getState().currentContext.similar_cases.length} similar cases found
+                  </p>
+                )}
               </div>
 
               <Button variant="outline" size="sm" className="w-full justify-start">

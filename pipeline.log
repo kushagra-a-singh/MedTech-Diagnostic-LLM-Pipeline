@@ -3123,3 +3123,768 @@ Model type should be one of BartConfig, BertConfig, BertGenerationConfig, BigBir
 2025-12-11 14:54:47,017 - main - INFO - Step 5: Generating medical report...
 2025-12-11 14:54:47,379 - main - INFO - Pipeline processing completed successfully
 2025-12-11 15:00:54,675 - api_server - INFO - Shutting down API server...
+2025-12-12 00:30:27,854 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 00:30:27,864 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 00:30:27,871 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 00:30:27,885 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 00:30:27,897 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 00:30:27,917 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 00:30:27,917 - main - INFO - MedTech Pipeline initialized
+2025-12-12 00:30:27,918 - main - INFO - Initializing pipeline components...
+2025-12-12 00:30:29,144 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 00:30:29,144 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 00:30:29,145 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 00:30:29,145 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 00:30:29,145 - main - INFO - Segmentation pipeline initialized
+2025-12-12 00:30:29,146 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 00:30:29,146 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 00:30:29,151 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 00:30:29,152 - main - INFO - Vector store initialized
+2025-12-12 00:30:29,152 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biomistral
+2025-12-12 00:30:29,153 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: BioMistral/BioMistral-7B
+2025-12-12 00:30:29,650 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/BioMistral/BioMistral-7B/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+2025-12-12 00:30:29,673 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BioMistral/BioMistral-7B/9a11e1ffa817c211cbb52ee1fb312dc6b61b40a5/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-12 00:30:29,805 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 4-bit quantization
+2025-12-12 00:30:30,065 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/BioMistral/BioMistral-7B/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+2025-12-12 00:30:30,088 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/BioMistral/BioMistral-7B/9a11e1ffa817c211cbb52ee1fb312dc6b61b40a5/config.json "HTTP/1.1 200 OK"
+2025-12-12 00:30:30,218 - llm.medical_llm - ERROR - Failed to initialize model: Can't load the model for 'BioMistral/BioMistral-7B'. If you were trying to load it from 'https://huggingface.co/models', make sure you don't have a local directory with the same name. Otherwise, make sure 'BioMistral/BioMistral-7B' is the correct path to a directory containing a file named pytorch_model.bin, tf_model.h5, model.ckpt or flax_model.msgpack.
+2025-12-12 00:30:30,218 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 00:30:30,225 - llm.medical_llm - INFO - Medical LLM initialized: biomistral (mode: Local)
+2025-12-12 00:30:30,226 - main - INFO - Medical LLM initialized
+2025-12-12 00:30:30,226 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 00:30:30,226 - main - INFO - MCP-FHIR client initialized
+2025-12-12 00:30:30,226 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 00:30:30,226 - main - INFO - Feedback collector initialized
+2025-12-12 00:30:30,226 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 00:30:30,226 - main - INFO - Pipeline deployer initialized
+2025-12-12 00:30:30,227 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 00:30:53,338 - api_server - INFO - Shutting down API server...
+2025-12-12 00:44:21,796 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 00:44:21,806 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 00:44:21,813 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 00:44:21,828 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 00:44:21,840 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 00:44:21,862 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 00:44:21,863 - main - INFO - MedTech Pipeline initialized
+2025-12-12 00:44:21,863 - main - INFO - Initializing pipeline components...
+2025-12-12 00:44:22,654 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 00:44:22,654 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 00:44:22,655 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 00:44:22,655 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 00:44:22,655 - main - INFO - Segmentation pipeline initialized
+2025-12-12 00:44:22,656 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 00:44:22,656 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 00:44:22,657 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 00:44:22,657 - main - INFO - Vector store initialized
+2025-12-12 00:44:22,657 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 00:44:22,657 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/medgemma-2b
+2025-12-12 00:44:23,025 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-2b/resolve/main/tokenizer_config.json "HTTP/1.1 404 Not Found"
+2025-12-12 00:44:23,026 - llm.medical_llm - ERROR - Failed to initialize model: google/medgemma-2b is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-12-12 00:44:23,027 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 00:44:23,027 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 00:44:23,027 - main - INFO - Medical LLM initialized
+2025-12-12 00:44:23,027 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 00:44:23,028 - main - INFO - MCP-FHIR client initialized
+2025-12-12 00:44:23,028 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 00:44:23,028 - main - INFO - Feedback collector initialized
+2025-12-12 00:44:23,028 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 00:44:23,028 - main - INFO - Pipeline deployer initialized
+2025-12-12 00:44:23,028 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 00:59:02,823 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 00:59:02,834 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 00:59:02,841 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 00:59:02,856 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 00:59:02,867 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 00:59:02,885 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 00:59:02,885 - main - INFO - MedTech Pipeline initialized
+2025-12-12 00:59:02,885 - main - INFO - Initializing pipeline components...
+2025-12-12 00:59:03,930 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 00:59:03,930 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 00:59:03,930 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 00:59:03,930 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 00:59:03,930 - main - INFO - Segmentation pipeline initialized
+2025-12-12 00:59:03,931 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 00:59:03,931 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 00:59:03,936 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 00:59:03,936 - main - INFO - Vector store initialized
+2025-12-12 00:59:03,936 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 00:59:03,936 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/medgemma-2b
+2025-12-12 00:59:04,394 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-2b/resolve/main/tokenizer_config.json "HTTP/1.1 404 Not Found"
+2025-12-12 00:59:04,394 - llm.medical_llm - ERROR - Failed to initialize model: google/medgemma-2b is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-12-12 00:59:04,395 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 00:59:04,395 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 00:59:04,395 - main - INFO - Medical LLM initialized
+2025-12-12 00:59:04,395 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 00:59:04,395 - main - INFO - MCP-FHIR client initialized
+2025-12-12 00:59:04,395 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 00:59:04,395 - main - INFO - Feedback collector initialized
+2025-12-12 00:59:04,396 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 00:59:04,396 - main - INFO - Pipeline deployer initialized
+2025-12-12 00:59:04,396 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 00:59:22,728 - llm.medical_llm - INFO - Prompt length: 61 characters
+2025-12-12 01:00:00,658 - api_server - INFO - Shutting down API server...
+2025-12-12 01:03:38,341 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:03:38,346 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:03:38,350 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:03:38,357 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:03:38,363 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:03:38,372 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:03:38,372 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:03:38,372 - main - INFO - Initializing pipeline components...
+2025-12-12 01:03:38,688 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:03:38,689 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:03:38,689 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:03:38,689 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:03:38,689 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:03:38,689 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:03:38,689 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:03:38,689 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:03:38,689 - main - INFO - Vector store initialized
+2025-12-12 01:03:38,689 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 01:03:38,689 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/medgemma-4b-it
+2025-12-12 01:03:38,983 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/tokenizer_config.json "HTTP/1.1 403 Forbidden"
+2025-12-12 01:03:39,209 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/config.json "HTTP/1.1 403 Forbidden"
+2025-12-12 01:03:39,211 - llm.medical_llm - ERROR - Failed to initialize model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/google/medgemma-4b-it.
+403 Client Error. (Request ID: Root=1-693b1c92-18cc01b93c5ce7466a7d5136;c570a92f-49bd-4e4e-8d9f-751526adc575)
+
+Cannot access gated repo for url https://huggingface.co/google/medgemma-4b-it/resolve/main/config.json.
+Access to model google/medgemma-4b-it is restricted and you are not in the authorized list. Visit https://huggingface.co/google/medgemma-4b-it to ask for access.
+2025-12-12 01:03:39,211 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 01:03:39,211 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 01:03:39,211 - main - INFO - Medical LLM initialized
+2025-12-12 01:03:39,211 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:03:39,212 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:03:39,212 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:03:39,212 - main - INFO - Feedback collector initialized
+2025-12-12 01:03:39,212 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:03:39,212 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:03:39,212 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:08:26,973 - api_server - INFO - Shutting down API server...
+2025-12-12 01:08:41,095 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:08:41,101 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:08:41,105 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:08:41,112 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:08:41,118 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:08:41,128 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:08:41,128 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:08:41,128 - main - INFO - Initializing pipeline components...
+2025-12-12 01:08:41,371 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:08:41,371 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:08:41,371 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:08:41,371 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:08:41,372 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:08:41,372 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:08:41,372 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:08:41,372 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:08:41,372 - main - INFO - Vector store initialized
+2025-12-12 01:08:41,372 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 01:08:41,372 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/medgemma-4b-it
+2025-12-12 01:08:41,659 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/tokenizer_config.json "HTTP/1.1 403 Forbidden"
+2025-12-12 01:08:41,885 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/config.json "HTTP/1.1 403 Forbidden"
+2025-12-12 01:08:41,886 - llm.medical_llm - ERROR - Failed to initialize model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/google/medgemma-4b-it.
+403 Client Error. (Request ID: Root=1-693b1dc1-1ae98eb62240957813085992;e65ee2f0-fd09-482d-948b-dddff8a189f4)
+
+Cannot access gated repo for url https://huggingface.co/google/medgemma-4b-it/resolve/main/config.json.
+Access to model google/medgemma-4b-it is restricted and you are not in the authorized list. Visit https://huggingface.co/google/medgemma-4b-it to ask for access.
+2025-12-12 01:08:41,886 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 01:08:41,886 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 01:08:41,886 - main - INFO - Medical LLM initialized
+2025-12-12 01:08:41,886 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:08:41,886 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:08:41,886 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:08:41,886 - main - INFO - Feedback collector initialized
+2025-12-12 01:08:41,886 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:08:41,886 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:08:41,886 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:11:07,115 - api_server - INFO - Shutting down API server...
+2025-12-12 01:11:26,961 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:11:26,966 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:11:26,970 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:11:26,977 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:11:26,983 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:11:26,993 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:11:26,993 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:11:26,993 - main - INFO - Initializing pipeline components...
+2025-12-12 01:11:27,342 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:11:27,343 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:11:27,343 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:11:27,343 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:11:27,343 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:11:27,343 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:11:27,343 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:11:27,343 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:11:27,343 - main - INFO - Vector store initialized
+2025-12-12 01:11:27,343 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 01:11:27,344 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/medgemma-4b-it
+2025-12-12 01:11:27,643 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:27,882 - httpx - INFO - HTTP Request: GET https://huggingface.co/google/medgemma-4b-it/resolve/main/tokenizer_config.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:28,933 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/tokenizer.model "HTTP/1.1 302 Found"
+2025-12-12 01:11:29,183 - httpx - INFO - HTTP Request: GET https://huggingface.co/api/models/google/medgemma-4b-it/xet-read-token/290cda5eeccbee130f987c4ad74a59ae6f196408 "HTTP/1.1 200 OK"
+2025-12-12 01:11:30,770 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/tokenizer.json "HTTP/1.1 302 Found"
+2025-12-12 01:11:32,219 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/added_tokens.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:32,440 - httpx - INFO - HTTP Request: GET https://huggingface.co/google/medgemma-4b-it/resolve/main/added_tokens.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:32,780 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/special_tokens_map.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:33,002 - httpx - INFO - HTTP Request: GET https://huggingface.co/google/medgemma-4b-it/resolve/main/special_tokens_map.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:34,333 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 4-bit quantization
+2025-12-12 01:11:34,557 - httpx - INFO - HTTP Request: HEAD https://huggingface.co/google/medgemma-4b-it/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:34,797 - httpx - INFO - HTTP Request: GET https://huggingface.co/google/medgemma-4b-it/resolve/main/config.json "HTTP/1.1 200 OK"
+2025-12-12 01:11:34,800 - llm.medical_llm - ERROR - Failed to initialize model: The checkpoint you are trying to load has model type `gemma3` but Transformers does not recognize this architecture. This could be because of an issue with the checkpoint, or because your version of Transformers is out of date.
+2025-12-12 01:11:34,800 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 01:11:34,956 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 01:11:34,957 - main - INFO - Medical LLM initialized
+2025-12-12 01:11:34,957 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:11:34,957 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:11:34,957 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:11:34,957 - main - INFO - Feedback collector initialized
+2025-12-12 01:11:34,957 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:11:34,957 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:11:34,957 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:12:55,502 - api_server - INFO - Shutting down API server...
+2025-12-12 01:14:56,686 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:14:56,691 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:14:56,695 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:14:56,702 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:14:56,707 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:14:56,717 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:14:56,717 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:14:56,717 - main - INFO - Initializing pipeline components...
+2025-12-12 01:14:57,144 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:14:57,145 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:14:57,145 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:14:57,145 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:14:57,145 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:14:57,145 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:14:57,145 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:14:57,145 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:14:57,145 - main - INFO - Vector store initialized
+2025-12-12 01:14:57,145 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 01:14:57,145 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/medgemma-4b-it
+2025-12-12 01:14:59,885 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 4-bit quantization
+2025-12-12 01:21:48,655 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:21:48,661 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:21:48,667 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:21:48,674 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:21:48,680 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:21:48,690 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:21:48,690 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:21:48,690 - main - INFO - Initializing pipeline components...
+2025-12-12 01:21:48,899 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:21:48,899 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:21:48,899 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:21:48,899 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:21:48,899 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:21:48,899 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:21:48,899 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:21:48,900 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:21:48,900 - main - INFO - Vector store initialized
+2025-12-12 01:21:48,900 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=medgemma
+2025-12-12 01:21:48,900 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: google/gemma-2b-it
+2025-12-12 01:21:50,253 - llm.medical_llm - ERROR - Failed to initialize model: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/google/gemma-2b-it.
+403 Client Error. (Request ID: Root=1-693b20d5-706e7605280bd7aa6c31e5fc;b4e2a223-7621-4737-b45a-b58a3871672b)
+
+Cannot access gated repo for url https://huggingface.co/google/gemma-2b-it/resolve/main/config.json.
+Access to model google/gemma-2b-it is restricted and you are not in the authorized list. Visit https://huggingface.co/google/gemma-2b-it to ask for access.
+2025-12-12 01:21:50,253 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 01:21:50,253 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 01:21:50,253 - main - INFO - Medical LLM initialized
+2025-12-12 01:21:50,253 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:21:50,253 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:21:50,253 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:21:50,253 - main - INFO - Feedback collector initialized
+2025-12-12 01:21:50,253 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:21:50,253 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:21:50,253 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:22:16,980 - api_server - INFO - Shutting down API server...
+2025-12-12 01:22:38,881 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:22:38,886 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:22:38,890 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:22:38,892 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:22:38,899 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:22:38,909 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:22:38,909 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:22:38,909 - main - INFO - Initializing pipeline components...
+2025-12-12 01:22:39,138 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:22:39,138 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:22:39,139 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:22:39,139 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:22:39,139 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:22:39,139 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:22:39,139 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:22:39,139 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:22:39,139 - main - INFO - Vector store initialized
+2025-12-12 01:22:39,139 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:22:39,139 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: BioMistral/BioMistral-7B
+2025-12-12 01:22:42,197 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:22:50,307 - llm.medical_llm - ERROR - Failed to initialize model: The current `device_map` had weights offloaded to the disk. Please provide an `offload_folder` for them. Alternatively, make sure you have `safetensors` installed if the model you are using offers the weights in this format.
+2025-12-12 01:22:50,308 - llm.medical_llm - WARNING - Using dummy model for testing
+2025-12-12 01:22:50,314 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:22:50,314 - main - INFO - Medical LLM initialized
+2025-12-12 01:22:50,315 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:22:50,315 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:22:50,315 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:22:50,315 - main - INFO - Feedback collector initialized
+2025-12-12 01:22:50,315 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:22:50,315 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:22:50,315 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:23:54,528 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:23:55,042 - api_server - INFO - Shutting down API server...
+2025-12-12 01:24:03,844 - llm.medical_llm - INFO - Medical LLM initialized: medgemma (mode: Local)
+2025-12-12 01:24:03,844 - main - INFO - Medical LLM initialized
+2025-12-12 01:24:03,844 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:24:03,844 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:24:03,845 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:24:03,845 - main - INFO - Feedback collector initialized
+2025-12-12 01:24:03,845 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:24:03,845 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:24:03,845 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:24:09,839 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:24:09,844 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:24:09,848 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:24:09,850 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:24:09,856 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:24:09,866 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:24:09,866 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:24:09,866 - main - INFO - Initializing pipeline components...
+2025-12-12 01:24:10,255 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:24:10,255 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:24:10,255 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:24:10,255 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:24:10,255 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:24:10,255 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:24:10,255 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:24:10,256 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:24:10,256 - main - INFO - Vector store initialized
+2025-12-12 01:24:10,256 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:24:10,256 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:25:27,402 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:25:29,137 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:25:29,138 - main - INFO - Medical LLM initialized
+2025-12-12 01:25:29,138 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:25:29,138 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:25:29,138 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:25:29,138 - main - INFO - Feedback collector initialized
+2025-12-12 01:25:29,138 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:25:29,138 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:25:29,138 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:25:29,815 - llm.medical_llm - INFO - Prompt length: 61 characters
+2025-12-12 01:25:35,937 - llm.medical_llm - INFO - Prompt length: 61 characters
+2025-12-12 01:30:00,145 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:30:00,150 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:30:00,153 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:30:00,156 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:30:00,161 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:30:00,171 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:30:00,171 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:30:00,171 - main - INFO - Initializing pipeline components...
+2025-12-12 01:30:00,348 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:30:00,348 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:30:00,348 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:30:00,348 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:30:00,348 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:30:00,349 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:30:00,349 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:30:00,349 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:30:00,349 - main - INFO - Vector store initialized
+2025-12-12 01:30:00,349 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:30:00,349 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:30:02,824 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:30:04,467 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:30:04,467 - main - INFO - Medical LLM initialized
+2025-12-12 01:30:04,468 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:30:04,468 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:30:04,468 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:30:04,468 - main - INFO - Feedback collector initialized
+2025-12-12 01:30:04,468 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:30:04,468 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:30:04,468 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:30:04,469 - api_server - INFO - Shutting down API server...
+2025-12-12 01:31:38,873 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:31:38,877 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:31:38,881 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:31:38,883 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:31:38,889 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:31:38,899 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:31:38,899 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:31:38,899 - main - INFO - Initializing pipeline components...
+2025-12-12 01:31:39,233 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:31:39,233 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:31:39,233 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:31:39,233 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:31:39,233 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:31:39,233 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:31:39,233 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:31:39,234 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:31:39,234 - main - INFO - Vector store initialized
+2025-12-12 01:31:39,234 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:31:39,234 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:31:41,797 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:31:43,349 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:31:43,350 - main - INFO - Medical LLM initialized
+2025-12-12 01:31:43,350 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:31:43,350 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:31:43,350 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:31:43,350 - main - INFO - Feedback collector initialized
+2025-12-12 01:31:43,350 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:31:43,350 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:31:43,350 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:32:53,715 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:32:53,720 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:32:53,723 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:32:53,725 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:32:53,731 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:32:53,741 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:32:53,741 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:32:53,741 - main - INFO - Initializing pipeline components...
+2025-12-12 01:32:53,947 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:32:53,947 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:32:53,947 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:32:53,947 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:32:53,948 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:32:53,948 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:32:53,948 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:32:53,948 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:32:53,948 - main - INFO - Vector store initialized
+2025-12-12 01:32:53,948 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:32:53,948 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:32:56,446 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:32:57,996 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:32:57,996 - main - INFO - Medical LLM initialized
+2025-12-12 01:32:57,997 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:32:57,997 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:32:57,997 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:32:57,997 - main - INFO - Feedback collector initialized
+2025-12-12 01:32:57,997 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:32:57,997 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:32:57,997 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:32:57,999 - api_server - INFO - Shutting down API server...
+2025-12-12 01:33:31,416 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:33:31,421 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:33:31,424 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:33:31,426 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:33:31,432 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:33:31,441 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:33:31,442 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:33:31,442 - main - INFO - Initializing pipeline components...
+2025-12-12 01:33:31,622 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:33:31,622 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:33:31,622 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:33:31,623 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:33:31,623 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:33:31,623 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:33:31,623 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:33:31,623 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:33:31,623 - main - INFO - Vector store initialized
+2025-12-12 01:33:31,623 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:33:31,623 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:33:34,116 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:33:35,695 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:33:35,695 - main - INFO - Medical LLM initialized
+2025-12-12 01:33:35,696 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:33:35,696 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:33:35,696 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:33:35,696 - main - INFO - Feedback collector initialized
+2025-12-12 01:33:35,696 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:33:35,696 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:33:35,696 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:33:35,697 - api_server - INFO - Shutting down API server...
+2025-12-12 01:34:39,779 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:34:39,783 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:34:39,787 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:34:39,789 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:34:39,795 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:34:39,804 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:34:39,804 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:34:39,804 - main - INFO - Initializing pipeline components...
+2025-12-12 01:34:40,133 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:34:40,133 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:34:40,133 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:34:40,133 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:34:40,133 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:34:40,133 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:34:40,133 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:34:40,133 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:34:40,133 - main - INFO - Vector store initialized
+2025-12-12 01:34:40,134 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:34:40,134 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:34:43,090 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:34:44,496 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:34:44,496 - main - INFO - Medical LLM initialized
+2025-12-12 01:34:44,497 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:34:44,497 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:34:44,497 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:34:44,497 - main - INFO - Feedback collector initialized
+2025-12-12 01:34:44,497 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:34:44,497 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:34:44,497 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:34:52,412 - llm.medical_llm - INFO - Prompt length: 61 characters
+2025-12-12 01:35:22,212 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:35:22,216 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:35:22,220 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:35:22,222 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:35:22,228 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:35:22,239 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:35:22,239 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:35:22,239 - main - INFO - Initializing pipeline components...
+2025-12-12 01:35:22,430 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:35:22,430 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:35:22,430 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:35:22,430 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:35:22,431 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:35:22,431 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:35:22,431 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:35:22,431 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:35:22,431 - main - INFO - Vector store initialized
+2025-12-12 01:35:22,431 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:35:22,431 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:35:24,993 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:35:26,546 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:35:26,546 - main - INFO - Medical LLM initialized
+2025-12-12 01:35:26,546 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:35:26,546 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:35:26,547 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:35:26,547 - main - INFO - Feedback collector initialized
+2025-12-12 01:35:26,547 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:35:26,547 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:35:26,547 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:35:26,548 - api_server - INFO - Shutting down API server...
+2025-12-12 01:36:23,558 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:36:23,563 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:36:23,566 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:36:23,569 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:36:23,574 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:36:23,584 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:36:23,584 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:36:23,584 - main - INFO - Initializing pipeline components...
+2025-12-12 01:36:23,894 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:36:23,894 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:36:23,894 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:36:23,894 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:36:23,894 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:36:23,894 - vector_store - INFO - Loaded metadata with 24 records
+2025-12-12 01:36:23,895 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:36:23,895 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:36:23,895 - main - INFO - Vector store initialized
+2025-12-12 01:36:23,895 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=biogpt
+2025-12-12 01:36:23,895 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: microsoft/biogpt
+2025-12-12 01:36:26,353 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:36:27,510 - llm.medical_llm - INFO - Medical LLM initialized: biogpt (mode: Local)
+2025-12-12 01:36:27,511 - main - INFO - Medical LLM initialized
+2025-12-12 01:36:27,511 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:36:27,511 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:36:27,511 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:36:27,511 - main - INFO - Feedback collector initialized
+2025-12-12 01:36:27,511 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:36:27,511 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:36:27,512 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 01:36:33,728 - llm.medical_llm - INFO - Prompt length: 61 characters
+2025-12-12 01:37:16,228 - api_server - INFO - Processing uploaded file: ID_0beb4899d.dcm
+2025-12-12 01:37:16,228 - main - INFO - Processing medical image: data/uploads/ID_0beb4899d.dcm
+2025-12-12 01:37:16,228 - main - INFO - Step 1: Performing segmentation...
+2025-12-12 01:37:16,228 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0beb4899d.dcm
+2025-12-12 01:37:16,238 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-12 01:37:16,238 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-12 01:37:16,238 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0beb4899d.dcm: Use fallback preprocessing for DICOM
+2025-12-12 01:37:16,238 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:37:16,242 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-12 01:37:16,242 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-12 01:37:21,952 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0beb4899d_mask.nii.gz
+2025-12-12 01:37:21,973 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-12 01:37:22,014 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0beb4899d.dcm
+2025-12-12 01:37:22,014 - main - INFO - Step 2: Indexing embeddings...
+2025-12-12 01:37:22,017 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-12 01:37:22,017 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-12 01:37:22,017 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-12 01:37:22,017 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-12 01:37:27,360 - main - INFO - Step 5: Generating medical report...
+2025-12-12 01:37:28,159 - main - INFO - Pipeline processing completed successfully
+2025-12-12 01:37:43,894 - llm.medical_llm - INFO - Prompt length: 71 characters
+2025-12-12 01:37:43,902 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-12 01:37:44,242 - llm.medical_llm - INFO - Streaming completed, generated 18 tokens: 'The most likely diagnosis of the pattern in a neonate should include congenital rubella syndrome.'
+2025-12-12 01:38:11,626 - llm.medical_llm - INFO - Prompt length: 34 characters
+2025-12-12 01:38:11,632 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-12 01:38:12,658 - llm.medical_llm - INFO - Streaming completed, generated 45 tokens: '"What are the outcomes of a school-based program that provides physical activity opportunities for students?" METHODS: The study included an analysis of data collected by the Physical Activity Opportu'
+2025-12-12 01:39:27,452 - api_server - INFO - Shutting down API server...
+2025-12-12 01:39:42,638 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 01:39:42,642 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 01:39:42,646 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 01:39:42,648 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 01:39:42,654 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 01:39:42,663 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 01:39:42,663 - main - INFO - MedTech Pipeline initialized
+2025-12-12 01:39:42,663 - main - INFO - Initializing pipeline components...
+2025-12-12 01:39:42,954 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 01:39:42,954 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 01:39:42,954 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 01:39:42,955 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 01:39:42,955 - main - INFO - Segmentation pipeline initialized
+2025-12-12 01:39:42,955 - vector_store - INFO - Loaded metadata with 25 records
+2025-12-12 01:39:42,955 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 01:39:42,955 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 01:39:42,955 - main - INFO - Vector store initialized
+2025-12-12 01:39:42,955 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=qwen
+2025-12-12 01:39:42,955 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: Qwen/Qwen2.5-1.5B-Instruct
+2025-12-12 01:43:32,377 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 01:43:35,062 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-12-12 01:43:35,063 - llm.medical_llm - INFO - Medical LLM initialized: qwen (mode: Local)
+2025-12-12 01:43:35,063 - main - INFO - Medical LLM initialized
+2025-12-12 01:43:35,063 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 01:43:35,063 - main - INFO - MCP-FHIR client initialized
+2025-12-12 01:43:35,063 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 01:43:35,063 - main - INFO - Feedback collector initialized
+2025-12-12 01:43:35,063 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 01:43:35,063 - main - INFO - Pipeline deployer initialized
+2025-12-12 01:43:35,064 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 02:14:49,349 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 02:14:49,358 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 02:14:49,366 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 02:14:49,372 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 02:14:49,386 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 02:14:49,407 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 02:14:49,407 - main - INFO - MedTech Pipeline initialized
+2025-12-12 02:14:49,408 - main - INFO - Initializing pipeline components...
+2025-12-12 02:14:50,235 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 02:14:50,235 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 02:14:50,235 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 02:14:50,235 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 02:14:50,235 - main - INFO - Segmentation pipeline initialized
+2025-12-12 02:14:50,236 - vector_store - INFO - Loaded metadata with 25 records
+2025-12-12 02:14:50,236 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 02:14:50,237 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 02:14:50,237 - main - INFO - Vector store initialized
+2025-12-12 02:14:50,237 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=qwen
+2025-12-12 02:14:50,237 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: Qwen/Qwen2.5-1.5B-Instruct
+2025-12-12 02:14:52,030 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 02:14:54,924 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-12-12 02:14:54,925 - llm.medical_llm - INFO - Medical LLM initialized: qwen (mode: Local)
+2025-12-12 02:14:54,926 - main - INFO - Medical LLM initialized
+2025-12-12 02:14:54,926 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 02:14:54,927 - main - INFO - MCP-FHIR client initialized
+2025-12-12 02:14:54,927 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 02:14:54,927 - main - INFO - Feedback collector initialized
+2025-12-12 02:14:54,927 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 02:14:54,927 - main - INFO - Pipeline deployer initialized
+2025-12-12 02:14:54,928 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 02:14:56,899 - llm.medical_llm - INFO - Prompt length: 61 characters
+2025-12-12 07:37:37,943 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 07:37:37,954 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 07:37:37,960 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 07:37:37,965 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 07:37:37,977 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 07:37:37,995 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 07:37:37,995 - main - INFO - MedTech Pipeline initialized
+2025-12-12 07:37:37,995 - main - INFO - Initializing pipeline components...
+2025-12-12 07:37:39,481 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 07:37:39,481 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 07:37:39,481 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 07:37:39,481 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 07:37:39,481 - main - INFO - Segmentation pipeline initialized
+2025-12-12 07:37:39,482 - vector_store - INFO - Loaded metadata with 25 records
+2025-12-12 07:37:39,482 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 07:37:39,487 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 07:37:39,487 - main - INFO - Vector store initialized
+2025-12-12 07:37:39,487 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=qwen
+2025-12-12 07:37:39,487 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: Qwen/Qwen2.5-1.5B-Instruct
+2025-12-12 07:37:41,505 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 07:37:45,466 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-12-12 07:37:45,467 - llm.medical_llm - INFO - Medical LLM initialized: qwen (mode: Local)
+2025-12-12 07:37:45,468 - main - INFO - Medical LLM initialized
+2025-12-12 07:37:45,468 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 07:37:45,468 - main - INFO - MCP-FHIR client initialized
+2025-12-12 07:37:45,469 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 07:37:45,469 - main - INFO - Feedback collector initialized
+2025-12-12 07:37:45,469 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 07:37:45,469 - main - INFO - Pipeline deployer initialized
+2025-12-12 07:37:45,469 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 07:37:56,808 - llm.medical_llm - INFO - Prompt length: 95 characters
+2025-12-12 07:42:20,629 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 07:42:20,641 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 07:42:20,650 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 07:42:20,655 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 07:42:20,668 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 07:42:20,687 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 07:42:20,688 - main - INFO - MedTech Pipeline initialized
+2025-12-12 07:42:20,688 - main - INFO - Initializing pipeline components...
+2025-12-12 07:42:21,395 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 07:42:21,395 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 07:42:21,396 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 07:42:21,396 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 07:42:21,396 - main - INFO - Segmentation pipeline initialized
+2025-12-12 07:42:21,396 - vector_store - INFO - Loaded metadata with 25 records
+2025-12-12 07:42:21,396 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 07:42:21,397 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 07:42:21,397 - main - INFO - Vector store initialized
+2025-12-12 07:42:21,397 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=qwen
+2025-12-12 07:42:21,397 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: Qwen/Qwen2.5-1.5B-Instruct
+2025-12-12 07:42:23,403 - accelerate.utils.modeling - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-12-12 07:42:25,911 - accelerate.big_modeling - WARNING - Some parameters are on the meta device because they were offloaded to the cpu.
+2025-12-12 07:42:25,912 - llm.medical_llm - INFO - Medical LLM initialized: qwen (mode: Local)
+2025-12-12 07:42:25,912 - main - INFO - Medical LLM initialized
+2025-12-12 07:42:25,912 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 07:42:25,912 - main - INFO - MCP-FHIR client initialized
+2025-12-12 07:42:25,912 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 07:42:25,913 - main - INFO - Feedback collector initialized
+2025-12-12 07:42:25,913 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 07:42:25,913 - main - INFO - Pipeline deployer initialized
+2025-12-12 07:42:25,913 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 07:42:35,693 - llm.medical_llm - INFO - Prompt length: 306 characters
+2025-12-12 07:46:55,808 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 07:46:55,813 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 07:46:55,816 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 07:46:55,819 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 07:46:55,825 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 07:46:55,835 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 07:46:55,836 - main - INFO - MedTech Pipeline initialized
+2025-12-12 07:46:55,836 - main - INFO - Initializing pipeline components...
+2025-12-12 07:46:56,195 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 07:46:56,195 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 07:46:56,195 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 07:46:56,195 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 07:46:56,195 - main - INFO - Segmentation pipeline initialized
+2025-12-12 07:46:56,196 - vector_store - INFO - Loaded metadata with 25 records
+2025-12-12 07:46:56,196 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 07:46:56,196 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 07:46:56,197 - main - INFO - Vector store initialized
+2025-12-12 07:46:56,197 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=qwen
+2025-12-12 07:46:56,197 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: Qwen/Qwen2.5-1.5B-Instruct
+2025-12-12 07:46:57,494 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 4-bit quantization
+2025-12-12 07:47:00,905 - llm.medical_llm - INFO - Medical LLM initialized: qwen (mode: Local)
+2025-12-12 07:47:00,905 - main - INFO - Medical LLM initialized
+2025-12-12 07:47:00,906 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 07:47:00,906 - main - INFO - MCP-FHIR client initialized
+2025-12-12 07:47:00,906 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 07:47:00,906 - main - INFO - Feedback collector initialized
+2025-12-12 07:47:00,906 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 07:47:00,906 - main - INFO - Pipeline deployer initialized
+2025-12-12 07:47:00,906 - api_server - INFO - Pipeline initialized successfully
+2025-12-12 07:47:13,631 - llm.medical_llm - INFO - Prompt length: 306 characters
+2025-12-12 07:48:37,095 - api_server - INFO - Processing uploaded file: ID_0b0a1315d.dcm
+2025-12-12 07:48:37,095 - main - INFO - Processing medical image: data/uploads/ID_0b0a1315d.dcm
+2025-12-12 07:48:37,095 - main - INFO - Step 1: Performing segmentation...
+2025-12-12 07:48:37,095 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0b0a1315d.dcm
+2025-12-12 07:48:37,105 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-12 07:48:37,105 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-12 07:48:37,105 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0b0a1315d.dcm: Use fallback preprocessing for DICOM
+2025-12-12 07:48:37,105 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 07:48:37,109 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-12 07:48:37,109 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-12 07:48:41,414 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0b0a1315d_mask.nii.gz
+2025-12-12 07:48:43,989 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-12 07:48:44,025 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0b0a1315d.dcm
+2025-12-12 07:48:44,025 - main - INFO - Step 2: Indexing embeddings...
+2025-12-12 07:48:44,027 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-12 07:48:44,028 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-12 07:48:44,028 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-12 07:48:44,028 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-12 07:48:48,733 - main - INFO - Step 5: Generating medical report...
+2025-12-12 07:49:02,772 - main - INFO - Pipeline processing completed successfully
+2025-12-12 07:49:30,572 - llm.medical_llm - INFO - Prompt length: 684 characters
+2025-12-12 07:49:30,577 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-12 07:49:47,510 - llm.medical_llm - INFO - Streaming completed, generated 257 tokens: ' The segment contains two structures with class numbers 7 and 8 totaling 3606 mm^3 which are both identified in all 3 detected regions. These structures appear to be consistent throughout the image wi'
+2025-12-12 07:51:13,059 - llm.medical_llm - INFO - Prompt length: 305 characters
+2025-12-12 07:51:49,444 - llm.medical_llm - INFO - Prompt length: 305 characters
+2025-12-12 07:55:22,061 - llm.medical_llm - INFO - Prompt length: 305 characters

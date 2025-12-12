@@ -517,5 +517,53 @@
     },
     "processing_timestamp": "",
     "id": 23
+  },
+  {
+    "image_path": "data/uploads/ID_0beb4899d.dcm",
+    "mask_path": "data/uploads/ID_0beb4899d_mask.nii.gz",
+    "embedding_path": "data/uploads/ID_0beb4899d_embeddings.npy",
+    "segmentation_metrics": {
+      "num_classes": 3,
+      "class_distribution": {
+        "0": 978024,
+        "5": 336,
+        "10": 70216
+      },
+      "volumes": {
+        "5": 336.0,
+        "10": 70216.0
+      },
+      "dice_scores": {
+        "5": 1.0,
+        "10": 1.0
+      },
+      "mean_dice": 1.0
+    },
+    "processing_timestamp": "",
+    "id": 24
+  },
+  {
+    "image_path": "data/uploads/ID_0b0a1315d.dcm",
+    "mask_path": "data/uploads/ID_0b0a1315d_mask.nii.gz",
+    "embedding_path": "data/uploads/ID_0b0a1315d_embeddings.npy",
+    "segmentation_metrics": {
+      "num_classes": 3,
+      "class_distribution": {
+        "0": 1044980,
+        "7": 3308,
+        "8": 288
+      },
+      "volumes": {
+        "7": 3308.0,
+        "8": 288.0
+      },
+      "dice_scores": {
+        "7": 1.0,
+        "8": 1.0
+      },
+      "mean_dice": 1.0
+    },
+    "processing_timestamp": "",
+    "id": 25
   }
 ]

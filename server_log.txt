@@ -1,0 +1,80 @@
+nohup: ignoring input
+/home/samba/miniconda3/envs/medai/lib/python3.10/site-packages/transformers/utils/hub.py:110: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
+  warnings.warn(
+/home/samba/miniconda3/envs/medai/lib/python3.10/site-packages/monai/utils/module.py:396: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  pkg = __import__(module)  # top level module
+INFO:     Started server process [11386]
+INFO:     Waiting for application startup.
+2025-12-12 07:46:55,808 - api_server - INFO - Initializing MedTech Pipeline...
+2025-12-12 07:46:55,813 - main - INFO - Loaded config: segmentation_config.yaml
+2025-12-12 07:46:55,816 - main - INFO - Loaded config: vector_store_config.yaml
+2025-12-12 07:46:55,819 - main - INFO - Loaded config: llm_config.yaml
+2025-12-12 07:46:55,825 - main - INFO - Loaded config: mcp_fhir_config.yaml
+2025-12-12 07:46:55,835 - main - INFO - Loaded config: deployment_config.yaml
+2025-12-12 07:46:55,836 - main - INFO - MedTech Pipeline initialized
+2025-12-12 07:46:55,836 - main - INFO - Initializing pipeline components...
+/home/samba/miniconda3/envs/medai/lib/python3.10/site-packages/monai/utils/deprecate_utils.py:321: FutureWarning: monai.transforms.croppad.dictionary CropForegroundd.__init__:allow_smaller: Current default value of argument `allow_smaller=True` has been deprecated since version 1.2. It will be changed to `allow_smaller=False` in version 1.5.
+  warn_deprecated(argname, msg, warning_category)
+2025-12-12 07:46:56,195 - segmentation.swin_unetr_model - INFO - Swin UNETR model initialized on device: cuda
+2025-12-12 07:46:56,195 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 07:46:56,195 - segmentation.postprocessing - INFO - Segmentation postprocessor initialized
+2025-12-12 07:46:56,195 - segmentation.segmentation_pipeline - INFO - Segmentation pipeline initialized
+2025-12-12 07:46:56,195 - main - INFO - Segmentation pipeline initialized
+2025-12-12 07:46:56,196 - vector_store - INFO - Loaded metadata with 25 records
+2025-12-12 07:46:56,196 - vector_store - INFO - Loading FAISS index from data/faiss_index
+2025-12-12 07:46:56,196 - vector_store - INFO - FAISS index loaded from disk
+2025-12-12 07:46:56,197 - main - INFO - Vector store initialized
+2025-12-12 07:46:56,197 - llm.medical_llm - INFO - Configuration: use_inference_api=False, model_type=qwen
+2025-12-12 07:46:56,197 - llm.medical_llm - INFO - Loading model from Hugging Face Hub: Qwen/Qwen2.5-1.5B-Instruct
+2025-12-12 07:46:57,494 - llm.medical_llm - INFO - Using BitsAndBytesConfig for 4-bit quantization
+2025-12-12 07:47:00,905 - llm.medical_llm - INFO - Medical LLM initialized: qwen (mode: Local)
+2025-12-12 07:47:00,905 - main - INFO - Medical LLM initialized
+2025-12-12 07:47:00,906 - mcp_fhir.mcp_fhir_client - INFO - MCP-FHIR client initialized
+2025-12-12 07:47:00,906 - main - INFO - MCP-FHIR client initialized
+2025-12-12 07:47:00,906 - feedback.feedback_collector - INFO - Feedback collector initialized
+2025-12-12 07:47:00,906 - main - INFO - Feedback collector initialized
+2025-12-12 07:47:00,906 - deployment.pipeline_deployer - INFO - Pipeline deployer initialized
+2025-12-12 07:47:00,906 - main - INFO - Pipeline deployer initialized
+2025-12-12 07:47:00,906 - api_server - INFO - Pipeline initialized successfully
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:48271 - "GET /health HTTP/1.1" 200 OK
+2025-12-12 07:47:13,631 - llm.medical_llm - INFO - Prompt length: 306 characters
+INFO:     127.0.0.1:48273 - "POST /chat HTTP/1.1" 200 OK
+2025-12-12 07:48:37,095 - api_server - INFO - Processing uploaded file: ID_0b0a1315d.dcm
+2025-12-12 07:48:37,095 - main - INFO - Processing medical image: data/uploads/ID_0b0a1315d.dcm
+2025-12-12 07:48:37,095 - main - INFO - Step 1: Performing segmentation...
+2025-12-12 07:48:37,095 - segmentation.segmentation_pipeline - INFO - Processing image: data/uploads/ID_0b0a1315d.dcm
+2025-12-12 07:48:37,105 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-12 07:48:37,105 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+2025-12-12 07:48:37,105 - segmentation.swin_unetr_model - ERROR - Preprocessing failed for data/uploads/ID_0b0a1315d.dcm: Use fallback preprocessing for DICOM
+2025-12-12 07:48:37,105 - segmentation.preprocessing - INFO - Medical image preprocessor initialized
+2025-12-12 07:48:37,109 - segmentation.preprocessing - INFO - Converted 2D DICOM to 3D: (1, 1024, 1024)
+2025-12-12 07:48:37,109 - segmentation.preprocessing - INFO - Loaded DICOM image: (1, 1024, 1024)
+/home/samba/miniconda3/envs/medai/lib/python3.10/site-packages/monai/inferers/utils.py:223: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:345.)
+  win_data = torch.cat([inputs[win_slice] for win_slice in unravel_slice]).to(sw_device)
+/home/samba/miniconda3/envs/medai/lib/python3.10/site-packages/monai/inferers/utils.py:360: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at /pytorch/torch/csrc/autograd/python_variable_indexing.cpp:345.)
+  out[idx_zm] += p
+2025-12-12 07:48:41,414 - segmentation.preprocessing - INFO - Saved mask to: data/uploads/ID_0b0a1315d_mask.nii.gz
+2025-12-12 07:48:43,989 - segmentation.preprocessing - INFO - Loaded NIfTI image: (1, 1024, 1024)
+2025-12-12 07:48:44,025 - segmentation.segmentation_pipeline - INFO - Completed processing: data/uploads/ID_0b0a1315d.dcm
+2025-12-12 07:48:44,025 - main - INFO - Step 2: Indexing embeddings...
+2025-12-12 07:48:44,027 - vector_store - INFO - Added 1 embeddings to FAISS index
+2025-12-12 07:48:44,028 - main - INFO - Step 3: Retrieving similar cases...
+2025-12-12 07:48:44,028 - main - INFO - Step 4: Retrieving clinical context...
+2025-12-12 07:48:44,028 - mcp_fhir.mcp_fhir_client - INFO - Getting clinical context for patient: unknown
+2025-12-12 07:48:48,733 - main - INFO - Step 5: Generating medical report...
+2025-12-12 07:49:02,772 - main - INFO - Pipeline processing completed successfully
+INFO:     127.0.0.1:49201 - "POST /process-upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49201 - "GET /uploads/ID_0b0a1315d.dcm HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64429 - "OPTIONS /chat HTTP/1.1" 200 OK
+2025-12-12 07:49:30,572 - llm.medical_llm - INFO - Prompt length: 684 characters
+INFO:     127.0.0.1:64429 - "POST /chat HTTP/1.1" 200 OK
+2025-12-12 07:49:30,577 - llm.medical_llm - INFO - Started streaming generation thread
+2025-12-12 07:49:47,510 - llm.medical_llm - INFO - Streaming completed, generated 257 tokens: ' The segment contains two structures with class numbers 7 and 8 totaling 3606 mm^3 which are both identified in all 3 detected regions. These structures appear to be consistent throughout the image wi'
+2025-12-12 07:51:13,059 - llm.medical_llm - INFO - Prompt length: 305 characters
+INFO:     127.0.0.1:50987 - "POST /chat HTTP/1.1" 200 OK
+2025-12-12 07:51:49,444 - llm.medical_llm - INFO - Prompt length: 305 characters
+INFO:     127.0.0.1:54875 - "POST /chat HTTP/1.1" 200 OK
+2025-12-12 07:55:22,061 - llm.medical_llm - INFO - Prompt length: 305 characters
+INFO:     127.0.0.1:52469 - "POST /chat HTTP/1.1" 200 OK
